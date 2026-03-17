@@ -1,12 +1,1305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Rimon Akhter</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rimon Akhter — Senior Game &amp; VR Developer</title>
+  <meta name="description" content="Senior Game &amp; VR Developer with 7+ years building games, XR experiences, and interactive systems in Unity and Unreal Engine." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    body { background: #080e0d; color: #00ffcc; font-family: monospace;
-           display: flex; align-items: center; justify-content: center;
-           height: 100vh; margin: 0; font-size: 1.5rem; }
+    /* ── Reset & Base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #080e0d;
+      --accent:  #00ffcc;
+      --muted1:  #3a6460;
+      --muted2:  #5a8a84;
+      --text:    #c8e8e4;
+      --text-hi: #e8f8f5;
+      --border:  #1a3330;
+      --ff-head: 'Syne', sans-serif;
+      --ff-body: 'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-body);
+      line-height: 1.6;
+      cursor: crosshair;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    ::selection { background: var(--accent); color: var(--bg); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* ── Scrollbar ──────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--muted1); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ── Typography ─────────────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      color: var(--text-hi);
+      line-height: 1.1;
+    }
+
+    /* ── Layout helpers ─────────────────────────────────────────────── */
+    section { padding: 100px 0; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 60px;
+    }
+    .section-title span { color: var(--accent); }
+
+    /* ── Scroll fade-in ─────────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── NAV ────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(8,14,13,0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--text-hi);
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    /* Hamburger button */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: crosshair;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-hi);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(8,14,13,0.97);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px;
+      z-index: 999;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── HERO ───────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-name {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: clamp(4rem, 11vw, 9rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--text-hi);
+    }
+    .hero-name .cyan { color: var(--accent); }
+
+    .hero-role {
+      margin-top: 24px;
+      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+      color: var(--muted2);
+      max-width: 500px;
+      line-height: 1.8;
+    }
+    .hero-role strong { color: var(--text); }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 1px solid;
+      cursor: crosshair;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); text-decoration: none; }
+    .btn-outline {
+      border-color: var(--muted1);
+      background: transparent;
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* Scroll arrow */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted1);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: scrollbounce 2s ease-in-out infinite;
+    }
+    .scroll-hint svg { width: 18px; height: 18px; }
+    @keyframes scrollbounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── ABOUT ──────────────────────────────────────────────────────── */
+    #about { border-top: 1px solid var(--border); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-bio { font-size: 0.875rem; line-height: 1.9; color: var(--text); }
+    .about-bio p { margin-bottom: 16px; }
+    .about-bio p:last-child { margin-bottom: 0; }
+    .about-bio strong { color: var(--accent); font-weight: 700; }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+    .stat-block {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-block:nth-child(2n)   { border-right: none; }
+    .stat-block:nth-child(3),
+    .stat-block:nth-child(4)    { border-bottom: none; }
+
+    .stat-number {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: 2.25rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-top: 6px;
+    }
+
+    /* Skill pills */
+    .skills-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 14px;
+    }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-pill {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 6px 14px;
+      border: 1px solid var(--muted1);
+      color: var(--text);
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── EXPERIENCE ─────────────────────────────────────────────────── */
+    #experience { border-top: 1px solid var(--border); }
+
+    .accordion {
+      border: 1px solid var(--border);
+    }
+    .accordion-item { border-bottom: 1px solid var(--border); }
+    .accordion-item:last-child { border-bottom: none; }
+
+    .accordion-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: crosshair;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 32px;
+      text-align: left;
+      transition: background 0.2s;
+    }
+    .accordion-trigger:hover { background: rgba(0,255,204,0.03); }
+    .accordion-trigger.active { background: rgba(0,255,204,0.04); }
+
+    .acc-company {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text-hi);
+    }
+    .acc-role {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted2);
+      margin-top: 4px;
+    }
+    .acc-period {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted1);
+      text-align: right;
+      white-space: nowrap;
+    }
+    .acc-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--muted2);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, color 0.2s;
+    }
+    .accordion-trigger.active .acc-icon {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      border-top: 0 solid var(--border);
+    }
+    .accordion-body.open {
+      max-height: 400px;
+      border-top: 1px solid var(--border);
+    }
+
+    .acc-inner { padding: 20px 32px 28px; }
+
+    .acc-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .acc-bullets li {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+    .acc-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── WORK ───────────────────────────────────────────────────────── */
+    #work { border-top: 1px solid var(--border); }
+
+    .filter-bar {
+      display: flex;
+      border: 1px solid var(--border);
+      width: fit-content;
+      margin-bottom: 48px;
+    }
+    .filter-btn {
+      font-family: var(--ff-body);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      background: none;
+      border: none;
+      border-right: 1px solid var(--border);
+      color: var(--muted2);
+      cursor: crosshair;
+      transition: background 0.15s, color 0.15s;
+    }
+    .filter-btn:last-child { border-right: none; }
+    .filter-btn:hover { color: var(--text-hi); }
+    .filter-btn.active { background: var(--accent); color: var(--bg); }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .work-card {
+      background: var(--bg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .work-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.3s ease;
+    }
+    .work-card:hover { background: rgba(0,255,204,0.025); }
+    .work-card:hover::before { height: 100%; }
+
+    .card-tag {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted1);
+    }
+    .card-title {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text-hi);
+      line-height: 1.3;
+    }
+    .card-tech {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--muted2);
+    }
+
+    /* ── CONTACT ────────────────────────────────────────────────────── */
+    #contact { border-top: 1px solid var(--border); text-align: center; }
+
+    .contact-heading {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      color: var(--text-hi);
+      margin-bottom: 16px;
+      line-height: 1.05;
+    }
+    .contact-heading span { color: var(--accent); }
+
+    .contact-sub {
+      font-size: 0.85rem;
+      color: var(--muted2);
+      max-width: 400px;
+      margin: 0 auto 40px;
+      line-height: 1.75;
+    }
+
+    .contact-email {
+      display: inline-block;
+      font-family: var(--ff-body);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 48px;
+    }
+    .contact-email:hover { background: var(--accent); color: var(--bg); text-decoration: none; }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      padding: 10px 16px;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .social-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .social-link:hover { color: var(--accent); border-color: var(--border); text-decoration: none; }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo {
+      font-family: var(--ff-head);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text-hi);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: 11px; color: var(--muted1); letter-spacing: 0.06em; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .container { padding: 0 20px; }
+      .nav-inner { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .hero-content { padding: 0 20px; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+
+      .accordion-trigger {
+        grid-template-columns: 1fr auto;
+        padding: 20px;
+        gap: 16px;
+      }
+      .acc-period { display: none; }
+      .acc-inner { padding: 16px 20px 24px; }
+
+      .filter-bar { width: 100%; }
+      .filter-btn { flex: 1; padding: 10px 8px; font-size: 10px; }
+
+      .work-grid { grid-template-columns: 1fr; }
+
+      footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name { font-size: clamp(3.2rem, 16vw, 5rem); }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat-block:nth-child(n) { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-block:last-child { border-bottom: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { transition: none; opacity: 1; transform: none; }
+      .scroll-hint { animation: none; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 </head>
-<body>// site coming soon</body>
+<body>
+
+  <!-- ══ NAV ═══════════════════════════════════════════════════════════ -->
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">RA<span>_</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <nav class="nav-mobile" aria-label="Mobile navigation">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+  <section id="hero" aria-label="Introduction">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <p class="hero-eyebrow">// Senior Game &amp; VR Developer</p>
+      <h1 class="hero-name">
+        Rimon<br>
+        <span class="cyan">Akhter</span>
+      </h1>
+      <p class="hero-role">
+        <strong>7+ years</strong> building games, VR/AR experiences, and interactive systems.<br>
+        Currently crafting immersive VR worlds at <strong>Vinacts</strong> — clients include
+        Samsung &amp; Hyundai.
+      </p>
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-primary">View Work</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+      scroll
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══════════════════════════════════════════════════════════ -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <p class="section-label fade-in">// 001 — About</p>
+      <h2 id="about-title" class="section-title fade-in">Who I <span>Am</span></h2>
+      <div class="about-grid">
+        <div class="about-bio fade-in">
+          <p>
+            I'm a <strong>Senior Game &amp; VR Developer</strong> with over 7 years of experience
+            shipping games and immersive XR experiences across mobile, PC, and VR platforms.
+          </p>
+          <p>
+            Currently at <strong>Vinacts</strong>, I architect and build VR solutions for enterprise
+            clients including Samsung and Hyundai — from custom VR interaction frameworks and
+            architectural visualizations to an unannounced Steam title.
+          </p>
+          <p>
+            My background spans team leadership, systems architecture, custom editor tooling,
+            shader programming, and performance optimization. I care about the craft: clean code,
+            tight gameplay feel, and systems that scale.
+          </p>
+          <p>
+            When I'm not in Unity or Unreal, I'm prototyping mechanics, writing shaders, or
+            pushing the edges of what real-time rendering can do.
+          </p>
+        </div>
+        <div>
+          <div class="stats-grid fade-in">
+            <div class="stat-block">
+              <div class="stat-number">7+</div>
+              <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">12+</div>
+              <div class="stat-label">Games Shipped</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">4</div>
+              <div class="stat-label">Studios</div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number">&#8734;</div>
+              <div class="stat-label">Lines of C#</div>
+            </div>
+          </div>
+          <div class="fade-in">
+            <p class="skills-label">// Tech Stack</p>
+            <div class="skills-grid" role="list">
+              <span class="skill-pill" role="listitem">Unity</span>
+              <span class="skill-pill" role="listitem">Unreal Engine</span>
+              <span class="skill-pill" role="listitem">C#</span>
+              <span class="skill-pill" role="listitem">C++</span>
+              <span class="skill-pill" role="listitem">VR / XR</span>
+              <span class="skill-pill" role="listitem">HLSL / Shaders</span>
+              <span class="skill-pill" role="listitem">Firebase</span>
+              <span class="skill-pill" role="listitem">Python</span>
+              <span class="skill-pill" role="listitem">JavaScript</span>
+              <span class="skill-pill" role="listitem">SQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
+  <section id="experience" aria-labelledby="exp-title">
+    <div class="container">
+      <p class="section-label fade-in">// 002 — Experience</p>
+      <h2 id="exp-title" class="section-title fade-in">Where I've <span>Worked</span></h2>
+
+      <div class="accordion fade-in" role="list">
+
+        <!-- Vinacts -->
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-trigger active" aria-expanded="true" aria-controls="acc-vinacts">
+            <div>
+              <div class="acc-company">Vinacts</div>
+              <div class="acc-role">VR Developer</div>
+            </div>
+            <div class="acc-period">Feb 2024 — Present</div>
+            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="accordion-body open" id="acc-vinacts">
+            <div class="acc-inner">
+              <ul class="acc-bullets">
+                <li>Developing enterprise VR experiences for major clients including Samsung and Hyundai</li>
+                <li>Architected a modular VR interaction framework that reduced cross-project dev time by 40%</li>
+                <li>Leading systems architecture for an unannounced Steam title</li>
+                <li>Built ArchViz solutions for Korea Land and Housing Corporation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technomagic -->
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-technomagic">
+            <div>
+              <div class="acc-company">Technomagic</div>
+              <div class="acc-role">Senior Developer / Team Lead</div>
+            </div>
+            <div class="acc-period">Aug 2023 — Dec 2023</div>
+            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="accordion-body" id="acc-technomagic">
+            <div class="acc-inner">
+              <ul class="acc-bullets">
+                <li>Led a cross-functional team across multiple hyper-casual and hybrid-casual game projects</li>
+                <li>Shipped CasinoVenture, DIY Cake Shop, and Drill Tycoon</li>
+                <li>Built reusable editor tools and a mobile game framework to accelerate production</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thunder Games -->
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-thunder">
+            <div>
+              <div class="acc-company">Thunder Games</div>
+              <div class="acc-role">Senior Game Developer</div>
+            </div>
+            <div class="acc-period">Aug 2022 — Jul 2023</div>
+            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="accordion-body" id="acc-thunder">
+            <div class="acc-inner">
+              <ul class="acc-bullets">
+                <li>Designed and built modular UI systems for Rescue Cop and Zombie Road</li>
+                <li>Mentored junior developers and led regular code reviews</li>
+                <li>Developed custom frameworks and editor tooling to streamline production pipelines</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Battery Low Interactive -->
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-battery">
+            <div>
+              <div class="acc-company">Battery Low Interactive</div>
+              <div class="acc-role">Senior Unity Developer</div>
+            </div>
+            <div class="acc-period">Apr 2021 — Jul 2022</div>
+            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="accordion-body" id="acc-battery">
+            <div class="acc-inner">
+              <ul class="acc-bullets">
+                <li>Designed core systems and implemented key gameplay functionality for SpaceLism</li>
+                <li>Optimized runtime mesh generation for smooth performance under load</li>
+                <li>Implemented WebGL-specific optimizations for browser deployment targets</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WORK ═══════════════════════════════════════════════════════════ -->
+  <section id="work" aria-labelledby="work-title">
+    <div class="container">
+      <p class="section-label fade-in">// 003 — Work</p>
+      <h2 id="work-title" class="section-title fade-in">Selected <span>Projects</span></h2>
+
+      <div class="filter-bar fade-in" role="group" aria-label="Filter projects by category">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="games">Games</button>
+        <button class="filter-btn" data-filter="mechanics">Mechanics</button>
+        <button class="filter-btn" data-filter="xr">XR</button>
+      </div>
+
+      <div class="work-grid" id="work-grid" aria-live="polite">
+
+        <!-- GAMES ──────────────────────── -->
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">Mars Dozer</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Idle Game</div>
+          <div class="card-title">Idle Merchant</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">Rescue Cop</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">Zombie Road</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">CasinoVenture</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Indie</div>
+          <div class="card-title">Mini Strike</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Web Game</div>
+          <div class="card-title">Under The Rooftop</div>
+          <div class="card-tech">WebGL</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">Save The Base</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="games">
+          <div class="card-tag">Mobile Game</div>
+          <div class="card-title">Money Farming</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+
+        <!-- MECHANICS ──────────────────── -->
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">System</div>
+          <div class="card-title">Modular UI System</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Shader</div>
+          <div class="card-title">Stylized Water Shader URP</div>
+          <div class="card-tech">HLSL / ShaderGraph</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Shader</div>
+          <div class="card-title">Shine Gloss Shader URP</div>
+          <div class="card-tech">HLSL / ShaderGraph</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Gameplay</div>
+          <div class="card-title">Free-flow Combat System</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Rendering</div>
+          <div class="card-title">Procedural Mesh Generation</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Gameplay</div>
+          <div class="card-title">Hack and Slash Combo System</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">System</div>
+          <div class="card-title">Inventory &amp; Weapon Loadout</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Gameplay</div>
+          <div class="card-title">Melee Combat System</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Animation</div>
+          <div class="card-title">Locomotion System</div>
+          <div class="card-tech">Unity / C#</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">Shader</div>
+          <div class="card-title">Stencil Painting on Mesh</div>
+          <div class="card-tech">Unity / C# / ShaderGraph</div>
+        </div>
+        <div class="work-card" data-category="mechanics">
+          <div class="card-tag">VFX</div>
+          <div class="card-title">VFX Graph &amp; Particle System</div>
+          <div class="card-tech">Unity / VFX Graph</div>
+        </div>
+
+        <!-- XR ─────────────────────────── -->
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">AR</div>
+          <div class="card-title">Ghost Buster AR</div>
+          <div class="card-tech">Unity / Vuforia</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">AR</div>
+          <div class="card-title">AR Building Visualization</div>
+          <div class="card-tech">Unity / Vuforia</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">VR</div>
+          <div class="card-title">VR Hand Pose Detection</div>
+          <div class="card-tech">Unreal 5.5 / Quest 2</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">VR</div>
+          <div class="card-title">VR Painting App</div>
+          <div class="card-tech">Unreal 5.3 / C++</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">VR</div>
+          <div class="card-title">VR UI &amp; Save System</div>
+          <div class="card-tech">Unreal 5.3 / C++</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">Unreal</div>
+          <div class="card-title">Third Person Shooter AI</div>
+          <div class="card-tech">Unreal 5.3 / Behavior Tree</div>
+        </div>
+        <div class="work-card" data-category="xr">
+          <div class="card-tag">Unreal</div>
+          <div class="card-title">RPG Gameplay Ability System</div>
+          <div class="card-tech">Unreal 5.3 / C++ / GAS</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ════════════════════════════════════════════════════════ -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <p class="section-label fade-in">// 004 — Contact</p>
+      <h2 id="contact-title" class="contact-heading fade-in">
+        Let's Build<br><span>Something.</span>
+      </h2>
+      <p class="contact-sub fade-in">
+        Open to senior roles, contracts, and interesting collaborations
+        in game dev, VR/XR, and interactive experiences.
+      </p>
+      <div class="fade-in">
+        <a href="mailto:rimona.bevan@gmail.com" class="contact-email">
+          rimona.bevan@gmail.com
+        </a>
+      </div>
+      <div class="social-links fade-in">
+
+        <a href="https://linkedin.com/in/rimon-akhter" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="2"/>
+            <path d="M8 11v5M8 8v.5M12 16v-5m0 0a3 3 0 016 0v5"/>
+          </svg>
+          LinkedIn
+        </a>
+
+        <a href="https://x.com/rimon_bevan" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X profile">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Twitter / X
+        </a>
+
+        <a href="https://github.com/bevanator" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+          </svg>
+          GitHub
+        </a>
+
+        <a href="https://rimonakhter.itch.io" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="itch.io profile">
+          <svg viewBox="0 0 245.371 220.736" fill="currentColor" aria-hidden="true" style="width:18px;height:18px">
+            <path d="M31.99 1.365C21.287 7.72.2 31.945 0 38.298v10.516C0 62.713 12.584 74.09 23.981 74.09c13.633 0 24.759-11.13 24.759-24.098 0 12.968 10.88 24.097 24.514 24.097 13.635 0 24.017-11.13 24.017-24.097 0 12.968 11.375 24.097 25.009 24.097h.255c13.634 0 25.01-11.13 25.01-24.097 0 12.968 10.382 24.097 24.016 24.097 13.635 0 24.515-11.13 24.515-24.097 0 12.968 11.126 24.098 24.759 24.098 11.397 0 23.981-11.378 23.981-24.965V38.298c-.2-6.354-21.287-30.58-31.988-36.933C218.944.025 29.9.232 31.99 1.365zm80.357 106.monetize v108.386c0 2.794 9.38 10.35 20.275 10.35 10.895 0 20.276-7.556 20.276-10.35V160.91h37.594c9.956 0 15.276-4.8 15.276-15.048V107.73H112.347z"/>
+          </svg>
+          itch.io
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ═════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">RA<span>_</span></div>
+    <p class="footer-copy">&copy; 2026 Rimon Akhter &mdash; Built with care &amp; caffeine</p>
+  </footer>
+
+  <!-- ══ THREE.JS CDN ═══════════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Hamburger menu ──────────────────────────────────────────── */
+    var toggle    = document.querySelector('.nav-toggle');
+    var mobileNav = document.querySelector('.nav-mobile');
+
+    toggle.addEventListener('click', function () {
+      var isOpen = mobileNav.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    mobileNav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        mobileNav.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* ── Accordion ───────────────────────────────────────────────── */
+    document.querySelectorAll('.accordion-trigger').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wasActive = btn.classList.contains('active');
+        var bodyId    = btn.getAttribute('aria-controls');
+        var body      = document.getElementById(bodyId);
+
+        // Close all
+        document.querySelectorAll('.accordion-trigger').forEach(function (b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-expanded', 'false');
+        });
+        document.querySelectorAll('.accordion-body').forEach(function (b) {
+          b.classList.remove('open');
+        });
+
+        // Open this one if it was closed
+        if (!wasActive) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
+          body.classList.add('open');
+        }
+      });
+    });
+
+    /* ── Work filter ─────────────────────────────────────────────── */
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var workCards  = document.querySelectorAll('.work-card');
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.dataset.filter;
+
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        workCards.forEach(function (card) {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* ── IntersectionObserver fade-in ────────────────────────────── */
+    var fadeEls = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      fadeEls.forEach(function (el) { io.observe(el); });
+    } else {
+      fadeEls.forEach(function (el) { el.classList.add('visible'); });
+    }
+
+    /* ── Three.js particle field ─────────────────────────────────── */
+    var prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var canvas      = document.getElementById('hero-canvas');
+    var heroSection = document.getElementById('hero');
+
+    if (!prefersReducedMotion && typeof THREE !== 'undefined') {
+      var renderer, scene, camera, particles;
+      var mouse = { x: 0, y: 0 };
+      var clock;
+
+      (function initThree() {
+        try {
+          renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true });
+        } catch (e) { return; }
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+        renderer.setClearColor(0x000000, 0);
+
+        scene  = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(
+          60,
+          canvas.offsetWidth / canvas.offsetHeight,
+          0.1,
+          1000
+        );
+        camera.position.z = 90;
+        clock = new THREE.Clock();
+
+        /* Particles */
+        var COUNT = 320;
+        var positions = new Float32Array(COUNT * 3);
+        var sizes     = new Float32Array(COUNT);
+        var driftSpeed = new Float32Array(COUNT);
+        var driftPhase = new Float32Array(COUNT);
+
+        for (var i = 0; i < COUNT; i++) {
+          positions[i * 3]     = (Math.random() - 0.5) * 220;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * 130;
+          positions[i * 3 + 2] = (Math.random() - 0.5) * 110;
+          sizes[i]      = Math.random() * 2.2 + 0.5;
+          driftSpeed[i] = Math.random() * 0.5 + 0.2;
+          driftPhase[i] = Math.random() * Math.PI * 2;
+        }
+
+        var geo = new THREE.BufferGeometry();
+        geo.setAttribute('position',   new THREE.BufferAttribute(positions, 3));
+        geo.setAttribute('aSize',      new THREE.BufferAttribute(sizes, 1));
+        geo.setAttribute('aDriftSpeed', new THREE.BufferAttribute(driftSpeed, 1));
+        geo.setAttribute('aDriftPhase', new THREE.BufferAttribute(driftPhase, 1));
+
+        var mat = new THREE.ShaderMaterial({
+          uniforms: {
+            uColor: { value: new THREE.Color(0x00ffcc) },
+            uTime:  { value: 0.0 },
+          },
+          vertexShader: [
+            'attribute float aSize;',
+            'attribute float aDriftSpeed;',
+            'attribute float aDriftPhase;',
+            'uniform float uTime;',
+            'void main() {',
+            '  vec3 pos = position;',
+            '  pos.y += sin(uTime * aDriftSpeed + aDriftPhase) * 0.8;',
+            '  pos.x += cos(uTime * aDriftSpeed * 0.7 + aDriftPhase) * 0.5;',
+            '  vec4 mv = modelViewMatrix * vec4(pos, 1.0);',
+            '  gl_PointSize = aSize * (180.0 / -mv.z);',
+            '  gl_Position  = projectionMatrix * mv;',
+            '}',
+          ].join('\n'),
+          fragmentShader: [
+            'uniform vec3 uColor;',
+            'void main() {',
+            '  float d = length(gl_PointCoord - vec2(0.5));',
+            '  if (d > 0.5) discard;',
+            '  float alpha = 0.7 * (1.0 - smoothstep(0.0, 0.5, d) * 1.6);',
+            '  gl_FragColor = vec4(uColor, alpha);',
+            '}',
+          ].join('\n'),
+          transparent: true,
+          depthWrite:  false,
+          blending:    THREE.AdditiveBlending,
+        });
+
+        particles = new THREE.Points(geo, mat);
+        scene.add(particles);
+
+        /* Sparse connection lines for HUD feel */
+        var lineMat = new THREE.LineBasicMaterial({
+          color: 0x00ffcc,
+          transparent: true,
+          opacity: 0.05,
+        });
+        for (var l = 0; l < 20; l++) {
+          var pts = [
+            new THREE.Vector3(
+              (Math.random() - 0.5) * 220,
+              (Math.random() - 0.5) * 130,
+              (Math.random() - 0.5) * 80
+            ),
+            new THREE.Vector3(
+              (Math.random() - 0.5) * 220,
+              (Math.random() - 0.5) * 130,
+              (Math.random() - 0.5) * 80
+            ),
+          ];
+          var lg = new THREE.BufferGeometry().setFromPoints(pts);
+          scene.add(new THREE.Line(lg, lineMat));
+        }
+
+        animate();
+      })();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        var t = clock.getElapsedTime();
+
+        if (particles) {
+          particles.material.uniforms.uTime.value = t;
+          /* Gentle auto-rotation */
+          particles.rotation.y += 0.00025;
+          /* Mouse parallax */
+          var tx = mouse.y * 0.01;
+          var ty = mouse.x * 0.01;
+          particles.rotation.x += (tx - particles.rotation.x) * 0.025;
+          particles.rotation.y += (ty - particles.rotation.y) * 0.025;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      window.addEventListener('mousemove', function (e) {
+        var rect = heroSection.getBoundingClientRect();
+        if (e.clientY < rect.top || e.clientY > rect.bottom) return;
+        mouse.x = (e.clientX / window.innerWidth  - 0.5) * 2;
+        mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
+      }, { passive: true });
+
+      window.addEventListener('resize', function () {
+        if (!renderer) return;
+        var w = canvas.offsetWidth;
+        var h = canvas.offsetHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }, { passive: true });
+    }
+
+  })();
+  </script>
+</body>
 </html>
