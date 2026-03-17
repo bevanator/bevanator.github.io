@@ -7,7 +7,7 @@
   <meta name="description" content="Senior Game &amp; VR Developer with 7+ years building games, XR experiences, and interactive systems in Unity and Unreal Engine." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     /* ── Reset & Base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,8 +20,9 @@
       --text:    #c8e8e4;
       --text-hi: #e8f8f5;
       --border:  #1a3330;
-      --ff-head: 'Syne', sans-serif;
-      --ff-body: 'Space Mono', monospace;
+      --ff-head: 'Plus Jakarta Sans', sans-serif;
+      --ff-body: 'Plus Jakarta Sans', sans-serif;
+      --ff-mono: 'Space Mono', monospace;
     }
 
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -30,7 +31,7 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--ff-body);
-      line-height: 1.6;
+      line-height: 1.8;
       cursor: crosshair;
       overflow-x: hidden;
     }
@@ -64,6 +65,7 @@
     }
 
     .section-label {
+      font-family: var(--ff-mono);
       font-size: 11px;
       letter-spacing: 0.2em;
       color: var(--accent);
@@ -107,8 +109,8 @@
     }
 
     .nav-logo {
-      font-family: var(--ff-head);
-      font-weight: 800;
+      font-family: var(--ff-mono);
+      font-weight: 700;
       font-size: 1.25rem;
       color: var(--text-hi);
     }
@@ -202,6 +204,7 @@
     }
 
     .hero-eyebrow {
+      font-family: var(--ff-mono);
       font-size: 11px;
       letter-spacing: 0.25em;
       text-transform: uppercase;
@@ -212,7 +215,7 @@
     .hero-name {
       font-family: var(--ff-head);
       font-weight: 800;
-      font-size: clamp(4rem, 11vw, 9rem);
+      font-size: clamp(4.5rem, 12.5vw, 11rem);
       line-height: 0.95;
       letter-spacing: -0.02em;
       color: var(--text-hi);
@@ -332,6 +335,7 @@
 
     /* Skill pills */
     .skills-label {
+      font-family: var(--ff-mono);
       font-size: 10px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -340,6 +344,7 @@
     }
     .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-pill {
+      font-family: var(--ff-mono);
       font-size: 10px;
       letter-spacing: 0.1em;
       padding: 6px 14px;
@@ -423,7 +428,7 @@
     .acc-bullets li {
       font-size: 0.85rem;
       color: var(--text);
-      line-height: 1.65;
+      line-height: 1.8;
       padding-left: 20px;
       position: relative;
     }
@@ -525,12 +530,12 @@
       color: var(--muted2);
       max-width: 400px;
       margin: 0 auto 40px;
-      line-height: 1.75;
+      line-height: 1.8;
     }
 
     .contact-email {
       display: inline-block;
-      font-family: var(--ff-body);
+      font-family: var(--ff-mono);
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -574,8 +579,8 @@
       gap: 12px;
     }
     .footer-logo {
-      font-family: var(--ff-head);
-      font-weight: 800;
+      font-family: var(--ff-mono);
+      font-weight: 700;
       font-size: 1rem;
       color: var(--text-hi);
     }
