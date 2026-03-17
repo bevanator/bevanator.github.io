@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rimon Akhter | VR Training Solutions at Vinacts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --text: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.5);
+      --text-dim: rgba(255, 255, 255, 0.28);
+      --accent: #00e5ff;
+      --border: rgba(255, 255, 255, 0.08);
+      --ff-sans: 'Plus Jakarta Sans', sans-serif;
+      --ff-mono: 'Space Mono', monospace;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--ff-sans);
+      cursor: crosshair;
+      padding-top: 64px;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10, 10, 10, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--ff-sans);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: crosshair;
+      padding: 0;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.25s, opacity 0.25s;
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      flex-direction: column;
+    }
+
+    .nav-mobile.open {
+      display: flex;
+    }
+
+    .nav-mobile a {
+      font-family: var(--ff-mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 14px 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-mobile a:hover {
+      color: var(--text);
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .content-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .back-link-top {
+      padding-top: 60px;
+      display: block;
+    }
+
+    /* ── PROJECT HEADER ── */
+    .project-header {
+      padding-top: 40px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-title {
+      font-family: var(--ff-sans);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text);
+    }
+
+    .project-subtitle {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 16px;
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .tag {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero-image {
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    .hero-image img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-section {
+      padding-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-body {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.85;
+    }
+
+    /* ── CONTRIBUTIONS SECTION ── */
+    .contributions-section {
+      padding-top: 60px;
+    }
+
+    .contribution-block {
+      margin-bottom: 48px;
+    }
+
+    .block-heading {
+      font-family: var(--ff-sans);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contribution-list {
+      list-style: none;
+    }
+
+    .contribution-list li {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.85;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .contribution-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-name {
+      font-family: var(--ff-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-copy {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.28);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .project-header {
+        padding-bottom: 40px;
+      }
+
+      .hero-image {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+
+      .about-section {
+        padding-bottom: 40px;
+      }
+
+      .contributions-section {
+        padding-top: 40px;
+      }
+
+      .bottom-nav {
+        padding: 40px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+      }
+
+      .back-link-top {
+        padding-top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Rimon Akhter</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#experience">Experience</a></li>
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <nav class="nav-mobile" aria-label="Mobile navigation">
+    <a href="../index.html#about">About</a>
+    <a href="../index.html#experience">Experience</a>
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#contact">Contact</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+      <div class="content-wrap">
+
+        <!-- BACK LINK -->
+        <a href="../index.html#work" class="back-link back-link-top">← Back to Work</a>
+
+        <!-- PROJECT HEADER -->
+        <div class="project-header">
+          <h1 class="project-title">VR Training Solutions at Vinacts</h1>
+          <p class="project-subtitle">Virtual Reality Developer &nbsp;·&nbsp; February 2024 – Present</p>
+          <div class="tags-row">
+            <span class="tag">Unreal Engine 5</span>
+            <span class="tag">VR</span>
+            <span class="tag">C++</span>
+            <span class="tag">Quest 2</span>
+            <span class="tag">Meta XR SDK</span>
+          </div>
+        </div>
+
+        <!-- HERO IMAGE -->
+        <div class="hero-image">
+          <img src="../assets/images/vr-ui-unreal.jpg" alt="VR UI at Vinacts">
+        </div>
+
+        <!-- ABOUT SECTION -->
+        <div class="about-section">
+          <p class="section-label">About This Project</p>
+          <p class="about-body">At Vinacts, I work on diverse VR projects for enterprise clients including Samsung and Hyundai. My work spans VR training simulations, architectural visualization, and an unannounced Steam game. I built a sophisticated VR interaction framework that reduced development time by 40% through optimized and reusable code architecture.</p>
+        </div>
+
+        <!-- CONTRIBUTIONS SECTION -->
+        <div class="contributions-section">
+          <p class="section-label">My Contributions</p>
+
+          <!-- Block 1 -->
+          <div class="contribution-block">
+            <h2 class="block-heading">VR Interaction Framework</h2>
+            <ul class="contribution-list">
+              <li>Architected a modular VR interaction framework used across multiple client projects</li>
+              <li>Reduced development time by 40% through reusable component systems</li>
+              <li>Framework handles grabbing, UI interaction, locomotion, and physics-based interactions</li>
+              <li>Designed for scalability across different hardware targets (Quest 2, PC VR)</li>
+            </ul>
+          </div>
+
+          <!-- Block 2 -->
+          <div class="contribution-block">
+            <h2 class="block-heading">Client Projects — Samsung &amp; Hyundai</h2>
+            <ul class="contribution-list">
+              <li>Delivered multiple VR training simulations for Samsung and Hyundai</li>
+              <li>Enhanced client satisfaction through high-fidelity simulation environments</li>
+              <li>Collaborated with designers and project managers to meet strict client deadlines</li>
+              <li>Adapted existing framework components to match client-specific requirements</li>
+            </ul>
+          </div>
+
+          <!-- Block 3 -->
+          <div class="contribution-block">
+            <h2 class="block-heading">Architectural Visualization — Korea LH</h2>
+            <ul class="contribution-list">
+              <li>Developed an ArchViz project for Korea Land and Housing Corporation (LH)</li>
+              <li>Created interactive walkthrough experiences for residential development presentations</li>
+              <li>Optimized rendering performance for real-time walkthroughs on target hardware</li>
+            </ul>
+          </div>
+
+          <!-- Block 4 -->
+          <div class="contribution-block">
+            <h2 class="block-heading">Unannounced Steam Game</h2>
+            <ul class="contribution-list">
+              <li>Architecting various gameplay systems for an unannounced Steam release</li>
+              <li>Collaborating cross-discipline with designers and artists in an agile environment</li>
+              <li>Applying best practices in game architecture, SOLID principles, and design patterns</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+          <a href="../index.html#work" class="back-link">← Back to Work</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-name">Rimon Akhter</span>
+        <span class="footer-copy">© 2026 — Built with care</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const mobileNav = document.querySelector('.nav-mobile');
+
+    toggle.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.toggle('open');
+      toggle.classList.toggle('active', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3,61 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rimon Akhter — Senior Software, Game &amp; VR Developer</title>
-  <meta name="description" content="Senior Game &amp; VR Developer with 7+ years building games, XR experiences, and interactive systems in Unity and Unreal Engine." />
+  <title>Rimon Akhter — Senior Game &amp; VR Developer</title>
+  <meta name="description" content="Senior Game &amp; VR Developer with 7+ years building games, XR experiences, and interactive simulations in Unity and Unreal Engine." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
   <style>
-    /* ── Reset & Base ─────────────────────────────────────────────── */
+    /* ── Reset ─────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Tokens ────────────────────────────────────────────────────── */
     :root {
-      --bg:      #080e0d;
-      --accent:  #00ffcc;
-      --muted1:  #3a6460;
-      --muted2:  #5a8a84;
-      --text:    #c8e8e4;
-      --text-hi: #e8f8f5;
-      --border:  #1a3330;
-      --ff-head: 'Plus Jakarta Sans', sans-serif;
-      --ff-body: 'Plus Jakarta Sans', sans-serif;
-      --ff-mono: 'Space Mono', monospace;
+      --bg:        #0a0a0a;
+      --accent:    #00e5ff;
+      --text:      #ffffff;
+      --text-sec:  rgba(255,255,255,0.5);
+      --text-dim:  rgba(255,255,255,0.28);
+      --border:    rgba(255,255,255,0.08);
+      --border-md: rgba(255,255,255,0.14);
+      --ff-sans:   'Plus Jakarta Sans', sans-serif;
+      --ff-mono:   'Space Mono', monospace;
     }
 
+    /* ── Base ──────────────────────────────────────────────────────── */
     html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--ff-body);
-      line-height: 1.8;
+      font-family: var(--ff-sans);
+      line-height: 1.7;
       cursor: crosshair;
       overflow-x: hidden;
     }
 
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a { text-decoration: none; color: inherit; }
     ::selection { background: var(--accent); color: var(--bg); }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    img { max-width: 100%; display: block; }
+    button { cursor: crosshair; background: none; border: none; font: inherit; }
 
-    /* ── Scrollbar ──────────────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--muted1); }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    /* ── Typography ─────────────────────────────────────────────────── */
-    h1, h2, h3, h4 {
-      font-family: var(--ff-head);
-      font-weight: 800;
-      color: var(--text-hi);
-      line-height: 1.1;
-    }
-
-    /* ── Layout helpers ─────────────────────────────────────────────── */
-    section { padding: 100px 0; }
-
+    /* ── Utilities ─────────────────────────────────────────────────── */
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -67,41 +54,57 @@
     .section-label {
       font-family: var(--ff-mono);
       font-size: 11px;
-      letter-spacing: 0.2em;
-      color: var(--accent);
+      letter-spacing: 0.18em;
       text-transform: uppercase;
+      color: var(--accent);
       margin-bottom: 12px;
+      display: block;
     }
 
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 60px;
+    .section-heading {
+      font-family: var(--ff-sans);
+      font-weight: 800;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--text);
     }
-    .section-title span { color: var(--accent); }
 
-    /* ── Scroll fade-in ─────────────────────────────────────────────── */
+    /* ── Fade-in ───────────────────────────────────────────────────── */
     .fade-in {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-    /* ── NAV ────────────────────────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(8,14,13,0.85);
+    /* ── Prefers-reduced-motion ────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-in { opacity: 1; transform: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════════════════════════════ */
+    #nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: rgba(10,10,10,0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
 
     .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 32px;
       height: 64px;
       display: flex;
       align-items: center;
@@ -109,161 +112,183 @@
     }
 
     .nav-logo {
-      font-family: var(--ff-mono);
+      font-family: var(--ff-sans);
       font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--text-hi);
+      font-size: 1rem;
+      color: var(--text);
+      letter-spacing: 0.01em;
     }
-    .nav-logo span { color: var(--accent); }
 
     .nav-links {
       display: flex;
-      gap: 40px;
+      align-items: center;
+      gap: 36px;
       list-style: none;
     }
+
     .nav-links a {
-      font-size: 12px;
+      font-family: var(--ff-mono);
+      font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text);
+      color: rgba(255,255,255,0.6);
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
 
-    /* Hamburger button */
+    /* Hamburger */
     .nav-toggle {
       display: none;
       flex-direction: column;
       gap: 5px;
-      background: none;
-      border: none;
-      cursor: crosshair;
       padding: 4px;
+      color: rgba(255,255,255,0.7);
     }
     .nav-toggle span {
       display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--text-hi);
-      transition: transform 0.3s, opacity 0.3s;
+      width: 22px;
+      height: 1.5px;
+      background: currentColor;
+      transition: transform 0.25s, opacity 0.25s;
     }
-    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .nav-toggle.open span:nth-child(2) { opacity: 0; }
-    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-    /* Mobile nav drawer */
-    .nav-mobile {
+    /* Mobile drawer */
+    .nav-drawer {
       display: none;
       position: fixed;
-      top: 64px; left: 0; right: 0;
-      background: rgba(8,14,13,0.97);
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.97);
       border-bottom: 1px solid var(--border);
-      padding: 24px 32px;
-      z-index: 999;
+      padding: 24px 32px 32px;
+      z-index: 99;
       flex-direction: column;
-      gap: 4px;
+      gap: 0;
     }
-    .nav-mobile.open { display: flex; }
-    .nav-mobile a {
-      font-size: 13px;
-      letter-spacing: 0.1em;
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      font-family: var(--ff-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--text);
-      padding: 12px 0;
+      color: rgba(255,255,255,0.6);
+      padding: 14px 0;
       border-bottom: 1px solid var(--border);
       transition: color 0.2s;
     }
-    .nav-mobile a:last-child { border-bottom: none; }
-    .nav-mobile a:hover { color: var(--accent); text-decoration: none; }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a:hover { color: var(--text); }
 
-    /* ── HERO ───────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════════════ */
     #hero {
       position: relative;
       height: 100svh;
       min-height: 600px;
       display: flex;
       align-items: center;
+      border-top: none;
       overflow: hidden;
-      padding: 0;
     }
 
     #hero-canvas {
       position: absolute;
       inset: 0;
+      z-index: 0;
+      pointer-events: none;
       width: 100%;
       height: 100%;
-      z-index: 0;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 32px;
+      max-width: 700px;
     }
 
     .hero-eyebrow {
       font-family: var(--ff-mono);
       font-size: 11px;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      display: block;
     }
 
-    .hero-name {
-      font-family: var(--ff-head);
+    .hero-h1 {
+      font-family: var(--ff-sans);
       font-weight: 800;
-      font-size: clamp(4.5rem, 12.5vw, 11rem);
+      font-size: clamp(4rem, 9.5vw, 8.5rem);
       line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--text-hi);
+      letter-spacing: -0.03em;
     }
-    .hero-name .cyan { color: var(--accent); }
+    .hero-h1 .line-white { color: var(--text); display: block; }
+    .hero-h1 .line-accent { color: var(--accent); display: block; }
 
-    .hero-role {
-      margin-top: 24px;
-      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-      color: var(--muted2);
-      max-width: 500px;
-      line-height: 1.8;
+    .hero-sub {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      color: rgba(255,255,255,0.52);
+      max-width: 480px;
+      line-height: 1.75;
+      margin-top: 28px;
     }
-    .hero-role strong { color: var(--text); }
 
-    .hero-cta {
-      margin-top: 40px;
+    .hero-ctas {
       display: flex;
       gap: 16px;
+      margin-top: 44px;
       flex-wrap: wrap;
     }
 
-    /* Buttons */
-    .btn {
+    .btn-primary {
       display: inline-block;
-      font-family: var(--ff-body);
-      font-size: 11px;
-      letter-spacing: 0.15em;
+      font-family: var(--ff-sans);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 14px 32px;
-      border: 1px solid;
-      cursor: crosshair;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .btn-primary {
-      border-color: var(--accent);
       background: var(--accent);
-      color: var(--bg);
+      color: #0a0a0a;
+      border: 1px solid var(--accent);
+      transition: background 0.25s, color 0.25s;
     }
-    .btn-primary:hover { background: transparent; color: var(--accent); text-decoration: none; }
-    .btn-outline {
-      border-color: var(--muted1);
+    .btn-primary:hover {
       background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      font-family: var(--ff-sans);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--text);
       color: var(--text);
     }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    /* Scroll arrow */
+    /* Scroll hint */
     .scroll-hint {
       position: absolute;
       bottom: 32px;
@@ -273,503 +298,567 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      color: var(--muted1);
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-family: var(--ff-mono);
       font-size: 10px;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      animation: scrollbounce 2s ease-in-out infinite;
     }
-    .scroll-hint svg { width: 18px; height: 18px; }
-    @keyframes scrollbounce {
+    .scroll-hint svg { width: 14px; height: 14px; }
+
+    @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(8px); }
+      50%       { transform: translateX(-50%) translateY(6px); }
     }
 
-    /* ── ABOUT ──────────────────────────────────────────────────────── */
-    #about { border-top: 1px solid var(--border); }
+    /* ═══════════════════════════════════════════════════════════════
+       SECTIONS — shared
+    ═══════════════════════════════════════════════════════════════ */
+    section:not(#hero) {
+      border-top: 1px solid var(--border);
+      padding: 120px 0;
+    }
 
+    @media (max-width: 768px) {
+      section:not(#hero) { padding: 80px 0; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════════════════════════════ */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: start;
+      margin-top: 56px;
     }
 
-    .about-bio { font-size: 0.875rem; line-height: 1.9; color: var(--text); }
-    .about-bio p { margin-bottom: 16px; }
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .about-bio p {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 20px;
+    }
     .about-bio p:last-child { margin-bottom: 0; }
-    .about-bio strong { color: var(--accent); font-weight: 700; }
 
     /* Stats grid */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0;
       border: 1px solid var(--border);
-      margin-bottom: 40px;
     }
-    .stat-block {
-      padding: 28px 24px;
+    .stat-item {
+      padding: 24px;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
-    .stat-block:nth-child(2n)   { border-right: none; }
-    .stat-block:nth-child(3),
-    .stat-block:nth-child(4)    { border-bottom: none; }
+    .stat-item:nth-child(even) { border-right: none; }
+    .stat-item:nth-child(3),
+    .stat-item:nth-child(4) { border-bottom: none; }
 
     .stat-number {
-      font-family: var(--ff-head);
+      font-family: var(--ff-sans);
       font-weight: 800;
-      font-size: 2.25rem;
-      color: var(--accent);
+      font-size: 2.5rem;
+      color: var(--text);
       line-height: 1;
+      margin-bottom: 6px;
     }
     .stat-label {
+      font-family: var(--ff-mono);
       font-size: 10px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--muted2);
-      margin-top: 6px;
+      color: rgba(255,255,255,0.45);
     }
 
-    /* Skill pills */
-    .skills-label {
+    /* Skills */
+    .skills-header {
       font-family: var(--ff-mono);
       font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted2);
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em;
       margin-bottom: 14px;
+      margin-top: 32px;
+      display: block;
     }
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-pill {
+    .skills-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill {
       font-family: var(--ff-mono);
       font-size: 10px;
       letter-spacing: 0.1em;
-      padding: 6px 14px;
-      border: 1px solid var(--muted1);
-      color: var(--text);
       text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.65);
       transition: border-color 0.2s, color 0.2s;
     }
-    .skill-pill:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── EXPERIENCE ─────────────────────────────────────────────────── */
-    #experience { border-top: 1px solid var(--border); }
-
-    .accordion {
-      border: 1px solid var(--border);
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
-    .accordion-item { border-bottom: 1px solid var(--border); }
-    .accordion-item:last-child { border-bottom: none; }
 
-    .accordion-trigger {
+    /* ═══════════════════════════════════════════════════════════════
+       EXPERIENCE
+    ═══════════════════════════════════════════════════════════════ */
+    .accordion {
+      margin-top: 56px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .acc-item { border-bottom: 1px solid var(--border); }
+    .acc-item:last-child { border-bottom: none; }
+
+    .acc-trigger {
       width: 100%;
-      background: none;
-      border: none;
-      cursor: crosshair;
       display: grid;
       grid-template-columns: 1fr auto auto;
-      align-items: center;
+      align-items: start;
       gap: 24px;
-      padding: 28px 32px;
+      padding: 28px 0;
       text-align: left;
-      transition: background 0.2s;
+      background: none;
+      border: none;
+      color: var(--text);
+      transition: none;
     }
-    .accordion-trigger:hover { background: rgba(0,255,204,0.03); }
-    .accordion-trigger.active { background: rgba(0,255,204,0.04); }
 
     .acc-company {
-      font-family: var(--ff-head);
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--text-hi);
+      font-family: var(--ff-sans);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
     }
     .acc-role {
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      color: var(--muted2);
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
       margin-top: 4px;
     }
     .acc-period {
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      color: var(--muted1);
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.35);
       text-align: right;
       white-space: nowrap;
+      padding-top: 3px;
     }
-    .acc-icon {
+    .acc-chevron {
       width: 18px;
       height: 18px;
-      color: var(--muted2);
+      color: rgba(255,255,255,0.4);
+      transition: transform 0.3s, color 0.2s;
       flex-shrink: 0;
-      transition: transform 0.3s ease, color 0.2s;
+      padding-top: 3px;
     }
-    .accordion-trigger.active .acc-icon {
+    .acc-item.open .acc-chevron {
       transform: rotate(180deg);
       color: var(--accent);
     }
+    .acc-trigger:hover .acc-chevron { color: var(--text); }
 
-    .accordion-body {
+    .acc-body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s ease;
-      border-top: 0 solid var(--border);
+      transition: max-height 0.4s ease;
     }
-    .accordion-body.open {
-      max-height: 400px;
-      border-top: 1px solid var(--border);
+    .acc-item.open .acc-body { max-height: 500px; }
+
+    .acc-content {
+      padding: 0 0 28px;
     }
 
-    .acc-inner { padding: 20px 32px 28px; }
-
-    .acc-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .acc-bullets li {
-      font-size: 0.85rem;
-      color: var(--text);
-      line-height: 1.8;
+    .acc-bullets {
+      list-style: none;
       padding-left: 20px;
+    }
+    .acc-bullets li {
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+      margin-bottom: 4px;
       position: relative;
     }
     .acc-bullets li::before {
-      content: '▸';
+      content: '→';
       position: absolute;
-      left: 0;
+      left: -20px;
       color: var(--accent);
     }
 
-    /* ── WORK ───────────────────────────────────────────────────────── */
-    #work { border-top: 1px solid var(--border); }
+    @media (max-width: 768px) {
+      .acc-trigger { grid-template-columns: 1fr auto; }
+      .acc-period { display: none; }
+    }
 
+    /* ═══════════════════════════════════════════════════════════════
+       WORK
+    ═══════════════════════════════════════════════════════════════ */
     .filter-bar {
       display: flex;
-      border: 1px solid var(--border);
-      width: fit-content;
+      align-items: center;
+      gap: 32px;
+      margin-top: 48px;
       margin-bottom: 48px;
+      flex-wrap: wrap;
     }
+
     .filter-btn {
-      font-family: var(--ff-body);
-      font-size: 11px;
-      letter-spacing: 0.14em;
+      font-family: var(--ff-sans);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 10px 28px;
       background: none;
       border: none;
-      border-right: 1px solid var(--border);
-      color: var(--muted2);
-      cursor: crosshair;
-      transition: background 0.15s, color 0.15s;
+      padding: 6px 0;
+      color: rgba(255,255,255,0.4);
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
     }
-    .filter-btn:last-child { border-right: none; }
-    .filter-btn:hover { color: var(--text-hi); }
-    .filter-btn.active { background: var(--accent); color: var(--bg); }
+    .filter-btn:hover { color: rgba(255,255,255,0.75); }
+    .filter-btn.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
 
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1px;
-      background: var(--border);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    @media (max-width: 1024px) {
+      .work-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .filter-bar { gap: 24px; }
     }
 
     .work-card {
-      background: var(--bg);
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.2s;
+      display: block;
+      color: inherit;
+      text-decoration: none;
     }
-    .work-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--accent);
-      transition: height 0.3s ease;
-    }
-    .work-card:hover { background: rgba(0,255,204,0.025); }
-    .work-card:hover::before { height: 100%; }
+    .work-card[style*="display: none"] { display: none !important; }
 
-    .card-tag {
-      font-size: 10px;
-      letter-spacing: 0.15em;
+    .card-img {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #111;
+      position: relative;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.78);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .overlay-label {
+      font-family: var(--ff-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted1);
+      color: var(--text);
+    }
+    .work-card:hover .card-img img { transform: scale(1.05); }
+    .work-card:hover .card-overlay { opacity: 1; }
+
+    .card-info {
+      padding: 14px 0 24px;
+    }
+    .card-meta { margin-bottom: 6px; }
+    .card-tag {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
     .card-title {
-      font-family: var(--ff-head);
-      font-weight: 800;
-      font-size: 1rem;
-      color: var(--text-hi);
-      line-height: 1.3;
+      font-family: var(--ff-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 4px;
     }
     .card-tech {
+      font-family: var(--ff-mono);
       font-size: 10px;
-      letter-spacing: 0.06em;
-      color: var(--muted2);
+      color: rgba(255,255,255,0.35);
     }
 
-    /* ── CONTACT ────────────────────────────────────────────────────── */
-    #contact { border-top: 1px solid var(--border); text-align: center; }
+    /* ═══════════════════════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════════════════════ */
+    #contact .contact-inner {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
 
     .contact-heading {
-      font-family: var(--ff-head);
+      font-family: var(--ff-sans);
       font-weight: 800;
       font-size: clamp(2.5rem, 6vw, 5rem);
-      color: var(--text-hi);
-      margin-bottom: 16px;
+      letter-spacing: -0.02em;
       line-height: 1.05;
+      color: var(--text);
+      margin-top: 20px;
     }
-    .contact-heading span { color: var(--accent); }
 
     .contact-sub {
-      font-size: 0.85rem;
-      color: var(--muted2);
-      max-width: 400px;
-      margin: 0 auto 40px;
-      line-height: 1.8;
+      font-family: var(--ff-sans);
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.52);
+      max-width: 380px;
+      margin: 20px auto 40px;
+      line-height: 1.75;
     }
 
     .contact-email {
       display: inline-block;
       font-family: var(--ff-mono);
       font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 16px 40px;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      transition: background 0.2s, color 0.2s;
-      margin-bottom: 48px;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px 36px;
+      color: rgba(255,255,255,0.8);
+      transition: border-color 0.25s, color 0.25s;
     }
-    .contact-email:hover { background: var(--accent); color: var(--bg); text-decoration: none; }
+    .contact-email:hover {
+      border-color: var(--text);
+      color: var(--text);
+    }
 
     .social-links {
       display: flex;
+      align-items: center;
       justify-content: center;
       gap: 8px;
+      margin-top: 40px;
       flex-wrap: wrap;
     }
+
     .social-link {
       display: flex;
       align-items: center;
       gap: 8px;
+      font-family: var(--ff-mono);
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted2);
+      color: rgba(255,255,255,0.4);
       padding: 10px 16px;
-      border: 1px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s;
     }
-    .social-link svg { width: 16px; height: 16px; flex-shrink: 0; }
-    .social-link:hover { color: var(--accent); border-color: var(--border); text-decoration: none; }
+    .social-link:hover { color: var(--text); }
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
 
-    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    /* ═══════════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════════ */
     footer {
       border-top: 1px solid var(--border);
-      padding: 28px 32px;
+      padding: 32px 0;
+    }
+    .footer-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
-      gap: 12px;
     }
-    .footer-logo {
+    .footer-name {
+      font-family: var(--ff-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-copy {
       font-family: var(--ff-mono);
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--text-hi);
-    }
-    .footer-logo span { color: var(--accent); }
-    .footer-copy { font-size: 11px; color: var(--muted1); letter-spacing: 0.06em; }
-
-    /* ── RESPONSIVE ─────────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      section { padding: 72px 0; }
-      .container { padding: 0 20px; }
-      .nav-inner { padding: 0 20px; }
-      .nav-links { display: none; }
-      .nav-toggle { display: flex; }
-      .hero-content { padding: 0 20px; }
-
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
-
-      .accordion-trigger {
-        grid-template-columns: 1fr auto;
-        padding: 20px;
-        gap: 16px;
-      }
-      .acc-period { display: none; }
-      .acc-inner { padding: 16px 20px 24px; }
-
-      .filter-bar { width: 100%; }
-      .filter-btn { flex: 1; padding: 10px 8px; font-size: 10px; }
-
-      .work-grid { grid-template-columns: 1fr; }
-
-      footer { padding: 24px 20px; flex-direction: column; text-align: center; }
-    }
-
-    @media (max-width: 480px) {
-      .hero-name { font-size: clamp(3.2rem, 16vw, 5rem); }
-      .stats-grid { grid-template-columns: 1fr; }
-      .stat-block:nth-child(n) { border-right: none; border-bottom: 1px solid var(--border); }
-      .stat-block:last-child { border-bottom: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in { transition: none; opacity: 1; transform: none; }
-      .scroll-hint { animation: none; }
-      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+      font-size: 11px;
+      color: var(--text-dim);
     }
   </style>
 </head>
 <body>
 
-  <!-- ══ NAV ═══════════════════════════════════════════════════════════ -->
-  <nav aria-label="Main navigation">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">RA<span>_</span></a>
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════════════════════ -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Rimon Akhter — home">Rimon Akhter</a>
       <ul class="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-drawer">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <nav class="nav-mobile" aria-label="Mobile navigation">
-    <a href="#about">About</a>
-    <a href="#experience">Experience</a>
-    <a href="#work">Work</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <!-- Mobile drawer -->
+  <div id="nav-drawer" class="nav-drawer" role="dialog" aria-label="Mobile navigation">
+    <a href="#about" class="drawer-link">About</a>
+    <a href="#experience" class="drawer-link">Experience</a>
+    <a href="#work" class="drawer-link">Work</a>
+    <a href="#contact" class="drawer-link">Contact</a>
+  </div>
 
-  <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
-  <section id="hero" aria-label="Introduction">
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="hero" aria-label="Hero">
     <canvas id="hero-canvas" aria-hidden="true"></canvas>
-    <div class="hero-content">
-      <p class="hero-eyebrow">// Senior Game &amp; VR Developer</p>
-      <h1 class="hero-name">
-        Rimon<br>
-        <span class="cyan">Akhter</span>
+
+    <div class="container hero-content">
+      <span class="hero-eyebrow">Senior Game &amp; VR Developer</span>
+      <h1 class="hero-h1">
+        <span class="line-white">Game &amp;</span>
+        <span class="line-accent">VR Developer</span>
       </h1>
-      <p class="hero-role">
-        <strong>7+ years</strong> building games, VR/AR experiences, and interactive systems.<br>
-        Currently crafting immersive VR worlds at <strong>Vinacts</strong> — clients include
-        Samsung &amp; Hyundai.
-      </p>
-      <div class="hero-cta">
-        <a href="#work" class="btn btn-primary">View Work</a>
-        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      <p class="hero-sub">7+ years building games, XR experiences and interactive simulations.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-ghost">Get In Touch</a>
       </div>
     </div>
+
     <div class="scroll-hint" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 5v14M5 12l7 7 7-7"/>
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M7 2v10M3 8l4 4 4-4"/>
       </svg>
-      scroll
+      <span>scroll</span>
     </div>
   </section>
 
-  <!-- ══ ABOUT ══════════════════════════════════════════════════════════ -->
-  <section id="about" aria-labelledby="about-title">
+  <!-- ═══════════════════════════════════════════════════════════════
+       ABOUT
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="about" aria-labelledby="about-heading">
     <div class="container">
-      <p class="section-label fade-in">// 001 — About</p>
-      <h2 id="about-title" class="section-title fade-in">Who I <span>Am</span></h2>
+      <div class="fade-in">
+        <span class="section-label">01</span>
+        <h2 class="section-heading" id="about-heading">About</h2>
+      </div>
+
       <div class="about-grid">
+        <!-- Bio -->
         <div class="about-bio fade-in">
-          <p>
-            I'm a <strong>Senior Game &amp; VR Developer</strong> with over 7 years of experience
-            shipping games and immersive XR experiences across mobile, PC, and VR platforms.
-          </p>
-          <p>
-            Currently at <strong>Vinacts</strong>, I architect and build VR solutions for enterprise
-            clients including Samsung and Hyundai — from custom VR interaction frameworks and
-            architectural visualizations to an unannounced Steam title.
-          </p>
-          <p>
-            My background spans team leadership, systems architecture, custom editor tooling,
-            shader programming, and performance optimization. I care about the craft: clean code,
-            tight gameplay feel, and systems that scale.
-          </p>
-          <p>
-            When I'm not in Unity or Unreal, I'm prototyping mechanics, writing shaders, or
-            pushing the edges of what real-time rendering can do.
-          </p>
+          <p>I'm a Senior Game &amp; VR Developer with over 7 years of experience shipping games and immersive XR experiences across mobile, PC, and VR platforms.</p>
+          <p>Currently at Vinacts, I architect and build VR solutions for enterprise clients including Samsung and Hyundai — from custom interaction frameworks and architectural visualizations to an unannounced Steam title.</p>
+          <p>My background spans team leadership, systems architecture, custom editor tooling, shader programming, and performance optimization. I care about the craft: clean code, tight gameplay feel, and systems that scale.</p>
         </div>
-        <div>
-          <div class="stats-grid fade-in">
-            <div class="stat-block">
+
+        <!-- Stats + Skills -->
+        <div class="fade-in">
+          <div class="stats-grid">
+            <div class="stat-item">
               <div class="stat-number">7+</div>
               <div class="stat-label">Years Experience</div>
             </div>
-            <div class="stat-block">
+            <div class="stat-item">
               <div class="stat-number">12+</div>
               <div class="stat-label">Games Shipped</div>
             </div>
-            <div class="stat-block">
+            <div class="stat-item">
               <div class="stat-number">4</div>
               <div class="stat-label">Studios</div>
             </div>
-            <div class="stat-block">
-              <div class="stat-number">&#8734;</div>
+            <div class="stat-item">
+              <div class="stat-number">∞</div>
               <div class="stat-label">Lines of C#</div>
             </div>
           </div>
-          <div class="fade-in">
-            <p class="skills-label">// Tech Stack</p>
-            <div class="skills-grid" role="list">
-              <span class="skill-pill" role="listitem">Unity</span>
-              <span class="skill-pill" role="listitem">Unreal Engine</span>
-              <span class="skill-pill" role="listitem">C#</span>
-              <span class="skill-pill" role="listitem">C++</span>
-              <span class="skill-pill" role="listitem">VR / XR</span>
-              <span class="skill-pill" role="listitem">HLSL / Shaders</span>
-              <span class="skill-pill" role="listitem">Firebase</span>
-              <span class="skill-pill" role="listitem">Python</span>
-              <span class="skill-pill" role="listitem">JavaScript</span>
-              <span class="skill-pill" role="listitem">SQL</span>
-            </div>
+
+          <span class="skills-header">// Tech Stack</span>
+          <div class="skills-pills">
+            <span class="pill">Unity</span>
+            <span class="pill">Unreal Engine</span>
+            <span class="pill">C#</span>
+            <span class="pill">C++</span>
+            <span class="pill">VR/XR</span>
+            <span class="pill">HLSL/Shaders</span>
+            <span class="pill">Firebase</span>
+            <span class="pill">Python</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">SQL</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
-  <section id="experience" aria-labelledby="exp-title">
+  <!-- ═══════════════════════════════════════════════════════════════
+       EXPERIENCE
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="experience" aria-labelledby="exp-heading">
     <div class="container">
-      <p class="section-label fade-in">// 002 — Experience</p>
-      <h2 id="exp-title" class="section-title fade-in">Where I've <span>Worked</span></h2>
+      <div class="fade-in">
+        <span class="section-label">02</span>
+        <h2 class="section-heading" id="exp-heading">Experience</h2>
+      </div>
 
       <div class="accordion fade-in" role="list">
 
         <!-- Vinacts -->
-        <div class="accordion-item" role="listitem">
-          <button class="accordion-trigger active" aria-expanded="true" aria-controls="acc-vinacts">
+        <div class="acc-item open" role="listitem">
+          <button class="acc-trigger" aria-expanded="true" aria-controls="acc-body-1">
             <div>
               <div class="acc-company">Vinacts</div>
               <div class="acc-role">VR Developer</div>
             </div>
             <div class="acc-period">Feb 2024 — Present</div>
-            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="acc-chevron" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M4 6.5l5 5 5-5"/>
             </svg>
           </button>
-          <div class="accordion-body open" id="acc-vinacts">
-            <div class="acc-inner">
+          <div class="acc-body" id="acc-body-1" role="region">
+            <div class="acc-content">
               <ul class="acc-bullets">
-                <li>Developing enterprise VR experiences for major clients including Samsung and Hyundai</li>
-                <li>Architected a modular VR interaction framework that reduced cross-project dev time by 40%</li>
+                <li>Developing enterprise VR experiences for Samsung and Hyundai</li>
+                <li>Architected a modular VR interaction framework, reducing dev time by 40%</li>
                 <li>Leading systems architecture for an unannounced Steam title</li>
                 <li>Built ArchViz solutions for Korea Land and Housing Corporation</li>
               </ul>
@@ -778,359 +867,569 @@
         </div>
 
         <!-- Technomagic -->
-        <div class="accordion-item" role="listitem">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-technomagic">
+        <div class="acc-item" role="listitem">
+          <button class="acc-trigger" aria-expanded="false" aria-controls="acc-body-2">
             <div>
               <div class="acc-company">Technomagic</div>
               <div class="acc-role">Senior Developer / Team Lead</div>
             </div>
             <div class="acc-period">Aug 2023 — Dec 2023</div>
-            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="acc-chevron" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M4 6.5l5 5 5-5"/>
             </svg>
           </button>
-          <div class="accordion-body" id="acc-technomagic">
-            <div class="acc-inner">
+          <div class="acc-body" id="acc-body-2" role="region">
+            <div class="acc-content">
               <ul class="acc-bullets">
-                <li>Led a cross-functional team across multiple hyper-casual and hybrid-casual game projects</li>
+                <li>Led a cross-functional team across hyper-casual and hybrid-casual game projects</li>
                 <li>Shipped CasinoVenture, DIY Cake Shop, and Drill Tycoon</li>
-                <li>Built reusable editor tools and a mobile game framework to accelerate production</li>
+                <li>Built reusable editor tools and a mobile game framework</li>
               </ul>
             </div>
           </div>
         </div>
 
         <!-- Thunder Games -->
-        <div class="accordion-item" role="listitem">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-thunder">
+        <div class="acc-item" role="listitem">
+          <button class="acc-trigger" aria-expanded="false" aria-controls="acc-body-3">
             <div>
               <div class="acc-company">Thunder Games</div>
               <div class="acc-role">Senior Game Developer</div>
             </div>
             <div class="acc-period">Aug 2022 — Jul 2023</div>
-            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="acc-chevron" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M4 6.5l5 5 5-5"/>
             </svg>
           </button>
-          <div class="accordion-body" id="acc-thunder">
-            <div class="acc-inner">
+          <div class="acc-body" id="acc-body-3" role="region">
+            <div class="acc-content">
               <ul class="acc-bullets">
                 <li>Designed and built modular UI systems for Rescue Cop and Zombie Road</li>
                 <li>Mentored junior developers and led regular code reviews</li>
-                <li>Developed custom frameworks and editor tooling to streamline production pipelines</li>
+                <li>Developed custom frameworks and editor tooling</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <!-- Battery Low Interactive -->
-        <div class="accordion-item" role="listitem">
-          <button class="accordion-trigger" aria-expanded="false" aria-controls="acc-battery">
+        <!-- Battery Low -->
+        <div class="acc-item" role="listitem">
+          <button class="acc-trigger" aria-expanded="false" aria-controls="acc-body-4">
             <div>
               <div class="acc-company">Battery Low Interactive</div>
               <div class="acc-role">Senior Unity Developer</div>
             </div>
             <div class="acc-period">Apr 2021 — Jul 2022</div>
-            <svg class="acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M6 9l6 6 6-6"/>
+            <svg class="acc-chevron" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M4 6.5l5 5 5-5"/>
             </svg>
           </button>
-          <div class="accordion-body" id="acc-battery">
-            <div class="acc-inner">
+          <div class="acc-body" id="acc-body-4" role="region">
+            <div class="acc-content">
               <ul class="acc-bullets">
-                <li>Designed core systems and implemented key gameplay functionality for SpaceLism</li>
-                <li>Optimized runtime mesh generation for smooth performance under load</li>
-                <li>Implemented WebGL-specific optimizations for browser deployment targets</li>
+                <li>Designed core systems for SpaceLism</li>
+                <li>Optimized runtime mesh generation</li>
+                <li>Implemented WebGL-specific optimizations</li>
               </ul>
             </div>
           </div>
         </div>
 
-      </div>
+      </div><!-- /accordion -->
     </div>
   </section>
 
-  <!-- ══ WORK ═══════════════════════════════════════════════════════════ -->
-  <section id="work" aria-labelledby="work-title">
+  <!-- ═══════════════════════════════════════════════════════════════
+       WORK
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="work" aria-labelledby="work-heading">
     <div class="container">
-      <p class="section-label fade-in">// 003 — Work</p>
-      <h2 id="work-title" class="section-title fade-in">Selected <span>Projects</span></h2>
+      <div class="fade-in">
+        <span class="section-label">03</span>
+        <h2 class="section-heading" id="work-heading">Work</h2>
+      </div>
 
-      <div class="filter-bar fade-in" role="group" aria-label="Filter projects by category">
+      <!-- Filter bar -->
+      <div class="filter-bar fade-in" role="group" aria-label="Filter work by category">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="games">Games</button>
         <button class="filter-btn" data-filter="mechanics">Mechanics</button>
         <button class="filter-btn" data-filter="xr">XR</button>
       </div>
 
-      <div class="work-grid" id="work-grid" aria-live="polite">
+      <!-- Work grid -->
+      <div class="work-grid" id="work-grid">
 
-        <!-- GAMES ──────────────────────── -->
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">Mars Dozer</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Idle Game</div>
-          <div class="card-title">Idle Merchant</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">Rescue Cop</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">Zombie Road</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">CasinoVenture</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Indie</div>
-          <div class="card-title">Mini Strike</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Web Game</div>
-          <div class="card-title">Under The Rooftop</div>
-          <div class="card-tech">WebGL</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">Save The Base</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="games">
-          <div class="card-tag">Mobile Game</div>
-          <div class="card-title">Money Farming</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
+        <!-- ── GAMES ── -->
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/mars-dozer.webp" alt="Mars Dozer" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">Mars Dozer</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
 
-        <!-- MECHANICS ──────────────────── -->
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">System</div>
-          <div class="card-title">Modular UI System</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Shader</div>
-          <div class="card-title">Stylized Water Shader URP</div>
-          <div class="card-tech">HLSL / ShaderGraph</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Shader</div>
-          <div class="card-title">Shine Gloss Shader URP</div>
-          <div class="card-tech">HLSL / ShaderGraph</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Gameplay</div>
-          <div class="card-title">Free-flow Combat System</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Rendering</div>
-          <div class="card-title">Procedural Mesh Generation</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Gameplay</div>
-          <div class="card-title">Hack and Slash Combo System</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">System</div>
-          <div class="card-title">Inventory &amp; Weapon Loadout</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Gameplay</div>
-          <div class="card-title">Melee Combat System</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Animation</div>
-          <div class="card-title">Locomotion System</div>
-          <div class="card-tech">Unity / C#</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">Shader</div>
-          <div class="card-title">Stencil Painting on Mesh</div>
-          <div class="card-tech">Unity / C# / ShaderGraph</div>
-        </div>
-        <div class="work-card" data-category="mechanics">
-          <div class="card-tag">VFX</div>
-          <div class="card-title">VFX Graph &amp; Particle System</div>
-          <div class="card-tech">Unity / VFX Graph</div>
-        </div>
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/idle-merchant.jpg" alt="Idle Merchant" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Idle Game</span></div>
+            <div class="card-title">Idle Merchant</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
 
-        <!-- XR ─────────────────────────── -->
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">AR</div>
-          <div class="card-title">Ghost Buster AR</div>
-          <div class="card-tech">Unity / Vuforia</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">AR</div>
-          <div class="card-title">AR Building Visualization</div>
-          <div class="card-tech">Unity / Vuforia</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">VR</div>
-          <div class="card-title">VR Hand Pose Detection</div>
-          <div class="card-tech">Unreal 5.5 / Quest 2</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">VR</div>
-          <div class="card-title">VR Painting App</div>
-          <div class="card-tech">Unreal 5.3 / C++</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">VR</div>
-          <div class="card-title">VR UI &amp; Save System</div>
-          <div class="card-tech">Unreal 5.3 / C++</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">Unreal</div>
-          <div class="card-title">Third Person Shooter AI</div>
-          <div class="card-tech">Unreal 5.3 / Behavior Tree</div>
-        </div>
-        <div class="work-card" data-category="xr">
-          <div class="card-tag">Unreal</div>
-          <div class="card-title">RPG Gameplay Ability System</div>
-          <div class="card-tech">Unreal 5.3 / C++ / GAS</div>
-        </div>
+        <a class="work-card" href="https://rimonakhter.itch.io/mini-strike" data-category="games" target="_blank" rel="noopener noreferrer">
+          <div class="card-img">
+            <img src="assets/images/mini-strike.jpg" alt="Mini Strike" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Indie</span></div>
+            <div class="card-title">Mini Strike</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
 
-      </div>
+        <a class="work-card" href="https://undertherooftop.com" data-category="games" target="_blank" rel="noopener noreferrer">
+          <div class="card-img">
+            <img src="assets/images/under-the-rooftop.jpg" alt="Under The Rooftop" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Web Game</span></div>
+            <div class="card-title">Under The Rooftop</div>
+            <div class="card-tech">WebGL</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/rescue-cop.jpg" alt="Rescue Cop" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">Rescue Cop</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/casino-venture.webp" alt="CasinoVenture" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">CasinoVenture</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/zombie-road.png" alt="Zombie Road" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">Zombie Road</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/save-the-base.jpg" alt="Save The Base" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">Save The Base</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="games">
+          <div class="card-img">
+            <img src="assets/images/money-farming.webp" alt="Money Farming" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
+            <div class="card-title">Money Farming</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <!-- ── MECHANICS ── -->
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/modular-ui.jpg" alt="Modular UI System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">System</span></div>
+            <div class="card-title">Modular UI System</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/water-shader.jpg" alt="Stylized Water Shader URP" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Shader</span></div>
+            <div class="card-title">Stylized Water Shader URP</div>
+            <div class="card-tech">HLSL / ShaderGraph</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/gloss-shader.jpg" alt="Shine Gloss Shader URP" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Shader</span></div>
+            <div class="card-title">Shine Gloss Shader URP</div>
+            <div class="card-tech">HLSL / ShaderGraph</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/free-flow-combat.jpg" alt="Free-flow Combat System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
+            <div class="card-title">Free-flow Combat System</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/procedural-mesh.jpg" alt="Procedural Mesh Generation" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Rendering</span></div>
+            <div class="card-title">Procedural Mesh Generation</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/hack-slash.png" alt="Hack and Slash Combo System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
+            <div class="card-title">Hack and Slash Combo System</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/inventory-system.png" alt="Inventory &amp; Weapon Loadout" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">System</span></div>
+            <div class="card-title">Inventory &amp; Weapon Loadout</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/melee-combat.png" alt="Melee Combat System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
+            <div class="card-title">Melee Combat System</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/locomotion.png" alt="Locomotion System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Animation</span></div>
+            <div class="card-title">Locomotion System</div>
+            <div class="card-tech">Unity / C#</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/stencil-painting.jpg" alt="Stencil Painting on Mesh" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Shader</span></div>
+            <div class="card-title">Stencil Painting on Mesh</div>
+            <div class="card-tech">Unity / C# / ShaderGraph</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
+          <div class="card-img">
+            <img src="assets/images/vfx-graph.png" alt="VFX Graph &amp; Particle System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">VFX</span></div>
+            <div class="card-title">VFX Graph &amp; Particle System</div>
+            <div class="card-tech">Unity / VFX Graph</div>
+          </div>
+        </a>
+
+        <!-- ── XR ── -->
+        <a class="work-card" href="projects/vinacts-vr.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/vr-hand-pose.jpg" alt="Vinacts VR Training" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">VR · Enterprise</span></div>
+            <div class="card-title">Vinacts VR Training</div>
+            <div class="card-tech">Unreal 5.5 / C++ / Quest 2</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="https://rimonakhter.itch.io/ghost-buster-ar" data-category="xr" target="_blank" rel="noopener noreferrer">
+          <div class="card-img">
+            <img src="assets/images/ghost-buster-ar.png" alt="Ghost Buster AR" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">AR</span></div>
+            <div class="card-title">Ghost Buster AR</div>
+            <div class="card-tech">Unity / Vuforia</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/ar-building.png" alt="AR Building Visualization" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">AR</span></div>
+            <div class="card-title">AR Building Visualization</div>
+            <div class="card-tech">Unity / Vuforia</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/vr-hand-pose.jpg" alt="VR Hand Pose Detection" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">VR</span></div>
+            <div class="card-title">VR Hand Pose Detection</div>
+            <div class="card-tech">Unreal 5.5 / Quest 2</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/vr-painting.png" alt="VR Painting App" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">VR</span></div>
+            <div class="card-title">VR Painting App</div>
+            <div class="card-tech">Unreal 5.3 / C++</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/vr-ui-unreal.jpg" alt="VR UI &amp; Save System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">VR</span></div>
+            <div class="card-title">VR UI &amp; Save System</div>
+            <div class="card-tech">Unreal 5.3 / C++</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/third-person-shooter.jpg" alt="Third Person Shooter AI" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Unreal</span></div>
+            <div class="card-title">Third Person Shooter AI</div>
+            <div class="card-tech">Unreal 5.3 / Behavior Tree</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="projects/under-construction.html" data-category="xr">
+          <div class="card-img">
+            <img src="assets/images/rpg-gas.png" alt="RPG Gameplay Ability System" loading="lazy">
+            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
+          </div>
+          <div class="card-info">
+            <div class="card-meta"><span class="card-tag">Unreal</span></div>
+            <div class="card-title">RPG Gameplay Ability System</div>
+            <div class="card-tech">Unreal 5.3 / C++ / GAS</div>
+          </div>
+        </a>
+
+      </div><!-- /work-grid -->
     </div>
   </section>
 
-  <!-- ══ CONTACT ════════════════════════════════════════════════════════ -->
-  <section id="contact" aria-labelledby="contact-title">
+  <!-- ═══════════════════════════════════════════════════════════════
+       CONTACT
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="contact" aria-labelledby="contact-heading">
     <div class="container">
-      <p class="section-label fade-in">// 004 — Contact</p>
-      <h2 id="contact-title" class="contact-heading fade-in">
-        Let's Build<br><span>Something.</span>
-      </h2>
-      <p class="contact-sub fade-in">
-        Open to senior roles, contracts, and interesting collaborations
-        in game dev, VR/XR, and interactive experiences.
-      </p>
-      <div class="fade-in">
-        <a href="mailto:rimona.bevan@gmail.com" class="contact-email">
-          rimona.bevan@gmail.com
-        </a>
-      </div>
-      <div class="social-links fade-in">
+      <div class="contact-inner fade-in">
+        <span class="section-label" style="text-align:center;display:block;">04</span>
+        <h2 class="contact-heading" id="contact-heading">Let's Build Something.</h2>
+        <p class="contact-sub">Open to senior roles, contracts, and interesting collaborations in game dev and VR/XR.</p>
+        <a href="mailto:rimona.bevan@gmail.com" class="contact-email">rimona.bevan@gmail.com</a>
 
-        <a href="https://linkedin.com/in/rimon-akhter" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="2"/>
-            <path d="M8 11v5M8 8v.5M12 16v-5m0 0a3 3 0 016 0v5"/>
-          </svg>
-          LinkedIn
-        </a>
+        <div class="social-links">
 
-        <a href="https://x.com/rimon_bevan" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X profile">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          Twitter / X
-        </a>
+          <!-- LinkedIn -->
+          <a href="https://linkedin.com/in/rimon-akhter" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn
+          </a>
 
-        <a href="https://github.com/bevanator" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
-          </svg>
-          GitHub
-        </a>
+          <!-- Twitter/X -->
+          <a href="https://x.com/rimon_bevan" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Twitter
+          </a>
 
-        <a href="https://rimonakhter.itch.io" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="itch.io profile">
-          <svg viewBox="0 0 245.371 220.736" fill="currentColor" aria-hidden="true" style="width:18px;height:18px">
-            <path d="M31.99 1.365C21.287 7.72.2 31.945 0 38.298v10.516C0 62.713 12.584 74.09 23.981 74.09c13.633 0 24.759-11.13 24.759-24.098 0 12.968 10.88 24.097 24.514 24.097 13.635 0 24.017-11.13 24.017-24.097 0 12.968 11.375 24.097 25.009 24.097h.255c13.634 0 25.01-11.13 25.01-24.097 0 12.968 10.382 24.097 24.016 24.097 13.635 0 24.515-11.13 24.515-24.097 0 12.968 11.126 24.098 24.759 24.098 11.397 0 23.981-11.378 23.981-24.965V38.298c-.2-6.354-21.287-30.58-31.988-36.933C218.944.025 29.9.232 31.99 1.365zm80.357 106.monetize v108.386c0 2.794 9.38 10.35 20.275 10.35 10.895 0 20.276-7.556 20.276-10.35V160.91h37.594c9.956 0 15.276-4.8 15.276-15.048V107.73H112.347z"/>
-          </svg>
-          itch.io
-        </a>
+          <!-- GitHub -->
+          <a href="https://github.com/bevanator" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+            GitHub
+          </a>
 
+          <!-- itch.io -->
+          <a href="https://rimonakhter.itch.io" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="itch.io">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.406 0 1.304 1.07 2.406 2.4 2.406 1.328 0 2.362-1.102 2.362-2.406 0 1.304 1.106 2.406 2.434 2.406h.044c1.328 0 2.434-1.102 2.434-2.406 0 1.304 1.035 2.406 2.363 2.406 1.33 0 2.4-1.102 2.4-2.406 0 1.304 1.106 2.406 2.436 2.406C22.78 8.43 24 7.283 24 5.98V4.95c-.02-.622-2.082-2.99-3.13-3.612C19.786 1.28 5.91 1.072 3.13 1.338zM8.5 10.473c-.29.007-1.148.256-1.398.44l-2.55 1.68C3.373 13.396 3.36 13.467 3.36 15.9c0 2.432.002 2.434.09 2.434.046 0 .424-.223.84-.496l.757-.497.013 1.802c.017 2.23.018 2.235.26 2.68.146.267.45.548.73.675.384.175 1.24.198 6.01.19 5.54-.01 5.582-.012 5.903-.246.185-.133.424-.408.532-.612.196-.37.203-.484.22-2.49l.015-2.103.756.495c.416.273.792.496.836.496.09 0 .092-.004.092-2.434s-.015-2.5-.69-2.97l-2.55-1.68c-.57-.375-1.6-.6-2.3-.52l-1.14 1.152-1.14-1.153c-.08-.002-.163-.01-.243-.013zm.207 1.83l1.073 1.3c.135.163.267.216.53.216.262 0 .395-.053.53-.215l1.073-1.3.16.018c.24.028.56.097.708.153l.8.3-2.79 2.302a1.108 1.108 0 01-.962 0l-2.79-2.303.8-.3c.334-.124.91-.21.868-.172zm-1.25 4.457l2.543 1.96 2.543-1.96-.002 1.867c0 .793-.02 1.877-.044 2.41l-.042.97H11.48 9.587l-.04-.97c-.025-.533-.044-1.617-.044-2.41z"/>
+            </svg>
+            itch.io
+          </a>
+
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ══ FOOTER ═════════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════ -->
   <footer>
-    <div class="footer-logo">RA<span>_</span></div>
-    <p class="footer-copy">&copy; 2026 Rimon Akhter &mdash; Built with care &amp; caffeine</p>
+    <div class="container footer-inner">
+      <span class="footer-name">Rimon Akhter</span>
+      <span class="footer-copy">© 2026 — Built with care</span>
+    </div>
   </footer>
 
-  <!-- ══ THREE.JS CDN ═══════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       THREE.JS
+  ═══════════════════════════════════════════════════════════════ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════════════ -->
   <script>
   (function () {
     'use strict';
 
-    /* ── Hamburger menu ──────────────────────────────────────────── */
-    var toggle    = document.querySelector('.nav-toggle');
-    var mobileNav = document.querySelector('.nav-mobile');
+    /* ── 1. Hamburger menu ─────────────────────────────────────────── */
+    const toggle = document.querySelector('.nav-toggle');
+    const drawer = document.getElementById('nav-drawer');
 
     toggle.addEventListener('click', function () {
-      var isOpen = mobileNav.classList.toggle('open');
-      toggle.classList.toggle('open', isOpen);
-      toggle.setAttribute('aria-expanded', String(isOpen));
+      const open = toggle.classList.toggle('open');
+      drawer.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
     });
 
-    mobileNav.querySelectorAll('a').forEach(function (link) {
+    // Close drawer when a link is clicked
+    drawer.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
-        mobileNav.classList.remove('open');
         toggle.classList.remove('open');
+        drawer.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
 
-    /* ── Accordion ───────────────────────────────────────────────── */
-    document.querySelectorAll('.accordion-trigger').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var wasActive = btn.classList.contains('active');
-        var bodyId    = btn.getAttribute('aria-controls');
-        var body      = document.getElementById(bodyId);
+    /* ── 2. Accordion ──────────────────────────────────────────────── */
+    const accItems = document.querySelectorAll('.acc-item');
+
+    accItems.forEach(function (item) {
+      const trigger = item.querySelector('.acc-trigger');
+      trigger.addEventListener('click', function () {
+        const isOpen = item.classList.contains('open');
 
         // Close all
-        document.querySelectorAll('.accordion-trigger').forEach(function (b) {
-          b.classList.remove('active');
-          b.setAttribute('aria-expanded', 'false');
-        });
-        document.querySelectorAll('.accordion-body').forEach(function (b) {
-          b.classList.remove('open');
+        accItems.forEach(function (i) {
+          i.classList.remove('open');
+          i.querySelector('.acc-trigger').setAttribute('aria-expanded', 'false');
         });
 
-        // Open this one if it was closed
-        if (!wasActive) {
-          btn.classList.add('active');
-          btn.setAttribute('aria-expanded', 'true');
-          body.classList.add('open');
+        // Toggle clicked
+        if (!isOpen) {
+          item.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
         }
       });
     });
 
-    /* ── Work filter ─────────────────────────────────────────────── */
-    var filterBtns = document.querySelectorAll('.filter-btn');
-    var workCards  = document.querySelectorAll('.work-card');
+    /* ── 3. Work filter ────────────────────────────────────────────── */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const workCards  = document.querySelectorAll('.work-card');
 
     filterBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var filter = btn.dataset.filter;
+        const filter = btn.dataset.filter;
 
         filterBtns.forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
 
         workCards.forEach(function (card) {
           if (filter === 'all' || card.dataset.category === filter) {
-            card.style.display = '';
+            card.style.display = 'block';
           } else {
             card.style.display = 'none';
           }
@@ -1138,174 +1437,76 @@
       });
     });
 
-    /* ── IntersectionObserver fade-in ────────────────────────────── */
-    var fadeEls = document.querySelectorAll('.fade-in');
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
+    /* ── 4. Fade-in IntersectionObserver ───────────────────────────── */
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReduced) {
+      var fadeEls = document.querySelectorAll('.fade-in');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1 });
-      fadeEls.forEach(function (el) { io.observe(el); });
+
+      fadeEls.forEach(function (el) { observer.observe(el); });
     } else {
-      fadeEls.forEach(function (el) { el.classList.add('visible'); });
+      document.querySelectorAll('.fade-in').forEach(function (el) {
+        el.classList.add('visible');
+      });
     }
 
-    /* ── Three.js particle field ─────────────────────────────────── */
-    var prefersReducedMotion =
-      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* ── 5. Three.js scene ─────────────────────────────────────────── */
+    if (prefersReduced) return;
 
-    var canvas      = document.getElementById('hero-canvas');
-    var heroSection = document.getElementById('hero');
+    try {
+      if (typeof THREE === 'undefined') throw new Error('Three.js not loaded');
 
-    if (!prefersReducedMotion && typeof THREE !== 'undefined') {
-      var renderer, scene, camera, particles;
-      var mouse = { x: 0, y: 0 };
-      var clock;
+      var canvas   = document.getElementById('hero-canvas');
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
 
-      (function initThree() {
-        try {
-          renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false, alpha: true });
-        } catch (e) { return; }
+      var scene  = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(50, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+      camera.position.z = 300;
 
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-        renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-        renderer.setClearColor(0x000000, 0);
+      // Icosahedron wireframe
+      var geo     = new THREE.IcosahedronGeometry(180, 2);
+      var edges   = new THREE.EdgesGeometry(geo);
+      var mat     = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.09 });
+      var mesh    = new THREE.LineSegments(edges, mat);
+      scene.add(mesh);
 
-        scene  = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(
-          60,
-          canvas.offsetWidth / canvas.offsetHeight,
-          0.1,
-          1000
-        );
-        camera.position.z = 90;
-        clock = new THREE.Clock();
-
-        /* Particles */
-        var COUNT = 320;
-        var positions = new Float32Array(COUNT * 3);
-        var sizes     = new Float32Array(COUNT);
-        var driftSpeed = new Float32Array(COUNT);
-        var driftPhase = new Float32Array(COUNT);
-
-        for (var i = 0; i < COUNT; i++) {
-          positions[i * 3]     = (Math.random() - 0.5) * 220;
-          positions[i * 3 + 1] = (Math.random() - 0.5) * 130;
-          positions[i * 3 + 2] = (Math.random() - 0.5) * 110;
-          sizes[i]      = Math.random() * 2.2 + 0.5;
-          driftSpeed[i] = Math.random() * 0.5 + 0.2;
-          driftPhase[i] = Math.random() * Math.PI * 2;
-        }
-
-        var geo = new THREE.BufferGeometry();
-        geo.setAttribute('position',   new THREE.BufferAttribute(positions, 3));
-        geo.setAttribute('aSize',      new THREE.BufferAttribute(sizes, 1));
-        geo.setAttribute('aDriftSpeed', new THREE.BufferAttribute(driftSpeed, 1));
-        geo.setAttribute('aDriftPhase', new THREE.BufferAttribute(driftPhase, 1));
-
-        var mat = new THREE.ShaderMaterial({
-          uniforms: {
-            uColor: { value: new THREE.Color(0x00ffcc) },
-            uTime:  { value: 0.0 },
-          },
-          vertexShader: [
-            'attribute float aSize;',
-            'attribute float aDriftSpeed;',
-            'attribute float aDriftPhase;',
-            'uniform float uTime;',
-            'void main() {',
-            '  vec3 pos = position;',
-            '  pos.y += sin(uTime * aDriftSpeed + aDriftPhase) * 0.8;',
-            '  pos.x += cos(uTime * aDriftSpeed * 0.7 + aDriftPhase) * 0.5;',
-            '  vec4 mv = modelViewMatrix * vec4(pos, 1.0);',
-            '  gl_PointSize = aSize * (180.0 / -mv.z);',
-            '  gl_Position  = projectionMatrix * mv;',
-            '}',
-          ].join('\n'),
-          fragmentShader: [
-            'uniform vec3 uColor;',
-            'void main() {',
-            '  float d = length(gl_PointCoord - vec2(0.5));',
-            '  if (d > 0.5) discard;',
-            '  float alpha = 0.7 * (1.0 - smoothstep(0.0, 0.5, d) * 1.6);',
-            '  gl_FragColor = vec4(uColor, alpha);',
-            '}',
-          ].join('\n'),
-          transparent: true,
-          depthWrite:  false,
-          blending:    THREE.AdditiveBlending,
-        });
-
-        particles = new THREE.Points(geo, mat);
-        scene.add(particles);
-
-        /* Sparse connection lines for HUD feel */
-        var lineMat = new THREE.LineBasicMaterial({
-          color: 0x00ffcc,
-          transparent: true,
-          opacity: 0.05,
-        });
-        for (var l = 0; l < 20; l++) {
-          var pts = [
-            new THREE.Vector3(
-              (Math.random() - 0.5) * 220,
-              (Math.random() - 0.5) * 130,
-              (Math.random() - 0.5) * 80
-            ),
-            new THREE.Vector3(
-              (Math.random() - 0.5) * 220,
-              (Math.random() - 0.5) * 130,
-              (Math.random() - 0.5) * 80
-            ),
-          ];
-          var lg = new THREE.BufferGeometry().setFromPoints(pts);
-          scene.add(new THREE.Line(lg, lineMat));
-        }
-
-        animate();
-      })();
-
+      // Animate
+      var animId;
       function animate() {
-        requestAnimationFrame(animate);
-        var t = clock.getElapsedTime();
-
-        if (particles) {
-          particles.material.uniforms.uTime.value = t;
-          /* Gentle auto-rotation */
-          particles.rotation.y += 0.00025;
-          /* Mouse parallax */
-          var tx = mouse.y * 0.01;
-          var ty = mouse.x * 0.01;
-          particles.rotation.x += (tx - particles.rotation.x) * 0.025;
-          particles.rotation.y += (ty - particles.rotation.y) * 0.025;
-        }
-
+        animId = requestAnimationFrame(animate);
+        mesh.rotation.y += 0.0015;
+        mesh.rotation.x += 0.0006;
         renderer.render(scene, camera);
       }
+      animate();
 
-      window.addEventListener('mousemove', function (e) {
-        var rect = heroSection.getBoundingClientRect();
-        if (e.clientY < rect.top || e.clientY > rect.bottom) return;
-        mouse.x = (e.clientX / window.innerWidth  - 0.5) * 2;
-        mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
-      }, { passive: true });
-
-      window.addEventListener('resize', function () {
-        if (!renderer) return;
-        var w = canvas.offsetWidth;
-        var h = canvas.offsetHeight;
-        renderer.setSize(w, h);
+      // Resize handler
+      function onResize() {
+        var hero = document.getElementById('hero');
+        var w = hero.offsetWidth;
+        var h = hero.offsetHeight;
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-      }, { passive: true });
+        renderer.setSize(w, h);
+      }
+      window.addEventListener('resize', onResize);
+
+    } catch (e) {
+      // WebGL not available — canvas remains invisible, no fallback needed
+      console.warn('Three.js scene skipped:', e.message);
     }
 
-  })();
+  }());
   </script>
 </body>
 </html>
-
