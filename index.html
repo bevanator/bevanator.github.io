@@ -1299,6 +1299,18 @@
       });
 
       /* ---- YouTube hover-to-play ---- */
+      /* Cache per videoId: undefined = unchecked, 'ok', 'blocked', 'checking' */
+      var ytCache = {};
+
+      function injectIframe(container, vid) {
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + vid +
+          '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + vid +
+          '&rel=0&modestbranding=1&playsinline=1';
+        iframe.allow = 'autoplay';
+        container.appendChild(iframe);
+      }
+
       document.querySelectorAll('.carousel-viewport').forEach(function (vp) {
 
         vp.addEventListener('mouseover', function (e) {
@@ -1307,35 +1319,38 @@
           var container = card.querySelector('.proj-card-img');
           if (!container || container.querySelector('iframe')) return;
           var vid = card.dataset.videoId;
-          var iframe = document.createElement('iframe');
-          iframe.src = 'https://www.youtube.com/embed/' + vid +
-            '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + vid +
-            '&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
-          iframe.allow = 'autoplay';
-          container.appendChild(iframe);
+
+          if (ytCache[vid] === 'blocked' || ytCache[vid] === 'checking') return;
+
+          if (ytCache[vid] === 'ok') {
+            injectIframe(container, vid);
+            return;
+          }
+
+          /* First hover — verify embeddability via oEmbed before injecting */
+          ytCache[vid] = 'checking';
+          fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + vid + '&format=json')
+            .then(function (r) {
+              if (!r.ok) throw new Error('blocked');
+              ytCache[vid] = 'ok';
+              /* Only inject if cursor is still over this card */
+              if (card.matches(':hover') && !container.querySelector('iframe')) {
+                injectIframe(container, vid);
+              }
+            })
+            .catch(function () {
+              ytCache[vid] = 'blocked';
+            });
         });
 
         vp.addEventListener('mouseout', function (e) {
           var card = e.target.closest('.proj-card[data-video-id]');
           if (!card) return;
-          /* only remove when cursor genuinely leaves the card */
           if (e.relatedTarget && card.contains(e.relatedTarget)) return;
           var iframe = card.querySelector('.proj-card-img iframe');
           if (iframe) iframe.remove();
         });
 
-      });
-
-      /* Remove iframe if YouTube reports an embed error (e.g. 150, 153) */
-      window.addEventListener('message', function (e) {
-        if (e.origin !== 'https://www.youtube.com') return;
-        try {
-          var data = JSON.parse(e.data);
-          if (data.event !== 'onError') return;
-          document.querySelectorAll('.proj-card-img iframe').forEach(function (iframe) {
-            if (iframe.contentWindow === e.source) iframe.remove();
-          });
-        } catch (_) {}
       });
 
       /* ---- Switcher tabs ---- */
