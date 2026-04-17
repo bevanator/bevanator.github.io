@@ -182,17 +182,6 @@ var PROJECTS = {
       detailsUrl: null
     },
     {
-      slug: 'melee-combat',
-      title: 'Melee Combat System',
-      genre: 'Combat',
-      studio: 'Personal',
-      desc: 'Physics-based melee combat with weapon collision and hit reactions.',
-      thumbnail: 'assets/images/melee-combat.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
       slug: 'stencil-painting',
       title: 'Stencil Painting on Mesh',
       genre: 'Rendering',
