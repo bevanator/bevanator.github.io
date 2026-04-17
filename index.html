@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rimon Akhter — Senior Game &amp; VR Developer</title>
-  <meta name="description" content="Senior Game &amp; VR Developer with 7+ years building games, XR experiences, and interactive simulations in Unity and Unreal Engine." />
+  <meta name="description" content="Senior Game &amp; VR Developer with 9+ years building games, XR experiences, and interactive simulations in Unity and Unreal Engine." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
@@ -511,18 +511,41 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       WORK
+       WORK — Carousel
     ═══════════════════════════════════════════════════════════════ */
-    .filter-bar {
+
+    /* Card size tokens — recalculated per breakpoint */
+    :root {
+      --carousel-gap: 16px;
+      --proj-card-w: calc((min(1136px, 100vw - 64px) - 2 * var(--carousel-gap)) / 3);
+    }
+    @media (max-width: 1024px) {
+      :root {
+        --carousel-gap: 14px;
+        --proj-card-w: calc((100vw - 64px - var(--carousel-gap)) / 2);
+      }
+    }
+    @media (max-width: 640px) {
+      :root {
+        --carousel-gap: 12px;
+        --proj-card-w: calc(100vw - 80px);
+      }
+    }
+
+    /* Switcher tabs */
+    .carousel-switcher {
       display: flex;
       align-items: center;
       gap: 32px;
       margin-top: 48px;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
       flex-wrap: wrap;
     }
+    @media (max-width: 640px) {
+      .carousel-switcher { gap: 24px; }
+    }
 
-    .filter-btn {
+    .switcher-btn {
       font-family: var(--ff-sans);
       font-weight: 500;
       font-size: 12px;
@@ -535,88 +558,189 @@
       border-bottom: 2px solid transparent;
       transition: color 0.2s, border-color 0.2s;
     }
-    .filter-btn:hover { color: rgba(255,255,255,0.75); }
-    .filter-btn.active {
+    .switcher-btn:hover { color: rgba(255,255,255,0.75); }
+    .switcher-btn.active {
       color: var(--text);
       border-bottom-color: var(--accent);
     }
 
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-    }
+    /* Per-category carousel container */
+    .carousel-section { display: none; }
+    .carousel-section.active { display: block; }
 
-    @media (max-width: 1024px) {
-      .work-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 640px) {
-      .work-grid { grid-template-columns: 1fr; }
-      .filter-bar { gap: 24px; }
-    }
-
-    .work-card {
-      display: block;
-      color: inherit;
-      text-decoration: none;
-    }
-    .work-card[style*="display: none"] { display: none !important; }
-
-    .card-img {
-      aspect-ratio: 1 / 1;
+    /* Viewport: bleeds to container edges, masks the sides */
+    .carousel-viewport {
       overflow: hidden;
-      background: #111;
-      position: relative;
+      margin: 0 -32px;
+      padding: 8px 0 20px;
+      cursor: grab;
+      mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        black 72px,
+        black calc(100% - 72px),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        black 72px,
+        black calc(100% - 72px),
+        transparent 100%
+      );
     }
-    .card-img img {
+    .carousel-viewport.is-dragging { cursor: grabbing; }
+    @media (max-width: 640px) {
+      .carousel-viewport {
+        margin: 0 -32px;
+        mask-image: linear-gradient(
+          to right,
+          transparent 0,
+          black 36px,
+          black calc(100% - 36px),
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          to right,
+          transparent 0,
+          black 36px,
+          black calc(100% - 36px),
+          transparent 100%
+        );
+      }
+    }
+
+    /* Scrolling track */
+    @keyframes carousel-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: var(--carousel-gap);
+      width: max-content;
+      padding: 0 32px;
+      animation: carousel-scroll 35s linear infinite;
+      will-change: transform;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    /* JS takes over transform when this class is set */
+    .carousel-track.js-mode {
+      animation: none !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-track { animation: none !important; }
+    }
+
+    /* Project card */
+    .proj-card {
+      flex-shrink: 0;
+      width: var(--proj-card-w);
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .proj-card:hover {
+      border-color: rgba(0,229,255,0.25);
+      transform: translateY(-3px);
+    }
+
+    .proj-card-img {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #0d0d0d;
+    }
+    .proj-card-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
       display: block;
+      transition: transform 0.4s ease;
+      pointer-events: none;
     }
-    .card-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,0.78);
+    .proj-card:hover .proj-card-img img { transform: scale(1.04); }
+
+    .proj-card-body { padding: 14px; }
+
+    .proj-card-top {
       display: flex;
       align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.25s;
+      justify-content: space-between;
+      margin-bottom: 7px;
     }
-    .overlay-label {
+    .proj-genre {
       font-family: var(--ff-mono);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-    .work-card:hover .card-img img { transform: scale(1.05); }
-    .work-card:hover .card-overlay { opacity: 1; }
-
-    .card-info {
-      padding: 14px 0 24px;
-    }
-    .card-meta { margin-bottom: 6px; }
-    .card-tag {
-      font-family: var(--ff-mono);
-      font-size: 10px;
+      font-size: 9px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
     }
-    .card-title {
+    .proj-studio {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .proj-card-title {
+      font-family: var(--ff-sans);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .proj-card-desc {
+      font-family: var(--ff-sans);
+      font-size: 11px;
+      color: rgba(255,255,255,0.42);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .proj-card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .proj-btn {
+      display: inline-block;
       font-family: var(--ff-sans);
       font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .card-tech {
-      font-family: var(--ff-mono);
       font-size: 10px;
-      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: crosshair;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .proj-btn-primary {
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.28);
+      color: var(--accent);
+    }
+    .proj-btn-primary:hover {
+      background: rgba(0,229,255,0.18);
+      border-color: var(--accent);
+    }
+    .proj-btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.5);
+    }
+    .proj-btn-ghost:hover {
+      border-color: rgba(255,255,255,0.4);
+      color: var(--text);
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -946,361 +1070,45 @@
     <div class="container">
       <div class="fade-in">
         <span class="section-label">03</span>
-        <h2 class="section-heading" id="work-heading">Work</h2>
+        <h2 class="section-heading" id="work-heading">Things I have built</h2>
       </div>
 
-      <!-- Filter bar -->
-      <div class="filter-bar fade-in" role="group" aria-label="Filter work by category">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="games">Games</button>
-        <button class="filter-btn" data-filter="mechanics">Mechanics</button>
-        <button class="filter-btn" data-filter="xr">XR</button>
+      <!-- Carousel switcher tabs -->
+      <div class="carousel-switcher fade-in" role="group" aria-label="Work category">
+        <button class="switcher-btn active" data-category="games">Games</button>
+        <button class="switcher-btn" data-category="mechanics">Mechanics</button>
+        <button class="switcher-btn" data-category="xr">XR</button>
       </div>
 
-      <!-- Work grid -->
-      <div class="work-grid" id="work-grid">
+    </div><!-- /container — carousels break out below -->
 
-        <!-- ── GAMES ── -->
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/mars-dozer.webp" alt="Mars Dozer" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">Mars Dozer</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/idle-merchant.jpg" alt="Idle Merchant" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Idle Game</span></div>
-            <div class="card-title">Idle Merchant</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="https://rimonakhter.itch.io/mini-strike" data-category="games" target="_blank" rel="noopener noreferrer">
-          <div class="card-img">
-            <img src="assets/images/mini-strike.jpg" alt="Mini Strike" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Indie</span></div>
-            <div class="card-title">Mini Strike</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="https://undertherooftop.com" data-category="games" target="_blank" rel="noopener noreferrer">
-          <div class="card-img">
-            <img src="assets/images/under-the-rooftop.jpg" alt="Under The Rooftop" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Web Game</span></div>
-            <div class="card-title">Under The Rooftop</div>
-            <div class="card-tech">WebGL</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/rescue-cop.jpg" alt="Rescue Cop" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">Rescue Cop</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/casino-venture.webp" alt="CasinoVenture" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">CasinoVenture</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/zombie-road.png" alt="Zombie Road" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">Zombie Road</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/save-the-base.jpg" alt="Save The Base" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">Save The Base</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="games">
-          <div class="card-img">
-            <img src="assets/images/money-farming.webp" alt="Money Farming" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Mobile Game</span></div>
-            <div class="card-title">Money Farming</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <!-- ── MECHANICS ── -->
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/modular-ui.jpg" alt="Modular UI System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">System</span></div>
-            <div class="card-title">Modular UI System</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/water-shader.jpg" alt="Stylized Water Shader URP" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Shader</span></div>
-            <div class="card-title">Stylized Water Shader URP</div>
-            <div class="card-tech">HLSL / ShaderGraph</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/gloss-shader.jpg" alt="Shine Gloss Shader URP" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Shader</span></div>
-            <div class="card-title">Shine Gloss Shader URP</div>
-            <div class="card-tech">HLSL / ShaderGraph</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/free-flow-combat.jpg" alt="Free-flow Combat System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
-            <div class="card-title">Free-flow Combat System</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/procedural-mesh.jpg" alt="Procedural Mesh Generation" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Rendering</span></div>
-            <div class="card-title">Procedural Mesh Generation</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/hack-slash.png" alt="Hack and Slash Combo System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
-            <div class="card-title">Hack and Slash Combo System</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/inventory-system.png" alt="Inventory &amp; Weapon Loadout" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">System</span></div>
-            <div class="card-title">Inventory &amp; Weapon Loadout</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/melee-combat.png" alt="Melee Combat System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Gameplay</span></div>
-            <div class="card-title">Melee Combat System</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/locomotion.png" alt="Locomotion System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Animation</span></div>
-            <div class="card-title">Locomotion System</div>
-            <div class="card-tech">Unity / C#</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/stencil-painting.jpg" alt="Stencil Painting on Mesh" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Shader</span></div>
-            <div class="card-title">Stencil Painting on Mesh</div>
-            <div class="card-tech">Unity / C# / ShaderGraph</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="mechanics">
-          <div class="card-img">
-            <img src="assets/images/vfx-graph.png" alt="VFX Graph &amp; Particle System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">VFX</span></div>
-            <div class="card-title">VFX Graph &amp; Particle System</div>
-            <div class="card-tech">Unity / VFX Graph</div>
-          </div>
-        </a>
-
-        <!-- ── XR ── -->
-        <a class="work-card" href="projects/vinacts-vr.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/vr-hand-pose.jpg" alt="Vinacts VR Training" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">VR · Enterprise</span></div>
-            <div class="card-title">Vinacts VR Training</div>
-            <div class="card-tech">Unreal 5.5 / C++ / Quest 2</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="https://rimonakhter.itch.io/ghost-buster-ar" data-category="xr" target="_blank" rel="noopener noreferrer">
-          <div class="card-img">
-            <img src="assets/images/ghost-buster-ar.png" alt="Ghost Buster AR" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">AR</span></div>
-            <div class="card-title">Ghost Buster AR</div>
-            <div class="card-tech">Unity / Vuforia</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/ar-building.png" alt="AR Building Visualization" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">AR</span></div>
-            <div class="card-title">AR Building Visualization</div>
-            <div class="card-tech">Unity / Vuforia</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/vr-hand-pose.jpg" alt="VR Hand Pose Detection" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">VR</span></div>
-            <div class="card-title">VR Hand Pose Detection</div>
-            <div class="card-tech">Unreal 5.5 / Quest 2</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/vr-painting.png" alt="VR Painting App" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">VR</span></div>
-            <div class="card-title">VR Painting App</div>
-            <div class="card-tech">Unreal 5.3 / C++</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/vr-ui-unreal.jpg" alt="VR UI &amp; Save System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">VR</span></div>
-            <div class="card-title">VR UI &amp; Save System</div>
-            <div class="card-tech">Unreal 5.3 / C++</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/third-person-shooter.jpg" alt="Third Person Shooter AI" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Unreal</span></div>
-            <div class="card-title">Third Person Shooter AI</div>
-            <div class="card-tech">Unreal 5.3 / Behavior Tree</div>
-          </div>
-        </a>
-
-        <a class="work-card" href="projects/under-construction.html" data-category="xr">
-          <div class="card-img">
-            <img src="assets/images/rpg-gas.png" alt="RPG Gameplay Ability System" loading="lazy">
-            <div class="card-overlay"><span class="overlay-label">View Project →</span></div>
-          </div>
-          <div class="card-info">
-            <div class="card-meta"><span class="card-tag">Unreal</span></div>
-            <div class="card-title">RPG Gameplay Ability System</div>
-            <div class="card-tech">Unreal 5.3 / C++ / GAS</div>
-          </div>
-        </a>
-
-      </div><!-- /work-grid -->
+    <!-- Games carousel -->
+    <div class="carousel-section active" id="carousel-games">
+      <div class="container">
+        <div class="carousel-viewport" id="viewport-games">
+          <div class="carousel-track" id="track-games"></div>
+        </div>
+      </div>
     </div>
+
+    <!-- Mechanics carousel -->
+    <div class="carousel-section" id="carousel-mechanics">
+      <div class="container">
+        <div class="carousel-viewport" id="viewport-mechanics">
+          <div class="carousel-track" id="track-mechanics"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- XR carousel -->
+    <div class="carousel-section" id="carousel-xr">
+      <div class="container">
+        <div class="carousel-viewport" id="viewport-xr">
+          <div class="carousel-track" id="track-xr"></div>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1369,6 +1177,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       PROJECT DATA
+  ═══════════════════════════════════════════════════════════════ -->
+  <script src="assets/js/projects.js"></script>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT
   ═══════════════════════════════════════════════════════════════ -->
   <script>
@@ -1416,26 +1229,233 @@
       });
     });
 
-    /* ── 3. Work filter ────────────────────────────────────────────── */
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const workCards  = document.querySelectorAll('.work-card');
+    /* ── 3. Carousels ──────────────────────────────────────────────── */
+    (function () {
 
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        const filter = btn.dataset.filter;
+      if (typeof PROJECTS === 'undefined') {
+        console.warn('projects.js not loaded');
+        return;
+      }
 
-        filterBtns.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
+      /* ---- Card renderer ---- */
+      function buildCard(p) {
+        var imgSrc = p.videoId
+          ? 'https://img.youtube.com/vi/' + p.videoId + '/maxresdefault.jpg'
+          : p.thumbnail;
+        var isExternal = p.primaryUrl && p.primaryUrl !== '#'
+          && p.primaryUrl.indexOf('projects/') !== 0
+          && p.primaryUrl.indexOf('http') === 0;
+        var extAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+        var detailsBtn = p.detailsUrl
+          ? '<a href="' + p.detailsUrl + '" class="proj-btn proj-btn-ghost">Details</a>'
+          : '';
+        return (
+          '<div class="proj-card">' +
+            '<div class="proj-card-img">' +
+              '<img src="' + imgSrc + '"' +
+                ' onerror="this.onerror=null;this.src=\'' + p.thumbnail + '\'"' +
+                ' alt="' + p.title + '" loading="lazy">' +
+            '</div>' +
+            '<div class="proj-card-body">' +
+              '<div class="proj-card-top">' +
+                '<span class="proj-genre">' + p.genre + '</span>' +
+                '<span class="proj-studio">' + p.studio + '</span>' +
+              '</div>' +
+              '<div class="proj-card-title">' + p.title + '</div>' +
+              '<div class="proj-card-desc">' + p.desc + '</div>' +
+              '<div class="proj-card-actions">' +
+                '<a href="' + (p.primaryUrl || '#') + '" class="proj-btn proj-btn-primary"' + extAttrs + '>' +
+                  p.primaryLabel +
+                '</a>' +
+                detailsBtn +
+              '</div>' +
+            '</div>' +
+          '</div>'
+        );
+      }
 
-        workCards.forEach(function (card) {
-          if (filter === 'all' || card.dataset.category === filter) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
+      /* ---- Populate tracks (cards duplicated for seamless loop) ---- */
+      ['games', 'mechanics', 'xr'].forEach(function (cat) {
+        var track = document.getElementById('track-' + cat);
+        if (!track || !PROJECTS[cat]) return;
+        var cards = PROJECTS[cat];
+        track.innerHTML = cards.concat(cards).map(buildCard).join('');
+      });
+
+      /* ---- Switcher tabs ---- */
+      var switcherBtns      = document.querySelectorAll('.switcher-btn');
+      var carouselSections  = document.querySelectorAll('.carousel-section');
+
+      switcherBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var cat = btn.dataset.category;
+          switcherBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          carouselSections.forEach(function (s) {
+            s.classList.toggle('active', s.id === 'carousel-' + cat);
+          });
         });
       });
-    });
+
+      /* ---- Per-carousel drag + pause/resume logic ---- */
+      function initCarousel(viewport) {
+        var track = viewport.querySelector('.carousel-track');
+        if (!track) return;
+
+        var isDragging    = false;
+        var isPointerOver = false;
+        var startX        = 0;
+        var startOffset   = 0;
+        var currentOffset = 0;
+        var lastX         = 0;
+        var lastTime      = 0;
+        var velocity      = 0;
+        var dragOccurred  = false;
+        var rafId         = null;
+
+        /* Get current translateX from computed style (CSS animation or inline) */
+        function getTx() {
+          var t = getComputedStyle(track).transform;
+          if (!t || t === 'none') return 0;
+          try { return new DOMMatrix(t).m41; } catch (e) { return 0; }
+        }
+
+        /* Freeze: capture animated position, switch to JS transform */
+        function freeze() {
+          var tx = getTx();
+          track.classList.add('js-mode');
+          track.style.transform = 'translateX(' + tx + 'px)';
+          currentOffset = tx;
+        }
+
+        /* Resume: re-enter CSS animation at the captured position */
+        function resume() {
+          var halfW = track.scrollWidth / 2;
+          if (halfW <= 0) return;
+          /* Normalize currentOffset into [0, halfW) range */
+          var posX = ((-currentOffset % halfW) + halfW) % halfW;
+          var delayMs = (posX / halfW) * 35000;
+          track.style.transform = '';
+          track.style.animationDelay = '-' + delayMs + 'ms';
+          track.classList.remove('js-mode');
+        }
+
+        /* Inertia after drag release */
+        function applyInertia(resumeWhenDone) {
+          var FRICTION = 0.92;
+          var MIN_VEL  = 0.1;
+          var vel = velocity * 12;
+
+          function step() {
+            if (Math.abs(vel) < MIN_VEL) {
+              if (resumeWhenDone || !isPointerOver) resume();
+              return;
+            }
+            vel *= FRICTION;
+            currentOffset += vel;
+            track.style.transform = 'translateX(' + currentOffset + 'px)';
+            rafId = requestAnimationFrame(step);
+          }
+          rafId = requestAnimationFrame(step);
+        }
+
+        /* Shared pointer-down handler */
+        function onDown(clientX) {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+          isDragging   = true;
+          dragOccurred = false;
+          startX       = clientX;
+          startOffset  = currentOffset;
+          lastX        = clientX;
+          lastTime     = Date.now();
+          velocity     = 0;
+          track.style.transition = 'none';
+        }
+
+        /* Shared pointer-move handler */
+        function onMove(clientX) {
+          if (!isDragging) return;
+          var dx = clientX - startX;
+          if (Math.abs(dx) > 4) dragOccurred = true;
+
+          var now = Date.now();
+          var dt  = now - lastTime;
+          if (dt > 0) velocity = (clientX - lastX) / dt;
+          lastX    = clientX;
+          lastTime = now;
+
+          currentOffset = startOffset + dx;
+          track.style.transform = 'translateX(' + currentOffset + 'px)';
+        }
+
+        /* Shared pointer-up handler */
+        function onUp(resumeAfter) {
+          if (!isDragging) return;
+          isDragging = false;
+          applyInertia(resumeAfter);
+        }
+
+        /* Hover — pause on enter, resume on leave */
+        viewport.addEventListener('mouseenter', function () {
+          isPointerOver = true;
+          if (!isDragging) freeze();
+        });
+
+        viewport.addEventListener('mouseleave', function () {
+          isPointerOver = false;
+          if (!isDragging) resume();
+          else viewport.classList.remove('is-dragging');
+        });
+
+        /* Mouse drag */
+        viewport.addEventListener('mousedown', function (e) {
+          if (e.button !== 0) return;
+          e.preventDefault();
+          viewport.classList.add('is-dragging');
+          onDown(e.clientX);
+        });
+
+        document.addEventListener('mousemove', function (e) {
+          if (isDragging) onMove(e.clientX);
+        });
+
+        document.addEventListener('mouseup', function () {
+          if (isDragging) {
+            viewport.classList.remove('is-dragging');
+            onUp(false);
+          }
+        });
+
+        /* Block link/button click if user dragged */
+        viewport.addEventListener('click', function (e) {
+          if (dragOccurred) {
+            e.preventDefault();
+            e.stopPropagation();
+            dragOccurred = false;
+          }
+        }, true);
+
+        /* Touch — natural browser handling (passive) */
+        viewport.addEventListener('touchstart', function (e) {
+          freeze();
+          onDown(e.touches[0].clientX);
+        }, { passive: true });
+
+        viewport.addEventListener('touchmove', function (e) {
+          onMove(e.touches[0].clientX);
+        }, { passive: true });
+
+        viewport.addEventListener('touchend', function () {
+          onUp(true); /* always resume after touch */
+        });
+      }
+
+      /* Init all three carousels */
+      document.querySelectorAll('.carousel-viewport').forEach(function (vp) {
+        initCarousel(vp);
+      });
+
+    }());
 
     /* ── 4. Fade-in IntersectionObserver ───────────────────────────── */
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
