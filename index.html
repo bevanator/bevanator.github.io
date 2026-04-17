@@ -1076,8 +1076,8 @@
       <!-- Carousel switcher tabs -->
       <div class="carousel-switcher fade-in" role="group" aria-label="Work category">
         <button class="switcher-btn active" data-category="games">Games</button>
-        <button class="switcher-btn" data-category="mechanics">Mechanics</button>
-        <button class="switcher-btn" data-category="xr">XR</button>
+        <button class="switcher-btn" data-category="tech">Tech</button>
+        <button class="switcher-btn" data-category="xrSim">XR &amp; Simulation</button>
       </div>
 
     </div><!-- /container — carousels break out below -->
@@ -1091,20 +1091,20 @@
       </div>
     </div>
 
-    <!-- Mechanics carousel -->
-    <div class="carousel-section" id="carousel-mechanics">
+    <!-- Tech carousel -->
+    <div class="carousel-section" id="carousel-tech">
       <div class="container">
-        <div class="carousel-viewport" id="viewport-mechanics">
-          <div class="carousel-track" id="track-mechanics"></div>
+        <div class="carousel-viewport" id="viewport-tech">
+          <div class="carousel-track" id="track-tech"></div>
         </div>
       </div>
     </div>
 
-    <!-- XR carousel -->
-    <div class="carousel-section" id="carousel-xr">
+    <!-- XR & Simulation carousel -->
+    <div class="carousel-section" id="carousel-xrSim">
       <div class="container">
-        <div class="carousel-viewport" id="viewport-xr">
-          <div class="carousel-track" id="track-xr"></div>
+        <div class="carousel-viewport" id="viewport-xrSim">
+          <div class="carousel-track" id="track-xrSim"></div>
         </div>
       </div>
     </div>
@@ -1264,9 +1264,9 @@
               '<div class="proj-card-title">' + p.title + '</div>' +
               '<div class="proj-card-desc">' + p.desc + '</div>' +
               '<div class="proj-card-actions">' +
-                '<a href="' + (p.primaryUrl || '#') + '" class="proj-btn proj-btn-primary"' + extAttrs + '>' +
-                  p.primaryLabel +
-                '</a>' +
+                (p.primaryUrl !== null && p.primaryUrl !== undefined && p.primaryLabel
+                  ? '<a href="' + (p.primaryUrl || '#') + '" class="proj-btn proj-btn-primary"' + extAttrs + '>' + p.primaryLabel + '</a>'
+                  : '') +
                 detailsBtn +
               '</div>' +
             '</div>' +
@@ -1275,7 +1275,7 @@
       }
 
       /* ---- Populate tracks (cards duplicated for seamless loop) ---- */
-      ['games', 'mechanics', 'xr'].forEach(function (cat) {
+      ['games', 'tech', 'xrSim'].forEach(function (cat) {
         var track = document.getElementById('track-' + cat);
         if (!track || !PROJECTS[cat]) return;
         var cards = PROJECTS[cat];

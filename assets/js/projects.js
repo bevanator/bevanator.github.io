@@ -1,12 +1,26 @@
 /* projects.js — Portfolio project data
-   Categories: games | mechanics | xr
+   Categories: games | tech | xrSim
    videoId: YouTube video ID for thumbnail (maxresdefault)
-   thumbnail: local fallback image
-   primaryUrl: '#' = placeholder (YouTube URL to be added later)
+   thumbnail: local fallback image (used in onerror)
+   primaryUrl: null = no primary action button
 */
 
 var PROJECTS = {
+
+  /* ── Games ──────────────────────────────────────────────────── */
   games: [
+    {
+      slug: 'idle-basketball',
+      title: 'Idle Basketball Tycoon',
+      genre: 'Tycoon',
+      studio: 'Trifecta Games',
+      desc: 'Build the ultimate basketball empire from the ground up. Construct courts, upgrade facilities and manage every detail of your sports city.',
+      videoId: 'jv4QCwGUySQ',
+      thumbnail: 'https://img.youtube.com/vi/jv4QCwGUySQ/maxresdefault.jpg',
+      primaryUrl: 'https://rimonakhter.itch.io/basketball-tycoon',
+      primaryLabel: 'Play on itch.io',
+      detailsUrl: 'projects/wip.html'
+    },
     {
       slug: 'mars-dozer',
       title: 'Mars Dozer',
@@ -14,9 +28,9 @@ var PROJECTS = {
       studio: 'Trifecta Games',
       desc: 'Pilot a heavy dozer across the Martian surface and build a colony.',
       videoId: 'P0Y9DDMlsBk',
-      thumbnail: 'assets/images/mars-dozer.webp',
-      primaryUrl: 'https://play.google.com/store/apps/details?id=com.TrifectaGames.MarsDozer',
-      primaryLabel: 'Play Store',
+      thumbnail: 'https://img.youtube.com/vi/P0Y9DDMlsBk/maxresdefault.jpg',
+      primaryUrl: 'https://rimonakhter.itch.io/mars-dozer',
+      primaryLabel: 'Play on itch.io',
       detailsUrl: 'projects/game.html?id=mars-dozer'
     },
     {
@@ -26,9 +40,9 @@ var PROJECTS = {
       studio: 'Trifecta Games',
       desc: 'Build your dream shop, serve customers, and defend it from waves of enemies.',
       videoId: '-Uze3WqnSEw',
-      thumbnail: 'assets/images/idle-merchant.jpg',
-      primaryUrl: 'https://play.google.com/store/apps/details?id=com.TrifectaGames.IdleMerchant',
-      primaryLabel: 'Play Store',
+      thumbnail: 'https://img.youtube.com/vi/-Uze3WqnSEw/maxresdefault.jpg',
+      primaryUrl: 'https://rimonakhter.itch.io/idle-merchant',
+      primaryLabel: 'Play on itch.io',
       detailsUrl: 'projects/game.html?id=idle-merchant'
     },
     {
@@ -110,7 +124,8 @@ var PROJECTS = {
     }
   ],
 
-  mechanics: [
+  /* ── Tech / Mechanics ───────────────────────────────────────── */
+  tech: [
     {
       slug: 'modular-ui',
       title: 'Modular UI System',
@@ -118,39 +133,6 @@ var PROJECTS = {
       studio: 'Personal',
       desc: 'A fully modular reusable UI system for mobile games built in Unity.',
       thumbnail: 'assets/images/modular-ui.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'water-shader',
-      title: 'Stylized Water Shader URP',
-      genre: 'Shader',
-      studio: 'Personal',
-      desc: 'A stylized water shader for Unity URP using HLSL and ShaderGraph.',
-      thumbnail: 'assets/images/water-shader.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'gloss-shader',
-      title: 'Shine / Gloss Shader URP',
-      genre: 'Shader',
-      studio: 'Personal',
-      desc: 'Premium material gloss and shine shader for Unity URP.',
-      thumbnail: 'assets/images/gloss-shader.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'vfx-graph',
-      title: 'VFX Graph & Particle System',
-      genre: 'VFX',
-      studio: 'Personal',
-      desc: 'Experimental VFX work using Unity VFX Graph and particle system.',
-      thumbnail: 'assets/images/vfx-graph.png',
       primaryUrl: '#',
       primaryLabel: 'Watch Video',
       detailsUrl: null
@@ -220,31 +202,34 @@ var PROJECTS = {
       primaryUrl: '#',
       primaryLabel: 'Watch Video',
       detailsUrl: null
-    },
-    {
-      slug: 'locomotion',
-      title: 'Locomotion System',
-      genre: 'System',
-      studio: 'Personal',
-      desc: 'VR locomotion system with teleport, smooth move, and snap turn modes.',
-      thumbnail: 'assets/images/locomotion.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
     }
   ],
 
-  xr: [
+  /* ── XR & Simulation ────────────────────────────────────────── */
+  xrSim: [
     {
-      slug: 'vinacts-vr',
-      title: 'VR Training Solutions',
-      genre: 'VR Training',
-      studio: 'Vinacts',
-      desc: 'VR training simulations for Samsung, Hyundai and other enterprise clients.',
-      thumbnail: 'assets/images/vr-painting.png',
-      primaryUrl: 'projects/game.html?id=vinacts-vr',
-      primaryLabel: 'View Details',
-      detailsUrl: 'projects/game.html?id=vinacts-vr'
+      slug: 'master-sab',
+      title: 'Master Sab',
+      genre: 'EdTech · 3D Simulation',
+      studio: 'Freelance — RBD Software',
+      desc: "Bangladesh's first 3D interactive science education platform. Built the core architecture, simulation framework and initial MVP serving 45,000+ students.",
+      videoId: 'LL74XUMF6X4',
+      thumbnail: 'https://img.youtube.com/vi/LL74XUMF6X4/maxresdefault.jpg',
+      primaryUrl: 'https://mastersab.com',
+      primaryLabel: 'Visit Platform',
+      detailsUrl: 'projects/game.html?id=master-sab'
+    },
+    {
+      slug: 'dicom-viz',
+      title: 'DICOM Volumetric Visualizer',
+      genre: 'Medical Visualization',
+      studio: 'Personal Project',
+      desc: 'Real-time 3D medical imaging viewer. Loads actual DICOM files and renders volumetric CT/MRI data using custom ray marching shaders.',
+      videoId: 'GLei3Vx2SVE',
+      thumbnail: 'https://img.youtube.com/vi/GLei3Vx2SVE/maxresdefault.jpg',
+      primaryUrl: null,
+      primaryLabel: null,
+      detailsUrl: 'projects/game.html?id=dicom-viz'
     },
     {
       slug: 'vr-hand-pose',
@@ -269,39 +254,6 @@ var PROJECTS = {
       detailsUrl: null
     },
     {
-      slug: 'vr-ui-unreal',
-      title: 'VR UI & Save System',
-      genre: 'VR System',
-      studio: 'Personal',
-      desc: 'Complete VR UI framework and save system for Unreal Engine 5.3.',
-      thumbnail: 'assets/images/vr-ui-unreal.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'third-person-shooter',
-      title: '3rd Person Shooter AI',
-      genre: 'AI System',
-      studio: 'Personal',
-      desc: 'Behavior Tree based enemy AI with EQS positioning and squad coordination.',
-      thumbnail: 'assets/images/third-person-shooter.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'rpg-gas',
-      title: 'RPG Gameplay Ability System',
-      genre: 'RPG System',
-      studio: 'Personal',
-      desc: 'Full RPG ability system using Unreal Engine GAS framework.',
-      thumbnail: 'assets/images/rpg-gas.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
       slug: 'ghost-buster-ar',
       title: 'Ghost Buster AR',
       genre: 'AR Game',
@@ -311,19 +263,101 @@ var PROJECTS = {
       primaryUrl: 'https://rimonakhter.itch.io/ghost-buster-ar',
       primaryLabel: 'Play on itch.io',
       detailsUrl: 'projects/interactive.html?id=ghost-buster-ar'
-    },
-    {
-      slug: 'ar-building',
-      title: 'AR Building Visualization',
-      genre: 'AR',
-      studio: 'Personal',
-      desc: 'AR app overlaying 3D building models on image markers using Vuforia.',
-      thumbnail: 'assets/images/ar-building.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
     }
   ]
+
 };
 
-if (typeof module !== 'undefined') module.exports = PROJECTS;
+/* ── Project detail page data ───────────────────────────────────
+   Used by projects/game.html?id=<slug>
+────────────────────────────────────────────────────────────── */
+var PROJECT_DETAILS = {
+
+  'master-sab': {
+    title: 'Master Sab',
+    type: 'game',
+    studio: 'Freelance — RBD Software & Technology',
+    period: '2023',
+    tags: ['Unity', 'WebGL', 'C#', '3D Simulation', 'EdTech'],
+    thumbnail: 'https://img.youtube.com/vi/LL74XUMF6X4/maxresdefault.jpg',
+    videoId: 'LL74XUMF6X4',
+    externalUrl: 'https://mastersab.com',
+    description: "Freelance contract to build the initial MVP of Master Sab — Bangladesh's first 3D interactive science education platform. The platform now serves 45,000+ active students across hundreds of institutions including Notre Dame College and Dhaka College. I designed the core simulation framework, built the 3D visualization systems, and delivered the initial chapter demos for biology, chemistry and physics.",
+    contributions: [
+      {
+        heading: 'Core Architecture',
+        bullets: [
+          'Designed the simulation framework and content pipeline that all subsequent 3D lessons are built on',
+          'Established coding standards and architecture patterns for the development team to follow',
+          'Built a scalable system allowing new subject content to be added without engineering changes'
+        ]
+      },
+      {
+        heading: '3D Visualization Engine',
+        bullets: [
+          'Built interactive 3D models for science concepts — biology cells, chemistry molecules, physics simulations',
+          'Implemented real-time rotation, zoom and annotation systems for educational interaction',
+          'Exported to WebGL for browser-based delivery across desktop, mobile and smartboard'
+        ]
+      },
+      {
+        heading: 'Visual Effects & Polish',
+        bullets: [
+          'Particle systems and material effects for educational simulations',
+          'Smooth camera transitions and guided tour sequences for each lesson',
+          'Performance optimization for low-end devices common in Bangladeshi schools'
+        ]
+      },
+      {
+        heading: 'MVP Delivery',
+        bullets: [
+          'Delivered the first working chapter demo used to validate the product',
+          'Demo was used to onboard first paying institutions and secure further investment',
+          'Platform has since grown to 45,000+ active students and 300+ institutions'
+        ]
+      }
+    ]
+  },
+
+  'dicom-viz': {
+    title: 'DICOM Volumetric Visualizer',
+    type: 'game',
+    studio: 'Personal Project',
+    period: '2024',
+    tags: ['Unity', 'C#', 'Docker', 'fo-dicom', 'Ray Marching', 'HLSL', 'Medical Imaging'],
+    thumbnail: 'https://img.youtube.com/vi/GLei3Vx2SVE/maxresdefault.jpg',
+    videoId: 'GLei3Vx2SVE',
+    description: 'A real-time 3D medical imaging viewer built in Unity. Loads actual DICOM files (CT/MRI scan data) and renders them using a custom ray marching shader — supporting volumetric mode for full 3D tissue rendering and density mode for isolating specific structures via threshold adjustment. Backend runs in Docker using the fo-dicom library for DICOM file parsing.',
+    contributions: [
+      {
+        heading: 'Ray Marching Renderer',
+        bullets: [
+          'Custom HLSL shader implementing ray marching through a 3D texture volume',
+          'Adjustable step size, density threshold and opacity controls for real-time exploration',
+          'Two render modes: volumetric (full tissue) and density (structure isolation by threshold)'
+        ]
+      },
+      {
+        heading: 'DICOM Data Pipeline',
+        bullets: [
+          'fo-dicom integration for parsing real DICOM series (CT/MRI) into 3D texture data',
+          'Docker container handles file serving and DICOM-to-texture conversion',
+          'Supports standard DICOM file formats used in clinical medical imaging'
+        ]
+      },
+      {
+        heading: 'Unity Frontend',
+        bullets: [
+          'Full Unity front-end with file loading, real-time camera controls and parameter sliders',
+          'Smooth orbit camera for exploring volumetric data from any angle',
+          'UI for switching render modes and adjusting density/opacity in real time'
+        ]
+      }
+    ]
+  }
+
+};
+
+if (typeof module !== 'undefined') {
+  module.exports = { PROJECTS: PROJECTS, PROJECT_DETAILS: PROJECT_DETAILS };
+}
