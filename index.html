@@ -1310,7 +1310,7 @@
           var iframe = document.createElement('iframe');
           iframe.src = 'https://www.youtube.com/embed/' + vid +
             '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + vid +
-            '&rel=0&modestbranding=1&playsinline=1';
+            '&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
           iframe.allow = 'autoplay';
           container.appendChild(iframe);
         });
@@ -1324,6 +1324,18 @@
           if (iframe) iframe.remove();
         });
 
+      });
+
+      /* Remove iframe if YouTube reports an embed error (e.g. 150, 153) */
+      window.addEventListener('message', function (e) {
+        if (e.origin !== 'https://www.youtube.com') return;
+        try {
+          var data = JSON.parse(e.data);
+          if (data.event !== 'onError') return;
+          document.querySelectorAll('.proj-card-img iframe').forEach(function (iframe) {
+            if (iframe.contentWindow === e.source) iframe.remove();
+          });
+        } catch (_) {}
       });
 
       /* ---- Switcher tabs ---- */
