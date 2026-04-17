@@ -621,7 +621,7 @@
       gap: var(--carousel-gap);
       width: max-content;
       padding: 0 32px;
-      animation: carousel-scroll 35s linear infinite;
+      animation: carousel-scroll 60s linear infinite;
       will-change: transform;
       user-select: none;
       -webkit-user-select: none;
@@ -650,7 +650,7 @@
     }
 
     .proj-card-img {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 4 / 5;
       overflow: hidden;
       background: #0d0d0d;
     }
@@ -1334,7 +1334,7 @@
           if (halfW <= 0) return;
           /* Normalize currentOffset into [0, halfW) range */
           var posX = ((-currentOffset % halfW) + halfW) % halfW;
-          var delayMs = (posX / halfW) * 35000;
+          var delayMs = (posX / halfW) * 60000;
           track.style.transform = '';
           track.style.animationDelay = '-' + delayMs + 'ms';
           track.classList.remove('js-mode');
