@@ -65,7 +65,6 @@ download "inventory-system.png"     "https://static.wixstatic.com/media/cc6388_7
 download "hack-slash.png"           "https://static.wixstatic.com/media/cc6388_eb62a613ce804dcc8e3cb0591af3980a~mv2.png/v1/fill/w_600,h_600,q_90,enc_avif,quality_auto/cc6388_eb62a613ce804dcc8e3cb0591af3980a~mv2.png"
 download "stencil-painting.jpg"     "https://static.wixstatic.com/media/cc6388_18cb1b63423f4fa2a42d27612a83bfe2~mv2.jpg/v1/fill/w_600,h_600,q_90,enc_avif,quality_auto/cc6388_18cb1b63423f4fa2a42d27612a83bfe2~mv2.jpg"
 download "locomotion.png"           "https://static.wixstatic.com/media/cc6388_2bc89e29281a431a9a62d5ac98ab2c14~mv2.png/v1/fill/w_600,h_600,q_90,enc_avif,quality_auto/cc6388_2bc89e29281a431a9a62d5ac98ab2c14~mv2.png"
-download "melee-combat.png"         "https://static.wixstatic.com/media/cc6388_da38546eb31e496890f43325aaf33773~mv2.png/v1/fill/w_600,h_600,q_90,enc_avif,quality_auto/cc6388_da38546eb31e496890f43325aaf33773~mv2.png"
 
 echo "────────────────────────────────────────────────────────────"
 echo "  Done: ${pass} succeeded, ${fail} failed"

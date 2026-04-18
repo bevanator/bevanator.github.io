@@ -205,9 +205,10 @@ var PROJECTS = {
       genre: 'UI System',
       studio: 'Personal',
       desc: 'A fully modular reusable UI system for mobile games built in Unity.',
-      thumbnail: 'assets/images/modular-ui.jpg',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: 'N3uNhGEdWOs',
+      thumbnail: 'https://img.youtube.com/vi/N3uNhGEdWOs/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=N3uNhGEdWOs',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'free-flow-combat',
@@ -215,9 +216,10 @@ var PROJECTS = {
       genre: 'Combat',
       studio: 'Personal',
       desc: 'Batman Arkham-inspired free-flow combat system with combo detection.',
-      thumbnail: 'assets/images/free-flow-combat.jpg',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: '5FiEl3g-rjw',
+      thumbnail: 'https://img.youtube.com/vi/5FiEl3g-rjw/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=5FiEl3g-rjw',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'procedural-mesh',
@@ -225,9 +227,10 @@ var PROJECTS = {
       genre: 'System',
       studio: 'Personal',
       desc: 'Runtime procedural mesh generation system in Unity.',
-      thumbnail: 'assets/images/procedural-mesh.jpg',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: 'oIqJPkl8BtM',
+      thumbnail: 'https://img.youtube.com/vi/oIqJPkl8BtM/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=oIqJPkl8BtM',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'hack-slash',
@@ -235,9 +238,10 @@ var PROJECTS = {
       genre: 'Combat',
       studio: 'Personal',
       desc: 'Combo system with chained attacks and hit reactions.',
-      thumbnail: 'assets/images/hack-slash.png',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: '7c_6zkTFq64',
+      thumbnail: 'https://img.youtube.com/vi/7c_6zkTFq64/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=7c_6zkTFq64',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'inventory-system',
@@ -245,9 +249,10 @@ var PROJECTS = {
       genre: 'System',
       studio: 'Personal',
       desc: 'Flexible inventory and weapon loadout system with drag-drop UI.',
-      thumbnail: 'assets/images/inventory-system.png',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: '_OFg4dGsVec',
+      thumbnail: 'https://img.youtube.com/vi/_OFg4dGsVec/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=_OFg4dGsVec',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'stencil-painting',
@@ -255,9 +260,10 @@ var PROJECTS = {
       genre: 'Rendering',
       studio: 'Personal',
       desc: 'Real-time stencil painting onto 3D mesh surfaces using shader masking.',
-      thumbnail: 'assets/images/stencil-painting.jpg',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: 'ruPxp6yTPZI',
+      thumbnail: 'https://img.youtube.com/vi/ruPxp6yTPZI/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=ruPxp6yTPZI',
+      primaryLabel: 'Watch Video'
     }
   ]
 
