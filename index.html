@@ -1247,6 +1247,10 @@
           ? '<a href="' + p.primaryUrl + '" class="proj-btn proj-btn-primary"' +
               ' target="_blank" rel="noopener noreferrer">' + p.primaryLabel + '</a>'
           : '';
+        var githubBtn = p.githubUrl
+          ? '<a href="' + p.githubUrl + '" class="proj-btn proj-btn-ghost"' +
+              ' target="_blank" rel="noopener noreferrer">GitHub</a>'
+          : '';
         return (
           '<div class="proj-card">' +
             '<div class="proj-card-img">' +
@@ -1261,7 +1265,7 @@
               '</div>' +
               '<div class="proj-card-title">' + p.title + '</div>' +
               '<div class="proj-card-desc">' + p.desc + '</div>' +
-              '<div class="proj-card-actions">' + primaryBtn + '</div>' +
+              '<div class="proj-card-actions">' + primaryBtn + githubBtn + '</div>' +
             '</div>' +
           '</div>'
         );

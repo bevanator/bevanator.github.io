@@ -119,6 +119,28 @@ var PROJECTS = {
   /* ── XR & Simulation ────────────────────────────────────────── */
   xrSim: [
     {
+      slug: 'korea-lh-archviz',
+      title: 'Korea LH Apartment ArchViz',
+      genre: 'Architectural VR',
+      studio: 'Vinacts',
+      desc: 'Interactive VR walkthrough of a residential apartment complex for Korea Land and Housing Corporation (LH). Real-time rendering in VR.',
+      videoId: 'b19efGg1mOI',
+      thumbnail: 'https://img.youtube.com/vi/b19efGg1mOI/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=b19efGg1mOI',
+      primaryLabel: 'Watch Video'
+    },
+    {
+      slug: 'beverage-viz',
+      title: 'Beverage Product Visualizer',
+      genre: 'Product Visualization',
+      studio: 'Vinacts',
+      desc: 'Real-time path-traced beverage product visualization app built in Unreal Engine. Cinematic quality rendering for product showcase and marketing.',
+      videoId: 'j2M_cnL67vQ',
+      thumbnail: 'https://img.youtube.com/vi/j2M_cnL67vQ/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=j2M_cnL67vQ',
+      primaryLabel: 'Watch Video'
+    },
+    {
       slug: 'master-sab',
       title: 'Master Sab',
       genre: 'EdTech · 3D Simulation',
@@ -146,9 +168,10 @@ var PROJECTS = {
       genre: 'VR System',
       studio: 'Vinacts',
       desc: 'Custom hand pose recognition for Quest 2 using Unreal Engine 5.5.',
-      thumbnail: 'assets/images/vr-hand-pose.jpg',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: 'rKTkIMw8hEw',
+      thumbnail: 'https://img.youtube.com/vi/rKTkIMw8hEw/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=rKTkIMw8hEw',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'vr-painting',
@@ -156,9 +179,11 @@ var PROJECTS = {
       genre: 'VR',
       studio: 'Vinacts',
       desc: 'A VR painting application built in Unreal Engine 5.3 with physics brush tools.',
-      thumbnail: 'assets/images/vr-painting.png',
-      primaryUrl: null,
-      primaryLabel: null
+      videoId: 'v4wqSd0LLTU',
+      thumbnail: 'https://img.youtube.com/vi/v4wqSd0LLTU/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=v4wqSd0LLTU',
+      primaryLabel: 'Watch Video',
+      githubUrl: 'https://github.com/bevanator/VRWidgetsUI'
     },
     {
       slug: 'ghost-buster-ar',
@@ -284,6 +309,77 @@ var PROJECT_DETAILS = {
           'Delivered the first working chapter demo used to validate the product',
           'Demo was used to onboard first paying institutions and secure further investment',
           'Platform has since grown to 45,000+ active students and 300+ institutions'
+        ]
+      }
+    ]
+  },
+
+  'vr-painting': {
+    title: 'VR Painting App',
+    type: 'game',
+    studio: 'Vinacts',
+    period: '2024',
+    tags: ['Unreal Engine 5.3', 'C++', 'VR', 'Meta XR SDK'],
+    thumbnail: 'https://img.youtube.com/vi/v4wqSd0LLTU/maxresdefault.jpg',
+    videoId: 'v4wqSd0LLTU',
+    githubUrl: 'https://github.com/bevanator/VRWidgetsUI',
+    description: 'A VR painting application built in Unreal Engine 5.3. Users can paint in 3D space using physics-based brush tools with full hand tracking support.',
+    contributions: []
+  },
+
+  'korea-lh-archviz': {
+    title: 'Korea LH Apartment ArchViz VR',
+    type: 'game',
+    studio: 'Vinacts',
+    period: '2024',
+    tags: ['Unreal Engine 5', 'VR', 'C++', 'Architectural Visualization', 'Meta XR SDK'],
+    thumbnail: 'https://img.youtube.com/vi/b19efGg1mOI/maxresdefault.jpg',
+    videoId: 'b19efGg1mOI',
+    description: 'An interactive VR architectural visualization project developed at Vinacts for Korea Land and Housing Corporation (LH). Users can explore a residential apartment complex in full VR, walking through units and common spaces in real scale with real-time Unreal Engine 5 rendering.',
+    contributions: [
+      {
+        heading: 'VR Walkthrough System',
+        bullets: [
+          'Built a smooth VR locomotion system for apartment exploration',
+          'Implemented teleport and smooth movement modes for different user comfort levels',
+          'Optimized scene for consistent VR frame rates on target hardware'
+        ]
+      },
+      {
+        heading: 'Visual Fidelity',
+        bullets: [
+          'Lumen global illumination for real-time accurate lighting throughout the apartment',
+          'High-fidelity material and texture work for walls, floors, furniture and fixtures',
+          'Day/night lighting cycle to showcase the apartment in different conditions'
+        ]
+      }
+    ]
+  },
+
+  'beverage-viz': {
+    title: 'Beverage Product Visualizer',
+    type: 'game',
+    studio: 'Vinacts',
+    period: '2024',
+    tags: ['Unreal Engine 5', 'Path Tracing', 'C++', 'Product Visualization', 'Real-time Rendering'],
+    thumbnail: 'https://img.youtube.com/vi/j2M_cnL67vQ/maxresdefault.jpg',
+    videoId: 'j2M_cnL67vQ',
+    description: 'A cinematic-quality real-time product visualization application built in Unreal Engine 5 using path tracing. Built for beverage brand marketing and showcase — allowing clients to view products under different lighting conditions, materials and environments without a photoshoot.',
+    contributions: [
+      {
+        heading: 'Path Traced Rendering',
+        bullets: [
+          'Implemented Unreal Engine 5 path tracing pipeline for photorealistic product rendering',
+          'Custom material setup for glass, liquid, label and condensation simulation',
+          'Multiple HDRI lighting environments for different presentation contexts'
+        ]
+      },
+      {
+        heading: 'Product Configurator',
+        bullets: [
+          'Real-time material and color switching for different product variants',
+          'Camera animation system for cinematic product reveal sequences',
+          'Export functionality for marketing stills and video sequences'
         ]
       }
     ]
