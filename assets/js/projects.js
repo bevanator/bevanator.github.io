@@ -1,8 +1,8 @@
 /* projects.js — Portfolio project data
-   Categories: games | tech | xrSim
+   Categories: games | xrSim | tech
    videoId: YouTube video ID for thumbnail (maxresdefault)
    thumbnail: local fallback image (used in onerror)
-   primaryUrl: null = no primary action button
+   primaryUrl: null = no button rendered
 */
 
 var PROJECTS = {
@@ -18,8 +18,7 @@ var PROJECTS = {
       videoId: 'jv4QCwGUySQ',
       thumbnail: 'https://img.youtube.com/vi/jv4QCwGUySQ/maxresdefault.jpg',
       primaryUrl: 'https://rimonakhter.itch.io/basketball-tycoon',
-      primaryLabel: 'Play on itch.io',
-      detailsUrl: 'projects/wip.html'
+      primaryLabel: 'Play on itch.io'
     },
     {
       slug: 'mars-dozer',
@@ -30,8 +29,7 @@ var PROJECTS = {
       videoId: 'P0Y9DDMlsBk',
       thumbnail: 'https://img.youtube.com/vi/P0Y9DDMlsBk/maxresdefault.jpg',
       primaryUrl: 'https://rimonakhter.itch.io/mars-dozer',
-      primaryLabel: 'Play on itch.io',
-      detailsUrl: 'projects/game.html?id=mars-dozer'
+      primaryLabel: 'Play on itch.io'
     },
     {
       slug: 'idle-merchant',
@@ -42,8 +40,7 @@ var PROJECTS = {
       videoId: '-Uze3WqnSEw',
       thumbnail: 'https://img.youtube.com/vi/-Uze3WqnSEw/maxresdefault.jpg',
       primaryUrl: 'https://rimonakhter.itch.io/idle-merchant',
-      primaryLabel: 'Play on itch.io',
-      detailsUrl: 'projects/game.html?id=idle-merchant'
+      primaryLabel: 'Play on itch.io'
     },
     {
       slug: 'rescue-cop',
@@ -53,8 +50,7 @@ var PROJECTS = {
       desc: 'Fast-paced mobile action game with modular UI systems and core gameplay.',
       thumbnail: 'assets/images/rescue-cop.jpg',
       primaryUrl: 'https://play.google.com/store/apps/details?id=studio.tg.rescue.cop',
-      primaryLabel: 'Play Store',
-      detailsUrl: 'projects/game.html?id=rescue-cop'
+      primaryLabel: 'Play Store'
     },
     {
       slug: 'casino-venture',
@@ -64,8 +60,7 @@ var PROJECTS = {
       desc: 'Mobile casino game with multiple game modes and progression systems.',
       thumbnail: 'assets/images/casino-venture.webp',
       primaryUrl: 'https://play.google.com/store/apps/details?id=com.Technomagic.Casinoventure',
-      primaryLabel: 'Play Store',
-      detailsUrl: 'projects/game.html?id=casino-venture'
+      primaryLabel: 'Play Store'
     },
     {
       slug: 'zombie-road',
@@ -73,10 +68,10 @@ var PROJECTS = {
       genre: 'Action',
       studio: 'Thunder Games',
       desc: 'Idle shooting game where players defend against zombie hordes.',
-      thumbnail: 'assets/images/zombie-road.png',
-      primaryUrl: 'https://play.google.com/store/apps/details?id=idle.machine.undead.shooting',
-      primaryLabel: 'Play Store',
-      detailsUrl: 'projects/game.html?id=zombie-road'
+      videoId: 'ipW-ZkZx05o',
+      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'save-the-base',
@@ -86,8 +81,7 @@ var PROJECTS = {
       desc: 'A tower defense style mobile game.',
       thumbnail: 'assets/images/save-the-base.jpg',
       primaryUrl: 'https://play.google.com/store/apps/details?id=studio.tg.savethebase',
-      primaryLabel: 'Play Store',
-      detailsUrl: 'projects/game.html?id=save-the-base'
+      primaryLabel: 'Play Store'
     },
     {
       slug: 'money-farming',
@@ -95,10 +89,10 @@ var PROJECTS = {
       genre: 'Idle',
       studio: 'Thunder Games',
       desc: 'An idle farming game for iOS.',
-      thumbnail: 'assets/images/money-farming.webp',
-      primaryUrl: 'https://apps.apple.com/us/app/money-farming/id6443453285',
-      primaryLabel: 'App Store',
-      detailsUrl: 'projects/game.html?id=money-farming'
+      videoId: 'ipW-ZkZx05o',
+      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'mini-strike',
@@ -108,8 +102,7 @@ var PROJECTS = {
       desc: 'A top-down mini shooter built in Unity, playable in browser.',
       thumbnail: 'assets/images/mini-strike.jpg',
       primaryUrl: 'https://rimonakhter.itch.io/mini-strike',
-      primaryLabel: 'Play on itch.io',
-      detailsUrl: 'projects/interactive.html?id=mini-strike'
+      primaryLabel: 'Play on itch.io'
     },
     {
       slug: 'under-the-rooftop',
@@ -119,78 +112,7 @@ var PROJECTS = {
       desc: 'A web-based interactive experience.',
       thumbnail: 'assets/images/under-the-rooftop.jpg',
       primaryUrl: 'https://undertherooftop.com',
-      primaryLabel: 'Visit Site',
-      detailsUrl: null
-    }
-  ],
-
-  /* ── Tech / Mechanics ───────────────────────────────────────── */
-  tech: [
-    {
-      slug: 'modular-ui',
-      title: 'Modular UI System',
-      genre: 'UI System',
-      studio: 'Personal',
-      desc: 'A fully modular reusable UI system for mobile games built in Unity.',
-      thumbnail: 'assets/images/modular-ui.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'free-flow-combat',
-      title: 'Free-Flow Combat',
-      genre: 'Combat',
-      studio: 'Personal',
-      desc: 'Batman Arkham-inspired free-flow combat system with combo detection.',
-      thumbnail: 'assets/images/free-flow-combat.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'procedural-mesh',
-      title: 'Procedural Mesh Generation',
-      genre: 'System',
-      studio: 'Personal',
-      desc: 'Runtime procedural mesh generation system in Unity.',
-      thumbnail: 'assets/images/procedural-mesh.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'hack-slash',
-      title: 'Hack & Slash Combo',
-      genre: 'Combat',
-      studio: 'Personal',
-      desc: 'Combo system with chained attacks and hit reactions.',
-      thumbnail: 'assets/images/hack-slash.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'inventory-system',
-      title: 'Inventory & Loadout',
-      genre: 'System',
-      studio: 'Personal',
-      desc: 'Flexible inventory and weapon loadout system with drag-drop UI.',
-      thumbnail: 'assets/images/inventory-system.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
-    },
-    {
-      slug: 'stencil-painting',
-      title: 'Stencil Painting on Mesh',
-      genre: 'Rendering',
-      studio: 'Personal',
-      desc: 'Real-time stencil painting onto 3D mesh surfaces using shader masking.',
-      thumbnail: 'assets/images/stencil-painting.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
+      primaryLabel: 'Visit Site'
     }
   ],
 
@@ -204,9 +126,8 @@ var PROJECTS = {
       desc: "Bangladesh's first 3D interactive science education platform. Built the core architecture, simulation framework and initial MVP serving 45,000+ students.",
       videoId: 'LL74XUMF6X4',
       thumbnail: 'https://img.youtube.com/vi/LL74XUMF6X4/maxresdefault.jpg',
-      primaryUrl: 'https://mastersab.com',
-      primaryLabel: 'Visit Platform',
-      detailsUrl: 'projects/game.html?id=master-sab'
+      primaryUrl: 'https://www.youtube.com/watch?v=LL74XUMF6X4',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'dicom-viz',
@@ -216,9 +137,8 @@ var PROJECTS = {
       desc: 'Real-time 3D medical imaging viewer. Loads actual DICOM files and renders volumetric CT/MRI data using custom ray marching shaders.',
       videoId: 'GLei3Vx2SVE',
       thumbnail: 'https://img.youtube.com/vi/GLei3Vx2SVE/maxresdefault.jpg',
-      primaryUrl: null,
-      primaryLabel: null,
-      detailsUrl: 'projects/game.html?id=dicom-viz'
+      primaryUrl: 'https://www.youtube.com/shorts/GLei3Vx2SVE',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'vr-hand-pose',
@@ -227,9 +147,8 @@ var PROJECTS = {
       studio: 'Vinacts',
       desc: 'Custom hand pose recognition for Quest 2 using Unreal Engine 5.5.',
       thumbnail: 'assets/images/vr-hand-pose.jpg',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
+      primaryUrl: null,
+      primaryLabel: null
     },
     {
       slug: 'vr-painting',
@@ -238,9 +157,8 @@ var PROJECTS = {
       studio: 'Vinacts',
       desc: 'A VR painting application built in Unreal Engine 5.3 with physics brush tools.',
       thumbnail: 'assets/images/vr-painting.png',
-      primaryUrl: '#',
-      primaryLabel: 'Watch Video',
-      detailsUrl: null
+      primaryUrl: null,
+      primaryLabel: null
     },
     {
       slug: 'ghost-buster-ar',
@@ -250,8 +168,71 @@ var PROJECTS = {
       desc: 'AR game built with Unity and Vuforia, playable in browser via itch.io.',
       thumbnail: 'assets/images/ghost-buster-ar.png',
       primaryUrl: 'https://rimonakhter.itch.io/ghost-buster-ar',
-      primaryLabel: 'Play on itch.io',
-      detailsUrl: 'projects/interactive.html?id=ghost-buster-ar'
+      primaryLabel: 'Play on itch.io'
+    }
+  ],
+
+  /* ── Tech ───────────────────────────────────────────────────── */
+  tech: [
+    {
+      slug: 'modular-ui',
+      title: 'Modular UI System',
+      genre: 'UI System',
+      studio: 'Personal',
+      desc: 'A fully modular reusable UI system for mobile games built in Unity.',
+      thumbnail: 'assets/images/modular-ui.jpg',
+      primaryUrl: null,
+      primaryLabel: null
+    },
+    {
+      slug: 'free-flow-combat',
+      title: 'Free-Flow Combat',
+      genre: 'Combat',
+      studio: 'Personal',
+      desc: 'Batman Arkham-inspired free-flow combat system with combo detection.',
+      thumbnail: 'assets/images/free-flow-combat.jpg',
+      primaryUrl: null,
+      primaryLabel: null
+    },
+    {
+      slug: 'procedural-mesh',
+      title: 'Procedural Mesh Generation',
+      genre: 'System',
+      studio: 'Personal',
+      desc: 'Runtime procedural mesh generation system in Unity.',
+      thumbnail: 'assets/images/procedural-mesh.jpg',
+      primaryUrl: null,
+      primaryLabel: null
+    },
+    {
+      slug: 'hack-slash',
+      title: 'Hack & Slash Combo',
+      genre: 'Combat',
+      studio: 'Personal',
+      desc: 'Combo system with chained attacks and hit reactions.',
+      thumbnail: 'assets/images/hack-slash.png',
+      primaryUrl: null,
+      primaryLabel: null
+    },
+    {
+      slug: 'inventory-system',
+      title: 'Inventory & Loadout',
+      genre: 'System',
+      studio: 'Personal',
+      desc: 'Flexible inventory and weapon loadout system with drag-drop UI.',
+      thumbnail: 'assets/images/inventory-system.png',
+      primaryUrl: null,
+      primaryLabel: null
+    },
+    {
+      slug: 'stencil-painting',
+      title: 'Stencil Painting on Mesh',
+      genre: 'Rendering',
+      studio: 'Personal',
+      desc: 'Real-time stencil painting onto 3D mesh surfaces using shader masking.',
+      thumbnail: 'assets/images/stencil-painting.jpg',
+      primaryUrl: null,
+      primaryLabel: null
     }
   ]
 

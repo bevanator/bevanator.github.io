@@ -1076,8 +1076,8 @@
       <!-- Carousel switcher tabs -->
       <div class="carousel-switcher fade-in" role="group" aria-label="Work category">
         <button class="switcher-btn active" data-category="games">Games</button>
-        <button class="switcher-btn" data-category="tech">Tech</button>
         <button class="switcher-btn" data-category="xrSim">XR &amp; Simulation</button>
+        <button class="switcher-btn" data-category="tech">Tech</button>
       </div>
 
     </div><!-- /container — carousels break out below -->
@@ -1091,20 +1091,20 @@
       </div>
     </div>
 
-    <!-- Tech carousel -->
-    <div class="carousel-section" id="carousel-tech">
-      <div class="container">
-        <div class="carousel-viewport" id="viewport-tech">
-          <div class="carousel-track" id="track-tech"></div>
-        </div>
-      </div>
-    </div>
-
     <!-- XR & Simulation carousel -->
     <div class="carousel-section" id="carousel-xrSim">
       <div class="container">
         <div class="carousel-viewport" id="viewport-xrSim">
           <div class="carousel-track" id="track-xrSim"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech carousel -->
+    <div class="carousel-section" id="carousel-tech">
+      <div class="container">
+        <div class="carousel-viewport" id="viewport-tech">
+          <div class="carousel-track" id="track-tech"></div>
         </div>
       </div>
     </div>
@@ -1242,12 +1242,10 @@
         var imgSrc = p.videoId
           ? 'https://img.youtube.com/vi/' + p.videoId + '/maxresdefault.jpg'
           : p.thumbnail;
-        var isExternal = p.primaryUrl && p.primaryUrl !== '#'
-          && p.primaryUrl.indexOf('projects/') !== 0
-          && p.primaryUrl.indexOf('http') === 0;
-        var extAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-        var detailsBtn = p.detailsUrl
-          ? '<a href="' + p.detailsUrl + '" class="proj-btn proj-btn-ghost">Details</a>'
+        var hasBtn = p.primaryUrl && p.primaryUrl !== '#' && p.primaryLabel;
+        var primaryBtn = hasBtn
+          ? '<a href="' + p.primaryUrl + '" class="proj-btn proj-btn-primary"' +
+              ' target="_blank" rel="noopener noreferrer">' + p.primaryLabel + '</a>'
           : '';
         return (
           '<div class="proj-card">' +
@@ -1263,12 +1261,7 @@
               '</div>' +
               '<div class="proj-card-title">' + p.title + '</div>' +
               '<div class="proj-card-desc">' + p.desc + '</div>' +
-              '<div class="proj-card-actions">' +
-                (p.primaryUrl !== null && p.primaryUrl !== undefined && p.primaryLabel
-                  ? '<a href="' + (p.primaryUrl || '#') + '" class="proj-btn proj-btn-primary"' + extAttrs + '>' + p.primaryLabel + '</a>'
-                  : '') +
-                detailsBtn +
-              '</div>' +
+              '<div class="proj-card-actions">' + primaryBtn + '</div>' +
             '</div>' +
           '</div>'
         );
