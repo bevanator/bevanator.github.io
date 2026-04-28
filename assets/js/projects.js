@@ -146,9 +146,9 @@ var PROJECTS = {
       genre: 'EdTech · 3D Simulation',
       studio: 'Freelance — RBD Software',
       desc: "Bangladesh's first 3D interactive science education platform. Built the core architecture, simulation framework and initial MVP serving 45,000+ students.",
-      videoId: 'LL74XUMF6X4',
-      thumbnail: 'https://img.youtube.com/vi/LL74XUMF6X4/maxresdefault.jpg',
-      primaryUrl: 'https://www.youtube.com/watch?v=LL74XUMF6X4',
+      videoId: 'dO3UCShrYzs',
+      thumbnail: 'https://img.youtube.com/vi/dO3UCShrYzs/maxresdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=dO3UCShrYzs',
       primaryLabel: 'Watch Video'
     },
     {
@@ -280,8 +280,8 @@ var PROJECT_DETAILS = {
     studio: 'Freelance — RBD Software & Technology',
     period: '2023',
     tags: ['Unity', 'WebGL', 'C#', '3D Simulation', 'EdTech'],
-    thumbnail: 'https://img.youtube.com/vi/LL74XUMF6X4/maxresdefault.jpg',
-    videoId: 'LL74XUMF6X4',
+    thumbnail: 'https://img.youtube.com/vi/dO3UCShrYzs/maxresdefault.jpg',
+    videoId: 'dO3UCShrYzs',
     externalUrl: 'https://mastersab.com',
     description: "Freelance contract to build the initial MVP of Master Sab — Bangladesh's first 3D interactive science education platform. The platform now serves 45,000+ active students across hundreds of institutions including Notre Dame College and Dhaka College. I designed the core simulation framework, built the 3D visualization systems, and delivered the initial chapter demos for biology, chemistry and physics.",
     contributions: [
