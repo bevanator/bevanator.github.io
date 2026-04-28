@@ -225,14 +225,44 @@
       width: 100%;
       height: 100%;
     }
+    /* Photo backdrop */
+    .hero-photo {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 55%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right top;
+      filter: brightness(0.65) saturate(0.7);
+      mask-image:
+        linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 25%, black 52%),
+        linear-gradient(to top,   transparent 0%, black 18%);
+      mask-composite: intersect;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 25%, black 52%);
+      -webkit-mask-composite: source-over;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, var(--bg) 0%, transparent 22%),
+        linear-gradient(to right, var(--bg) 0%, transparent 18%);
+    }
+
+    /* Text content */
     .hero-content {
       position: relative;
       z-index: 1;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 56px;
-      align-items: center;
+      max-width: 620px;
     }
     .hero-eyebrow {
       font-family: 'DM Sans', sans-serif;
@@ -261,7 +291,7 @@
       color: var(--text-secondary);
       line-height: 1.8;
       margin-top: 24px;
-      max-width: 440px;
+      max-width: 420px;
     }
     .hero-ctas {
       display: flex;
@@ -270,93 +300,8 @@
       flex-wrap: wrap;
     }
 
-    /* Info card */
-    .hero-card {
-      background: rgba(22,27,39,0.75);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-card);
-      padding: 28px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-    .hero-card-tag {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .hero-card-company {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: var(--text-primary);
-      margin-top: 5px;
-      letter-spacing: -0.02em;
-    }
-    .hero-card-role {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--accent);
-      margin-top: 3px;
-    }
-    .hero-card-sep {
-      height: 1px;
-      background: var(--border-subtle);
-      margin: 18px 0;
-    }
-    .hero-card-clients-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      display: block;
-    }
-    .hero-card-clients {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-    .hero-card-stats {
-      display: flex;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border-subtle);
-    }
-    .hero-card-stat {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-right: 1px solid var(--border-subtle);
-    }
-    .hero-card-stat:last-child { border-right: none; }
-    .card-stat-num {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--accent);
-      line-height: 1;
-    }
-    .card-stat-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 4px;
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .hero-content { grid-template-columns: 1fr; gap: 36px; }
-      .hero-card { display: none; }
+    @media (max-width: 768px) {
+      .hero-photo { width: 100%; opacity: 0.35; }
     }
 
     .btn-primary {
@@ -922,46 +867,22 @@
   <section id="hero" aria-label="Hero">
     <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
+    <!-- Photo backdrop -->
+    <div class="hero-photo" aria-hidden="true">
+      <img src="assets/images/dp.avif" alt="" />
+    </div>
+
     <div class="container hero-content">
-
-      <!-- Left: name + text -->
-      <div>
-        <span class="hero-eyebrow">Senior Game &amp; VR Developer</span>
-        <h1 class="hero-h1">
-          <span class="line-white">Rimon</span>
-          <span class="line-accent">Akhter</span>
-        </h1>
-        <p class="hero-sub">9+ years building games, XR experiences and interactive simulations across mobile, PC and VR.</p>
-        <div class="hero-ctas">
-          <a href="#work" class="btn-primary">View My Work</a>
-          <a href="#contact" class="btn-ghost">Get In Touch</a>
-        </div>
+      <span class="hero-eyebrow">Senior Game &amp; VR Developer</span>
+      <h1 class="hero-h1">
+        <span class="line-white">Rimon</span>
+        <span class="line-accent">Akhter</span>
+      </h1>
+      <p class="hero-sub">9+ years building games, XR experiences and interactive simulations across mobile, PC and VR.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-ghost">Get In Touch</a>
       </div>
-
-      <!-- Right: info card -->
-      <div class="hero-card">
-        <span class="hero-card-tag">Currently at</span>
-        <div class="hero-card-company">Vinacts</div>
-        <div class="hero-card-role">VR Developer / Gameplay Programmer</div>
-        <div class="hero-card-sep"></div>
-        <span class="hero-card-clients-label">Key Clients</span>
-        <div class="hero-card-clients">Samsung · Hyundai · Korea LH</div>
-        <div class="hero-card-stats">
-          <div class="hero-card-stat">
-            <span class="card-stat-num">9+</span>
-            <span class="card-stat-label">Years</span>
-          </div>
-          <div class="hero-card-stat">
-            <span class="card-stat-num">12+</span>
-            <span class="card-stat-label">Games</span>
-          </div>
-          <div class="hero-card-stat">
-            <span class="card-stat-num">4</span>
-            <span class="card-stat-label">Studios</span>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <div class="scroll-hint" aria-hidden="true">
