@@ -68,9 +68,9 @@ var PROJECTS = {
       genre: 'Action',
       studio: 'Thunder Games',
       desc: 'Idle shooting game where players defend against zombie hordes.',
-      videoId: 'ipW-ZkZx05o',
-      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/maxresdefault.jpg',
-      primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
+      videoId: 'LNwE9y4fPtw',
+      thumbnail: 'https://img.youtube.com/vi/LNwE9y4fPtw/hqdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=LNwE9y4fPtw',
       primaryLabel: 'Watch Video'
     },
     {
@@ -79,9 +79,10 @@ var PROJECTS = {
       genre: 'Tower Defense',
       studio: 'Thunder Games',
       desc: 'A tower defense style mobile game.',
-      thumbnail: 'assets/images/save-the-base.jpg',
-      primaryUrl: 'https://play.google.com/store/apps/details?id=studio.tg.savethebase',
-      primaryLabel: 'Play Store'
+      videoId: 'ipW-ZkZx05o',
+      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/hqdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
+      primaryLabel: 'Watch Video'
     },
     {
       slug: 'money-farming',
@@ -89,9 +90,9 @@ var PROJECTS = {
       genre: 'Idle',
       studio: 'Thunder Games',
       desc: 'An idle farming game for iOS.',
-      videoId: 'ipW-ZkZx05o',
-      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/maxresdefault.jpg',
-      primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
+      videoId: '5g33GMARgdE',
+      thumbnail: 'https://img.youtube.com/vi/5g33GMARgdE/hqdefault.jpg',
+      primaryUrl: 'https://www.youtube.com/watch?v=5g33GMARgdE',
       primaryLabel: 'Watch Video'
     },
     {
@@ -107,9 +108,9 @@ var PROJECTS = {
     {
       slug: 'under-the-rooftop',
       title: 'Under The Rooftop',
-      genre: 'Web',
-      studio: 'Battery Low Interactive',
-      desc: 'A web-based interactive experience.',
+      genre: 'PC / Steam',
+      studio: 'Vinacts / Flarevis',
+      desc: 'A PC/Steam game developed at Vinacts / Flarevis.',
       thumbnail: 'assets/images/under-the-rooftop.jpg',
       primaryUrl: 'https://undertherooftop.com',
       primaryLabel: 'Visit Site'
