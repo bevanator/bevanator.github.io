@@ -15,8 +15,7 @@ var PROJECTS = {
       genre: 'Tycoon',
       studio: 'Trifecta Games',
       desc: 'Build the ultimate basketball empire from the ground up. Construct courts, upgrade facilities and manage every detail of your sports city.',
-      videoId: 'jv4QCwGUySQ',
-      thumbnail: 'https://img.youtube.com/vi/jv4QCwGUySQ/maxresdefault.jpg',
+      thumbnail: 'assets/images/BasketballTycoon.png',
       primaryUrl: 'https://rimonakhter.itch.io/basketball-tycoon',
       primaryLabel: 'Play on itch.io'
     },
@@ -26,8 +25,7 @@ var PROJECTS = {
       genre: 'Simulation',
       studio: 'Trifecta Games',
       desc: 'Pilot a heavy dozer across the Martian surface and build a colony.',
-      videoId: 'P0Y9DDMlsBk',
-      thumbnail: 'https://img.youtube.com/vi/P0Y9DDMlsBk/maxresdefault.jpg',
+      thumbnail: 'assets/images/MarsDozer.png',
       primaryUrl: 'https://rimonakhter.itch.io/mars-dozer',
       primaryLabel: 'Play on itch.io'
     },
@@ -37,8 +35,7 @@ var PROJECTS = {
       genre: 'Idle / RPG',
       studio: 'Trifecta Games',
       desc: 'Build your dream shop, serve customers, and defend it from waves of enemies.',
-      videoId: '-Uze3WqnSEw',
-      thumbnail: 'https://img.youtube.com/vi/-Uze3WqnSEw/maxresdefault.jpg',
+      thumbnail: 'assets/images/IdleMerchant.png',
       primaryUrl: 'https://rimonakhter.itch.io/idle-merchant',
       primaryLabel: 'Play on itch.io'
     },
@@ -48,9 +45,19 @@ var PROJECTS = {
       genre: 'Action',
       studio: 'Thunder Games',
       desc: 'Fast-paced mobile action game with modular UI systems and core gameplay.',
-      thumbnail: 'assets/images/rescue-cop.jpg',
-      primaryUrl: 'https://play.google.com/store/apps/details?id=studio.tg.rescue.cop',
-      primaryLabel: 'Play Store'
+      thumbnail: 'assets/images/rescue-cop-icon.jpg',
+      links: [
+        {
+          url: 'https://play.google.com/store/apps/details?id=studio.tg.rescue.cop',
+          label: 'Play Store',
+          type: 'googleplay'
+        },
+        {
+          url: 'https://apps.apple.com/us/app/rescue-cop-shooting-game/id6471974307',
+          label: 'App Store',
+          type: 'ios'
+        }
+      ]
     },
     {
       slug: 'casino-venture',
@@ -63,15 +70,54 @@ var PROJECTS = {
       primaryLabel: 'Play Store'
     },
     {
+      slug: 'diy-gift-card',
+      title: 'DIY Gift Card',
+      genre: 'Simulation',
+      studio: 'Technomagic',
+      desc: 'Mobile crafting game where players decorate custom gift cards and build a creative card shop.',
+      thumbnail: 'assets/images/diy-gift-card-icon.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.Technomagic.DIYGIftCard',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'diy-cakes',
+      title: 'DIY Cakes',
+      genre: 'Simulation',
+      studio: 'Technomagic',
+      desc: 'Cake shop simulation where players shape, frost, and decorate custom cakes for customers.',
+      thumbnail: 'assets/images/diy-cakes-icon.jpg',
+      links: [
+        {
+          url: 'https://play.google.com/store/apps/details?id=com.TechnoMagic.DIYCakes',
+          label: 'Play Store',
+          type: 'googleplay'
+        },
+        {
+          url: 'https://apps.apple.com/gr/app/diy-cakes/id6451403329',
+          label: 'App Store',
+          type: 'ios'
+        }
+      ]
+    },
+    {
       slug: 'zombie-road',
       title: 'Zombie Road',
       genre: 'Action',
       studio: 'Thunder Games',
       desc: 'Idle shooting game where players defend against zombie hordes.',
-      videoId: 'LNwE9y4fPtw',
-      thumbnail: 'https://img.youtube.com/vi/LNwE9y4fPtw/hqdefault.jpg',
-      primaryUrl: 'https://www.youtube.com/watch?v=LNwE9y4fPtw',
-      primaryLabel: 'Watch Video'
+      thumbnail: 'assets/images/zombie-road-icon.jpg',
+      links: [
+        {
+          url: 'https://www.youtube.com/watch?v=LNwE9y4fPtw',
+          label: 'Watch Video',
+          type: 'youtube'
+        },
+        {
+          url: 'https://apps.apple.com/us/app/zombie-road-rage-truck-idle/id6450460535',
+          label: 'App Store',
+          type: 'ios'
+        }
+      ]
     },
     {
       slug: 'save-the-base',
@@ -79,8 +125,7 @@ var PROJECTS = {
       genre: 'Tower Defense',
       studio: 'Thunder Games',
       desc: 'A tower defense style mobile game.',
-      videoId: 'ipW-ZkZx05o',
-      thumbnail: 'https://img.youtube.com/vi/ipW-ZkZx05o/hqdefault.jpg',
+      thumbnail: 'assets/images/SaveTheBase.png',
       primaryUrl: 'https://www.youtube.com/watch?v=ipW-ZkZx05o',
       primaryLabel: 'Watch Video'
     },
@@ -90,8 +135,7 @@ var PROJECTS = {
       genre: 'Idle',
       studio: 'Thunder Games',
       desc: 'An idle farming game for iOS.',
-      videoId: '5g33GMARgdE',
-      thumbnail: 'https://img.youtube.com/vi/5g33GMARgdE/hqdefault.jpg',
+      thumbnail: 'assets/images/MoneyFarming.png',
       primaryUrl: 'https://www.youtube.com/watch?v=5g33GMARgdE',
       primaryLabel: 'Watch Video'
     },
@@ -112,8 +156,18 @@ var PROJECTS = {
       studio: 'Vinacts / Flarevis',
       desc: 'A PC/Steam game developed at Vinacts / Flarevis.',
       thumbnail: 'assets/images/under-the-rooftop.jpg',
-      primaryUrl: 'https://undertherooftop.com',
-      primaryLabel: 'Visit Site'
+      links: [
+        {
+          url: 'https://store.steampowered.com/app/4006130/Under_The_Rooftop/',
+          label: 'Steam',
+          type: 'steam'
+        },
+        {
+          url: 'https://undertherooftop.com',
+          label: 'Website',
+          type: 'link'
+        }
+      ]
     }
   ],
 
