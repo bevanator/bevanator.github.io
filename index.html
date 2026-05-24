@@ -1495,99 +1495,196 @@
       var camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 100);
       camera.position.z = 20;
 
-      // Lighting so Phong shading shows depth
-      scene.add(new THREE.AmbientLight(0xffffff, 0.45));
-      var keyLight = new THREE.PointLight(0xffffff, 1.1);
-      keyLight.position.set(8, 12, 14);
-      scene.add(keyLight);
-      var fillLight = new THREE.PointLight(0x8080ff, 0.4);
-      fillLight.position.set(-10, -6, 8);
-      scene.add(fillLight);
+      // Lighting
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      var kl = new THREE.PointLight(0xffffff, 1.2); kl.position.set(8, 12, 14); scene.add(kl);
+      var fl = new THREE.PointLight(0x6688ff, 0.5); fl.position.set(-10, -6, 8); scene.add(fl);
 
-      // Vibrant game palette
-      var palette = [
-        0x00e5ff, // cyan
-        0xff2d9b, // pink
-        0xffd600, // gold
-        0x00ff7f, // mint green
-        0xbf5fff, // purple
-        0xff6b35, // orange
-        0x40c4ff, // sky blue
-        0xff4466, // red-pink
-      ];
+      var palette = [0x00e5ff, 0xff2d9b, 0xffd600, 0x00ff7f, 0xbf5fff, 0xff6b35, 0x40c4ff, 0xff4466];
 
-      // Star extruded shape
-      function makeStar() {
-        var shape = new THREE.Shape();
-        var outerR = 0.8, innerR = 0.35, pts = 5;
-        for (var i = 0; i < pts * 2; i++) {
-          var angle = (i * Math.PI) / pts - Math.PI / 2;
-          var r = i % 2 === 0 ? outerR : innerR;
-          if (i === 0) shape.moveTo(Math.cos(angle) * r, Math.sin(angle) * r);
-          else         shape.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
-        }
-        shape.closePath();
-        return new THREE.ExtrudeGeometry(shape, { depth: 0.22, bevelEnabled: false });
+      // Add a sub-part (solid fill + glowing edges) to a group
+      function p(grp, geo, col, px, py, pz, rx, ry, rz) {
+        var sub = new THREE.Group();
+        sub.add(new THREE.Mesh(geo, new THREE.MeshPhongMaterial({
+          color: col, transparent: true, opacity: 0.22, shininess: 90, depthWrite: false,
+        })));
+        sub.add(new THREE.LineSegments(
+          new THREE.EdgesGeometry(geo),
+          new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.6 })
+        ));
+        sub.position.set(px || 0, py || 0, pz || 0);
+        if (rx || ry || rz) sub.rotation.set(rx || 0, ry || 0, rz || 0);
+        grp.add(sub);
       }
 
-      // Casual game object geometries
-      var geoTypes = [
-        new THREE.BoxGeometry(1.2, 1.2, 1.2),
-        new THREE.CylinderGeometry(0.8, 0.8, 0.14, 24),
-        new THREE.OctahedronGeometry(0.9),
-        new THREE.TorusGeometry(0.6, 0.18, 10, 28),
-        new THREE.TetrahedronGeometry(1.0),
-        new THREE.DodecahedronGeometry(0.72),
-        new THREE.ConeGeometry(0.5, 1.5, 6),
-        makeStar(),
-      ];
+      // ── Composite game-object builders ──────────────────────────────
+      function mkCoin(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.7, 0.7, 0.16, 24), c);
+        p(g, new THREE.TorusGeometry(0.7, 0.05, 6, 24), c, 0, 0.08);
+        p(g, new THREE.TorusGeometry(0.7, 0.05, 6, 24), c, 0, -0.08);
+        p(g, new THREE.CylinderGeometry(0.28, 0.28, 0.02, 6), c, 0, 0.09);
+        return g;
+      }
+
+      function mkGem(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.22, 0.62, 0.4, 8), c, 0, 0.23);   // crown
+        p(g, new THREE.CylinderGeometry(0.62, 0.62, 0.06, 8), c, 0, 0);     // girdle
+        p(g, new THREE.CylinderGeometry(0.62, 0, 0.88, 8), c, 0, -0.47);    // pavilion
+        return g;
+      }
+
+      function mkSword(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.BoxGeometry(0.1, 1.5, 0.07), c, 0, 0.55);            // blade
+        p(g, new THREE.CylinderGeometry(0, 0.07, 0.32, 4), c, 0, 1.46);     // tip
+        p(g, new THREE.BoxGeometry(0.82, 0.1, 0.1), c, 0, 0);               // crossguard
+        p(g, new THREE.CylinderGeometry(0.06, 0.06, 0.52, 8), c, 0, -0.31); // grip
+        p(g, new THREE.SphereGeometry(0.12, 8, 8), c, 0, -0.62);            // pommel
+        return g;
+      }
+
+      function mkPotion(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.36, 0.3, 0.7, 14), c, 0, -0.05);  // body
+        p(g, new THREE.CylinderGeometry(0.17, 0.36, 0.22, 12), c, 0, 0.41); // shoulder
+        p(g, new THREE.CylinderGeometry(0.12, 0.17, 0.18, 10), c, 0, 0.6);  // neck
+        p(g, new THREE.CylinderGeometry(0.1, 0.12, 0.15, 8), c, 0, 0.77);   // cork
+        return g;
+      }
+
+      function mkKey(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.TorusGeometry(0.27, 0.08, 10, 20), c, 0, 0.52, 0, Math.PI / 2);
+        p(g, new THREE.BoxGeometry(0.09, 0.68, 0.07), c, 0, 0.04);
+        p(g, new THREE.BoxGeometry(0.19, 0.07, 0.07), c, 0.05, -0.19);
+        p(g, new THREE.BoxGeometry(0.14, 0.07, 0.07), c, 0.04, -0.34);
+        return g;
+      }
+
+      function mkStar(c) {
+        var shape = new THREE.Shape();
+        var oR = 0.72, iR = 0.3, pts = 5;
+        for (var i = 0; i < pts * 2; i++) {
+          var a = (i * Math.PI) / pts - Math.PI / 2;
+          var r = i % 2 === 0 ? oR : iR;
+          if (i === 0) shape.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+          else         shape.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+        }
+        shape.closePath();
+        var g = new THREE.Group();
+        p(g, new THREE.ExtrudeGeometry(shape, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 2 }), c);
+        return g;
+      }
+
+      function mkCharacter(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.BoxGeometry(0.44, 0.42, 0.36), c, 0, 0.86);           // head
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.12, 8), c, 0, 0.58);   // neck
+        p(g, new THREE.BoxGeometry(0.52, 0.62, 0.33), c, 0, 0.2);            // body
+        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8), c, -0.36, 0.2, 0, 0, 0, 0.28);  // L arm
+        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8), c,  0.36, 0.2, 0, 0, 0, -0.28); // R arm
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 8), c, -0.14, -0.37); // L leg
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 8), c,  0.14, -0.37); // R leg
+        p(g, new THREE.SphereGeometry(0.065, 8, 6), c, -0.11, 0.9, 0.18);    // L eye
+        p(g, new THREE.SphereGeometry(0.065, 8, 6), c,  0.11, 0.9, 0.18);    // R eye
+        return g;
+      }
+
+      function mkShip(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.2, 0.4, 1.0, 8), c, 0, 0);         // hull
+        p(g, new THREE.ConeGeometry(0.2, 0.5, 8), c, 0, 0.75);               // nose
+        p(g, new THREE.BoxGeometry(1.55, 0.07, 0.38), c, 0, -0.18);           // wings
+        p(g, new THREE.SphereGeometry(0.16, 10, 8), c, 0, 0.42);             // cockpit
+        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 8), c, -0.48, -0.6); // L engine
+        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 8), c,  0.48, -0.6); // R engine
+        return g;
+      }
+
+      function mkMushroom(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.21, 0.27, 0.6, 12), c, 0, -0.3);   // stem
+        p(g, new THREE.CylinderGeometry(0.08, 0.7, 0.48, 16), c, 0, 0.14);   // cap
+        p(g, new THREE.SphereGeometry(0.09, 8, 6), c,  0.28, 0.28, 0.38);    // spot
+        p(g, new THREE.SphereGeometry(0.075, 8, 6), c, -0.32, 0.22, 0.32);   // spot
+        p(g, new THREE.SphereGeometry(0.065, 8, 6), c,  0.05, 0.36, 0.44);   // spot
+        return g;
+      }
+
+      function mkCrown(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0.58, 0.58, 0.2, 24), c, 0, 0);      // band
+        for (var ci = 0; ci < 5; ci++) {
+          var ca = (ci / 5) * Math.PI * 2;
+          p(g, new THREE.ConeGeometry(0.1, 0.5, 6), c, Math.cos(ca) * 0.48, 0.36, Math.sin(ca) * 0.48);
+        }
+        for (var cj = 0; cj < 5; cj++) {
+          var ga = ((cj + 0.5) / 5) * Math.PI * 2;
+          p(g, new THREE.SphereGeometry(0.07, 8, 6), c, Math.cos(ga) * 0.52, 0.1, Math.sin(ga) * 0.52);
+        }
+        return g;
+      }
+
+      function mkCrystal(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.CylinderGeometry(0, 0.25, 1.2, 5), c, 0, 0.4);        // main spike
+        p(g, new THREE.CylinderGeometry(0.18, 0.25, 0.16, 5), c, 0, -0.24);  // base
+        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 5), c,  0.33, 0.2, 0.15, 0, 0,  0.35); // side L
+        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 5), c, -0.28, 0.16, 0.18, 0, 0, -0.32); // side R
+        p(g, new THREE.CylinderGeometry(0, 0.13, 0.65, 5), c, 0.08, 0.12, 0.32, 0.38, 0, 0.1); // front
+        return g;
+      }
+
+      function mkChest(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.BoxGeometry(1.08, 0.52, 0.72), c, 0, -0.1);           // base
+        p(g, new THREE.BoxGeometry(1.1, 0.36, 0.74), c, 0, 0.31);            // lid
+        p(g, new THREE.BoxGeometry(1.1, 0.05, 0.74), c, 0, 0.04);            // hinge band
+        p(g, new THREE.BoxGeometry(0.13, 0.18, 0.06), c, 0, 0.04, 0.37);     // clasp
+        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c,  0.5, 0.1, 0.34);   // R bracket
+        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c, -0.5, 0.1, 0.34);   // L bracket
+        return g;
+      }
+
+      function mkPuzzle(c) {
+        var g = new THREE.Group();
+        p(g, new THREE.BoxGeometry(0.72, 0.72, 0.16), c);                     // body
+        p(g, new THREE.SphereGeometry(0.165, 10, 8), c,  0,    0.44, 0);     // tab top
+        p(g, new THREE.SphereGeometry(0.145, 10, 8), c,  0.44, 0.08, 0);    // tab right
+        p(g, new THREE.SphereGeometry(0.14,  10, 8), c, -0.36,-0.1,  0);    // notch left
+        return g;
+      }
+
+      var makers = [mkCoin, mkGem, mkSword, mkPotion, mkKey, mkStar,
+                    mkCharacter, mkShip, mkMushroom, mkCrown, mkCrystal, mkChest, mkPuzzle];
 
       var objects = [];
-      var W = 30, H = 16, N = 30;
+      var W = 32, H = 18;
 
-      for (var i = 0; i < N; i++) {
-        var geo   = geoTypes[i % geoTypes.length];
+      for (var i = 0; i < makers.length * 2; i++) {
         var color = palette[i % palette.length];
-        var group = new THREE.Group();
-
-        // Solid translucent fill — gives colour and depth
-        var solidMesh = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({
-          color: color,
-          transparent: true,
-          opacity: 0.13,
-          shininess: 90,
-          depthWrite: false,
-        }));
-        group.add(solidMesh);
-
-        // Glowing edge outline on top
-        var edgeMat = new THREE.LineBasicMaterial({
-          color: color,
-          transparent: true,
-          opacity: 0.55,
-        });
-        group.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat));
+        var group = makers[i % makers.length](color);
 
         group.position.set(
           (Math.random() - 0.5) * W,
           (Math.random() - 0.5) * H,
           (Math.random() - 0.5) * 10 - 3
         );
-        var s = 0.45 + Math.random() * 0.9;
-        group.scale.setScalar(s);
+        group.scale.setScalar(0.38 + Math.random() * 0.5);
         group.rotation.set(
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2
         );
         group.userData = {
-          rx: (Math.random() - 0.5) * 0.008,
-          ry: (Math.random() - 0.5) * 0.008,
-          rz: (Math.random() - 0.5) * 0.005,
-          dx: (Math.random() - 0.5) * 0.007,
+          rx: (Math.random() - 0.5) * 0.007,
+          ry: (Math.random() - 0.5) * 0.007,
+          rz: (Math.random() - 0.5) * 0.004,
+          dx: (Math.random() - 0.5) * 0.006,
           dy: (Math.random() - 0.5) * 0.004,
         };
-
         scene.add(group);
         objects.push(group);
       }
