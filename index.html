@@ -1492,22 +1492,85 @@
       renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
 
       var scene  = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(50, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
-      camera.position.z = 300;
+      var camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 100);
+      camera.position.z = 20;
 
-      // Icosahedron wireframe
-      var geo     = new THREE.IcosahedronGeometry(180, 2);
-      var edges   = new THREE.EdgesGeometry(geo);
-      var mat     = new THREE.LineBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.15 });
-      var mesh    = new THREE.LineSegments(edges, mat);
-      scene.add(mesh);
+      // Star shape (extruded 2D polygon)
+      function makeStar() {
+        var shape = new THREE.Shape();
+        var outerR = 0.8, innerR = 0.35, pts = 5;
+        for (var i = 0; i < pts * 2; i++) {
+          var angle = (i * Math.PI) / pts - Math.PI / 2;
+          var r = i % 2 === 0 ? outerR : innerR;
+          if (i === 0) shape.moveTo(Math.cos(angle) * r, Math.sin(angle) * r);
+          else         shape.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+        }
+        shape.closePath();
+        return new THREE.ExtrudeGeometry(shape, { depth: 0.22, bevelEnabled: false });
+      }
+
+      // Casual game object types: die, coin, gem, ring, pyramid, d12, spike, star
+      var types = [
+        new THREE.BoxGeometry(1.2, 1.2, 1.2),
+        new THREE.CylinderGeometry(0.8, 0.8, 0.14, 16),
+        new THREE.OctahedronGeometry(0.9),
+        new THREE.TorusGeometry(0.6, 0.18, 8, 20),
+        new THREE.TetrahedronGeometry(1.0),
+        new THREE.DodecahedronGeometry(0.72),
+        new THREE.ConeGeometry(0.5, 1.5, 6),
+        makeStar(),
+      ];
+
+      var lineMat = new THREE.LineBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.18 });
+      var objects = [];
+      var W = 30, H = 16, N = 30;
+
+      for (var i = 0; i < N; i++) {
+        var geo   = types[i % types.length];
+        var edges = new THREE.EdgesGeometry(geo);
+        var obj   = new THREE.LineSegments(edges, lineMat.clone());
+
+        obj.position.set(
+          (Math.random() - 0.5) * W,
+          (Math.random() - 0.5) * H,
+          (Math.random() - 0.5) * 10 - 3
+        );
+        var s = 0.45 + Math.random() * 0.9;
+        obj.scale.setScalar(s);
+        obj.rotation.set(
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2
+        );
+        obj.userData = {
+          rx: (Math.random() - 0.5) * 0.008,
+          ry: (Math.random() - 0.5) * 0.008,
+          rz: (Math.random() - 0.5) * 0.005,
+          dx: (Math.random() - 0.5) * 0.007,
+          dy: (Math.random() - 0.5) * 0.004,
+        };
+
+        scene.add(obj);
+        objects.push(obj);
+      }
 
       // Animate
       var animId;
       function animate() {
         animId = requestAnimationFrame(animate);
-        mesh.rotation.y += 0.0015;
-        mesh.rotation.x += 0.0006;
+        objects.forEach(function(o) {
+          var d = o.userData;
+          o.rotation.x += d.rx;
+          o.rotation.y += d.ry;
+          o.rotation.z += d.rz;
+          o.position.x += d.dx;
+          o.position.y += d.dy;
+          // wrap so objects never disappear
+          if (o.position.x >  W / 2 + 2) o.position.x = -W / 2 - 2;
+          if (o.position.x < -W / 2 - 2) o.position.x =  W / 2 + 2;
+          if (o.position.y >  H / 2 + 2) o.position.y = -H / 2 - 2;
+          if (o.position.y < -H / 2 - 2) o.position.y =  H / 2 + 2;
+        });
         renderer.render(scene, camera);
       }
       animate();
