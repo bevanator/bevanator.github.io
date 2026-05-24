@@ -19,7 +19,7 @@ Stack: Pure HTML + CSS + Vanilla JS + Three.js (CDN). No React, no build tools.
 - Border: rgba(255,255,255,0.08), stronger rgba(255,255,255,0.14)
 - Heading/body font: Plus Jakarta Sans (300–800) — Google Fonts
 - Tags/labels/code font: Space Mono — Google Fonts
-- No border-radius anywhere (sharp corners throughout)
+- Gentle rounding: card 8px, button 6px, pill 5px, section 12px
 - cursor: crosshair on body
 - Thin 1px rgba(255,255,255,0.08) borders as section dividers
 
