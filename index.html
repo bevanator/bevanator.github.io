@@ -217,6 +217,15 @@
       align-items: center;
       overflow: hidden;
     }
+    #hero-canvas-far {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      filter: blur(3px);
+    }
     #hero-canvas {
       position: absolute;
       inset: 0;
@@ -232,6 +241,7 @@
       pointer-events: none;
       width: 100%;
       height: 100%;
+      filter: blur(2px);
     }
     /* Hero two-column layout */
     .hero-inner {
@@ -867,6 +877,7 @@
        HERO
   ═══════════════════════════════════════════════════════════════ -->
   <section id="hero" aria-label="Hero">
+    <canvas id="hero-canvas-far" aria-hidden="true"></canvas>
     <canvas id="hero-canvas" aria-hidden="true"></canvas>
     <canvas id="hero-canvas-fg" aria-hidden="true"></canvas>
 
@@ -1495,10 +1506,12 @@
     try {
       if (typeof THREE === 'undefined') throw new Error('Three.js not loaded');
 
-      var canvas   = document.getElementById('hero-canvas');
-      var canvasFg = document.getElementById('hero-canvas-fg');
-      var ctxFg    = canvasFg.getContext('2d');
-      var heroEl   = document.getElementById('hero');
+      var canvas    = document.getElementById('hero-canvas');
+      var canvasFar = document.getElementById('hero-canvas-far');
+      var ctxFar    = canvasFar.getContext('2d');
+      var canvasFg  = document.getElementById('hero-canvas-fg');
+      var ctxFg     = canvasFg.getContext('2d');
+      var heroEl    = document.getElementById('hero');
       // preserveDrawingBuffer lets us copy the frame to the 2D fg canvas mid-frame
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, preserveDrawingBuffer: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -1743,7 +1756,8 @@
           dx: (Math.random() - 0.5) * 0.006,
           dy: (Math.random() - 0.5) * 0.004,
           baseScale: baseScale,
-          isFg: group.position.z > 3,  // close objects live in the foreground layer
+          isFar: group.position.z < -9, // very far → blurred far layer
+          isFg: group.position.z > 3,  // very close → blurred fg layer
           hovered: false,
           materials: groupMats,
         };
@@ -1847,7 +1861,15 @@
           });
         });
 
-        // Pass 1: render only foreground objects → copy to 2D fg canvas (z-index 2)
+        // Pass 1: far objects → copy to blurred far canvas (DoF bg)
+        objects.forEach(function(o) { o.visible = o.userData.isFar; });
+        renderer.render(scene, camera);
+        canvasFar.width  = canvas.width;
+        canvasFar.height = canvas.height;
+        ctxFar.clearRect(0, 0, canvasFar.width, canvasFar.height);
+        ctxFar.drawImage(canvas, 0, 0);
+
+        // Pass 2: close objects → copy to blurred fg canvas (z-index 2)
         objects.forEach(function(o) { o.visible = o.userData.isFg; });
         renderer.render(scene, camera);
         canvasFg.width  = canvas.width;
@@ -1855,8 +1877,8 @@
         ctxFg.clearRect(0, 0, canvasFg.width, canvasFg.height);
         ctxFg.drawImage(canvas, 0, 0);
 
-        // Pass 2: render full scene to bg canvas (z-index 0, behind text)
-        objects.forEach(function(o) { o.visible = true; });
+        // Pass 3: mid focal-plane objects → render directly to WebGL canvas (sharp)
+        objects.forEach(function(o) { o.visible = !o.userData.isFar && !o.userData.isFg; });
         renderer.render(scene, camera);
       }
       animate();
