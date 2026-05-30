@@ -1487,7 +1487,8 @@
       if (typeof THREE === 'undefined') throw new Error('Three.js not loaded');
 
       var canvas   = document.getElementById('hero-canvas');
-      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+      var heroEl   = document.getElementById('hero');
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
 
@@ -1495,68 +1496,94 @@
       var camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 100);
       camera.position.z = 20;
 
-      // Lighting
-      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-      var kl = new THREE.PointLight(0xffffff, 1.2); kl.position.set(8, 12, 14); scene.add(kl);
-      var fl = new THREE.PointLight(0x6688ff, 0.5); fl.position.set(-10, -6, 8); scene.add(fl);
+      // Lighting tuned for toon shading — strong key, soft fill
+      scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+      var dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
+      dirLight.position.set(8, 12, 14);
+      scene.add(dirLight);
+      var fillLight = new THREE.PointLight(0x6688ff, 0.35, 60);
+      fillLight.position.set(-10, -6, 8);
+      scene.add(fillLight);
+      var rimLight = new THREE.PointLight(0x00e5ff, 0.3, 60);
+      rimLight.position.set(0, 0, 12);
+      scene.add(rimLight);
+
+      // 3-step toon gradient: shadow → mid → highlight
+      var toonCanvas = document.createElement('canvas');
+      toonCanvas.width = 3; toonCanvas.height = 1;
+      var tc = toonCanvas.getContext('2d');
+      ['#1a1a1a', '#7a7a7a', '#ffffff'].forEach(function(c, i) {
+        tc.fillStyle = c; tc.fillRect(i, 0, 1, 1);
+      });
+      var gradientMap = new THREE.CanvasTexture(toonCanvas);
+      gradientMap.minFilter = THREE.NearestFilter;
+      gradientMap.magFilter = THREE.NearestFilter;
 
       var palette = [0x00e5ff, 0xff2d9b, 0xffd600, 0x00ff7f, 0xbf5fff, 0xff6b35, 0x40c4ff, 0xff4466];
 
-      // Add a sub-part (solid fill + glowing edges) to a group
+      // Add a sub-part: cel-shaded solid + black back-face outline
       function p(grp, geo, col, px, py, pz, rx, ry, rz) {
         var sub = new THREE.Group();
-        sub.add(new THREE.Mesh(geo, new THREE.MeshPhongMaterial({
-          color: col, transparent: true, opacity: 0.22, shininess: 90, depthWrite: false,
-        })));
-        sub.add(new THREE.LineSegments(
-          new THREE.EdgesGeometry(geo),
-          new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.6 })
-        ));
+        var mat = new THREE.MeshToonMaterial({
+          color: col, emissive: col, emissiveIntensity: 0.03,
+          gradientMap: gradientMap,
+        });
+        var toonMesh = new THREE.Mesh(geo, mat);
+        toonMesh.userData.isToon = true;
+        sub.add(toonMesh);
+        // Back-face outline — enlarged dark shell for cel-shading rim
+        var outline = new THREE.Mesh(
+          geo,
+          new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.BackSide })
+        );
+        outline.scale.setScalar(1.06);
+        outline.userData.isOutline = true;
+        sub.add(outline);
         sub.position.set(px || 0, py || 0, pz || 0);
         if (rx || ry || rz) sub.rotation.set(rx || 0, ry || 0, rz || 0);
         grp.add(sub);
       }
 
-      // ── Composite game-object builders ──────────────────────────────
+      // ── Composite game-object builders — higher segment counts for smooth curves
       function mkCoin(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.7, 0.7, 0.16, 24), c);
-        p(g, new THREE.TorusGeometry(0.7, 0.05, 6, 24), c, 0, 0.08);
-        p(g, new THREE.TorusGeometry(0.7, 0.05, 6, 24), c, 0, -0.08);
-        p(g, new THREE.CylinderGeometry(0.28, 0.28, 0.02, 6), c, 0, 0.09);
+        p(g, new THREE.CylinderGeometry(0.7, 0.7, 0.16, 36), c);
+        p(g, new THREE.TorusGeometry(0.7, 0.06, 10, 36), c, 0, 0.08);
+        p(g, new THREE.TorusGeometry(0.7, 0.06, 10, 36), c, 0, -0.08);
+        p(g, new THREE.CylinderGeometry(0.28, 0.28, 0.03, 12), c, 0, 0.09);
         return g;
       }
 
       function mkGem(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.22, 0.62, 0.4, 8), c, 0, 0.23);   // crown
-        p(g, new THREE.CylinderGeometry(0.62, 0.62, 0.06, 8), c, 0, 0);     // girdle
-        p(g, new THREE.CylinderGeometry(0.62, 0, 0.88, 8), c, 0, -0.47);    // pavilion
+        p(g, new THREE.CylinderGeometry(0.22, 0.62, 0.4, 16), c, 0, 0.23);
+        p(g, new THREE.CylinderGeometry(0.62, 0.62, 0.06, 16), c, 0, 0);
+        p(g, new THREE.CylinderGeometry(0.62, 0, 0.88, 16), c, 0, -0.47);
         return g;
       }
 
       function mkSword(c) {
         var g = new THREE.Group();
-        p(g, new THREE.BoxGeometry(0.1, 1.5, 0.07), c, 0, 0.55);            // blade
-        p(g, new THREE.CylinderGeometry(0, 0.07, 0.32, 4), c, 0, 1.46);     // tip
-        p(g, new THREE.BoxGeometry(0.82, 0.1, 0.1), c, 0, 0);               // crossguard
-        p(g, new THREE.CylinderGeometry(0.06, 0.06, 0.52, 8), c, 0, -0.31); // grip
-        p(g, new THREE.SphereGeometry(0.12, 8, 8), c, 0, -0.62);            // pommel
+        p(g, new THREE.BoxGeometry(0.1, 1.5, 0.07), c, 0, 0.55);
+        p(g, new THREE.CylinderGeometry(0, 0.07, 0.32, 8), c, 0, 1.46);
+        p(g, new THREE.BoxGeometry(0.82, 0.1, 0.1), c, 0, 0);
+        p(g, new THREE.CylinderGeometry(0.06, 0.06, 0.52, 14), c, 0, -0.31);
+        p(g, new THREE.SphereGeometry(0.12, 16, 12), c, 0, -0.62);
         return g;
       }
 
       function mkPotion(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.36, 0.3, 0.7, 14), c, 0, -0.05);  // body
-        p(g, new THREE.CylinderGeometry(0.17, 0.36, 0.22, 12), c, 0, 0.41); // shoulder
-        p(g, new THREE.CylinderGeometry(0.12, 0.17, 0.18, 10), c, 0, 0.6);  // neck
-        p(g, new THREE.CylinderGeometry(0.1, 0.12, 0.15, 8), c, 0, 0.77);   // cork
+        p(g, new THREE.CylinderGeometry(0.36, 0.3, 0.7, 24), c, 0, -0.05);
+        p(g, new THREE.CylinderGeometry(0.17, 0.36, 0.22, 20), c, 0, 0.41);
+        p(g, new THREE.CylinderGeometry(0.12, 0.17, 0.18, 16), c, 0, 0.6);
+        p(g, new THREE.CylinderGeometry(0.1, 0.12, 0.15, 12), c, 0, 0.77);
         return g;
       }
 
       function mkKey(c) {
         var g = new THREE.Group();
-        p(g, new THREE.TorusGeometry(0.27, 0.08, 10, 20), c, 0, 0.52, 0, Math.PI / 2);
+        p(g, new THREE.TorusGeometry(0.27, 0.09, 14, 28), c, 0, 0.52, 0, Math.PI / 2);
         p(g, new THREE.BoxGeometry(0.09, 0.68, 0.07), c, 0, 0.04);
         p(g, new THREE.BoxGeometry(0.19, 0.07, 0.07), c, 0.05, -0.19);
         p(g, new THREE.BoxGeometry(0.14, 0.07, 0.07), c, 0.04, -0.34);
@@ -1574,137 +1601,239 @@
         }
         shape.closePath();
         var g = new THREE.Group();
-        p(g, new THREE.ExtrudeGeometry(shape, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 2 }), c);
+        p(g, new THREE.ExtrudeGeometry(shape, { depth: 0.26, bevelEnabled: true, bevelThickness: 0.09, bevelSize: 0.09, bevelSegments: 4 }), c);
         return g;
       }
 
       function mkCharacter(c) {
         var g = new THREE.Group();
-        p(g, new THREE.BoxGeometry(0.44, 0.42, 0.36), c, 0, 0.86);           // head
-        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.12, 8), c, 0, 0.58);   // neck
-        p(g, new THREE.BoxGeometry(0.52, 0.62, 0.33), c, 0, 0.2);            // body
-        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8), c, -0.36, 0.2, 0, 0, 0, 0.28);  // L arm
-        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8), c,  0.36, 0.2, 0, 0, 0, -0.28); // R arm
-        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 8), c, -0.14, -0.37); // L leg
-        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 8), c,  0.14, -0.37); // R leg
-        p(g, new THREE.SphereGeometry(0.065, 8, 6), c, -0.11, 0.9, 0.18);    // L eye
-        p(g, new THREE.SphereGeometry(0.065, 8, 6), c,  0.11, 0.9, 0.18);    // R eye
+        p(g, new THREE.BoxGeometry(0.44, 0.42, 0.36), c, 0, 0.86);
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.12, 14), c, 0, 0.58);
+        p(g, new THREE.BoxGeometry(0.52, 0.62, 0.33), c, 0, 0.2);
+        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 14), c, -0.36, 0.2, 0, 0, 0, 0.28);
+        p(g, new THREE.CylinderGeometry(0.08, 0.08, 0.5, 14), c,  0.36, 0.2, 0, 0, 0, -0.28);
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 14), c, -0.14, -0.37);
+        p(g, new THREE.CylinderGeometry(0.09, 0.09, 0.55, 14), c,  0.14, -0.37);
+        p(g, new THREE.SphereGeometry(0.065, 14, 10), c, -0.11, 0.9, 0.18);
+        p(g, new THREE.SphereGeometry(0.065, 14, 10), c,  0.11, 0.9, 0.18);
         return g;
       }
 
       function mkShip(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.2, 0.4, 1.0, 8), c, 0, 0);         // hull
-        p(g, new THREE.ConeGeometry(0.2, 0.5, 8), c, 0, 0.75);               // nose
-        p(g, new THREE.BoxGeometry(1.55, 0.07, 0.38), c, 0, -0.18);           // wings
-        p(g, new THREE.SphereGeometry(0.16, 10, 8), c, 0, 0.42);             // cockpit
-        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 8), c, -0.48, -0.6); // L engine
-        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 8), c,  0.48, -0.6); // R engine
+        p(g, new THREE.CylinderGeometry(0.2, 0.4, 1.0, 20), c, 0, 0);
+        p(g, new THREE.ConeGeometry(0.2, 0.5, 20), c, 0, 0.75);
+        p(g, new THREE.BoxGeometry(1.55, 0.07, 0.38), c, 0, -0.18);
+        p(g, new THREE.SphereGeometry(0.16, 18, 14), c, 0, 0.42);
+        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 14), c, -0.48, -0.6);
+        p(g, new THREE.CylinderGeometry(0.095, 0.12, 0.28, 14), c,  0.48, -0.6);
         return g;
       }
 
       function mkMushroom(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.21, 0.27, 0.6, 12), c, 0, -0.3);   // stem
-        p(g, new THREE.CylinderGeometry(0.08, 0.7, 0.48, 16), c, 0, 0.14);   // cap
-        p(g, new THREE.SphereGeometry(0.09, 8, 6), c,  0.28, 0.28, 0.38);    // spot
-        p(g, new THREE.SphereGeometry(0.075, 8, 6), c, -0.32, 0.22, 0.32);   // spot
-        p(g, new THREE.SphereGeometry(0.065, 8, 6), c,  0.05, 0.36, 0.44);   // spot
+        p(g, new THREE.CylinderGeometry(0.21, 0.27, 0.6, 20), c, 0, -0.3);
+        p(g, new THREE.CylinderGeometry(0.08, 0.72, 0.5, 28), c, 0, 0.14);
+        p(g, new THREE.SphereGeometry(0.09, 14, 10), c,  0.28, 0.28, 0.38);
+        p(g, new THREE.SphereGeometry(0.075, 14, 10), c, -0.32, 0.22, 0.32);
+        p(g, new THREE.SphereGeometry(0.065, 14, 10), c,  0.05, 0.36, 0.44);
         return g;
       }
 
       function mkCrown(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0.58, 0.58, 0.2, 24), c, 0, 0);      // band
+        p(g, new THREE.CylinderGeometry(0.58, 0.58, 0.2, 36), c, 0, 0);
         for (var ci = 0; ci < 5; ci++) {
           var ca = (ci / 5) * Math.PI * 2;
-          p(g, new THREE.ConeGeometry(0.1, 0.5, 6), c, Math.cos(ca) * 0.48, 0.36, Math.sin(ca) * 0.48);
+          p(g, new THREE.ConeGeometry(0.1, 0.5, 10), c, Math.cos(ca) * 0.48, 0.36, Math.sin(ca) * 0.48);
         }
         for (var cj = 0; cj < 5; cj++) {
           var ga = ((cj + 0.5) / 5) * Math.PI * 2;
-          p(g, new THREE.SphereGeometry(0.07, 8, 6), c, Math.cos(ga) * 0.52, 0.1, Math.sin(ga) * 0.52);
+          p(g, new THREE.SphereGeometry(0.07, 14, 10), c, Math.cos(ga) * 0.52, 0.1, Math.sin(ga) * 0.52);
         }
         return g;
       }
 
       function mkCrystal(c) {
         var g = new THREE.Group();
-        p(g, new THREE.CylinderGeometry(0, 0.25, 1.2, 5), c, 0, 0.4);        // main spike
-        p(g, new THREE.CylinderGeometry(0.18, 0.25, 0.16, 5), c, 0, -0.24);  // base
-        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 5), c,  0.33, 0.2, 0.15, 0, 0,  0.35); // side L
-        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 5), c, -0.28, 0.16, 0.18, 0, 0, -0.32); // side R
-        p(g, new THREE.CylinderGeometry(0, 0.13, 0.65, 5), c, 0.08, 0.12, 0.32, 0.38, 0, 0.1); // front
+        p(g, new THREE.CylinderGeometry(0, 0.25, 1.2, 6), c, 0, 0.4);
+        p(g, new THREE.CylinderGeometry(0.18, 0.25, 0.16, 6), c, 0, -0.24);
+        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 6), c,  0.33, 0.2, 0.15, 0, 0,  0.35);
+        p(g, new THREE.CylinderGeometry(0, 0.16, 0.8, 6), c, -0.28, 0.16, 0.18, 0, 0, -0.32);
+        p(g, new THREE.CylinderGeometry(0, 0.13, 0.65, 6), c, 0.08, 0.12, 0.32, 0.38, 0, 0.1);
         return g;
       }
 
       function mkChest(c) {
         var g = new THREE.Group();
-        p(g, new THREE.BoxGeometry(1.08, 0.52, 0.72), c, 0, -0.1);           // base
-        p(g, new THREE.BoxGeometry(1.1, 0.36, 0.74), c, 0, 0.31);            // lid
-        p(g, new THREE.BoxGeometry(1.1, 0.05, 0.74), c, 0, 0.04);            // hinge band
-        p(g, new THREE.BoxGeometry(0.13, 0.18, 0.06), c, 0, 0.04, 0.37);     // clasp
-        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c,  0.5, 0.1, 0.34);   // R bracket
-        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c, -0.5, 0.1, 0.34);   // L bracket
+        p(g, new THREE.BoxGeometry(1.08, 0.52, 0.72), c, 0, -0.1);
+        p(g, new THREE.BoxGeometry(1.1, 0.36, 0.74), c, 0, 0.31);
+        p(g, new THREE.BoxGeometry(1.1, 0.05, 0.74), c, 0, 0.04);
+        p(g, new THREE.BoxGeometry(0.13, 0.18, 0.06), c, 0, 0.04, 0.37);
+        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c,  0.5, 0.1, 0.34);
+        p(g, new THREE.BoxGeometry(0.08, 0.9, 0.08), c, -0.5, 0.1, 0.34);
         return g;
       }
 
       function mkPuzzle(c) {
         var g = new THREE.Group();
-        p(g, new THREE.BoxGeometry(0.72, 0.72, 0.16), c);                     // body
-        p(g, new THREE.SphereGeometry(0.165, 10, 8), c,  0,    0.44, 0);     // tab top
-        p(g, new THREE.SphereGeometry(0.145, 10, 8), c,  0.44, 0.08, 0);    // tab right
-        p(g, new THREE.SphereGeometry(0.14,  10, 8), c, -0.36,-0.1,  0);    // notch left
+        p(g, new THREE.BoxGeometry(0.72, 0.72, 0.16), c);
+        p(g, new THREE.SphereGeometry(0.165, 16, 12), c,  0,    0.44, 0);
+        p(g, new THREE.SphereGeometry(0.145, 16, 12), c,  0.44, 0.08, 0);
+        p(g, new THREE.SphereGeometry(0.14,  16, 12), c, -0.36,-0.1,  0);
         return g;
       }
 
       var makers = [mkCoin, mkGem, mkSword, mkPotion, mkKey, mkStar,
                     mkCharacter, mkShip, mkMushroom, mkCrown, mkCrystal, mkChest, mkPuzzle];
 
-      var objects = [];
-      var W = 32, H = 18;
+      // Wrap everything in one rotatable group for drag interaction
+      var sceneGroup = new THREE.Group();
+      scene.add(sceneGroup);
+
+      var objects  = [];
+      var allMeshes = [];
+      var W = 46, H = 28;
 
       for (var i = 0; i < makers.length * 2; i++) {
         var color = palette[i % palette.length];
         var group = makers[i % makers.length](color);
+        var baseScale = 0.5 + Math.random() * 1.4;
 
         group.position.set(
           (Math.random() - 0.5) * W,
           (Math.random() - 0.5) * H,
-          (Math.random() - 0.5) * 10 - 3
+          (Math.random() - 0.5) * 32 - 4
         );
-        group.scale.setScalar(0.38 + Math.random() * 0.5);
+        group.scale.setScalar(baseScale);
         group.rotation.set(
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2
         );
+
+        // Collect meshes + toon materials; tag parentGroup on all for raycasting
+        var groupMats = [];
+        (function(grp) {
+          grp.traverse(function(child) {
+            if (child.isMesh) {
+              child.userData.parentGroup = grp;
+              allMeshes.push(child);
+              if (child.userData.isToon) groupMats.push(child.material);
+            }
+          });
+        }(group));
+
         group.userData = {
           rx: (Math.random() - 0.5) * 0.007,
           ry: (Math.random() - 0.5) * 0.007,
           rz: (Math.random() - 0.5) * 0.004,
           dx: (Math.random() - 0.5) * 0.006,
           dy: (Math.random() - 0.5) * 0.004,
+          baseScale: baseScale,
+          hovered: false,
+          materials: groupMats,
         };
-        scene.add(group);
+        sceneGroup.add(group);
         objects.push(group);
       }
+
+      // ── Interaction state ────────────────────────────────────────────
+      var mouse     = { x: 0, y: 0 };
+      var camTarget = { x: 0, y: 0 };
+      var drag = { active: false, sx: 0, sy: 0, lx: 0, ly: 0, vx: 0, vy: 0, brx: 0, bry: 0 };
+      var hoveredGroup = null;
+      var raycaster = new THREE.Raycaster();
+
+      heroEl.addEventListener('mousemove', function(e) {
+        var r = heroEl.getBoundingClientRect();
+        mouse.x = ((e.clientX - r.left) / r.width)  * 2 - 1;
+        mouse.y = -((e.clientY - r.top)  / r.height) * 2 + 1;
+        camTarget.x = mouse.x * 1.8;
+        camTarget.y = mouse.y * 1.2;
+        if (drag.active) {
+          drag.vx = e.clientX - drag.lx;
+          drag.vy = e.clientY - drag.ly;
+          drag.lx = e.clientX;
+          drag.ly = e.clientY;
+          sceneGroup.rotation.y = drag.bry + (e.clientX - drag.sx) * 0.006;
+          sceneGroup.rotation.x = drag.brx + (e.clientY - drag.sy) * 0.006;
+        }
+      });
+
+      heroEl.addEventListener('mousedown', function(e) {
+        drag.active = true;
+        drag.sx = drag.lx = e.clientX;
+        drag.sy = drag.ly = e.clientY;
+        drag.vx = drag.vy = 0;
+        drag.brx = sceneGroup.rotation.x;
+        drag.bry = sceneGroup.rotation.y;
+        heroEl.style.cursor = 'grabbing';
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (drag.active) { drag.active = false; heroEl.style.cursor = ''; }
+      });
+
+      heroEl.addEventListener('mouseleave', function() {
+        camTarget.x = 0; camTarget.y = 0;
+      });
 
       // Animate
       var animId;
       function animate() {
         animId = requestAnimationFrame(animate);
+
+        // Spin momentum after drag release; clamp so deep-Z objects don't fly into camera
+        var clamp = Math.PI * 0.44;
+        if (!drag.active && (Math.abs(drag.vx) > 0.01 || Math.abs(drag.vy) > 0.01)) {
+          sceneGroup.rotation.y += drag.vx * 0.003;
+          sceneGroup.rotation.x += drag.vy * 0.003;
+          drag.vx *= 0.92;
+          drag.vy *= 0.92;
+        }
+        sceneGroup.rotation.x = Math.max(-clamp, Math.min(clamp, sceneGroup.rotation.x));
+        sceneGroup.rotation.y = Math.max(-clamp, Math.min(clamp, sceneGroup.rotation.y));
+
+        // Parallax camera follows mouse
+        camera.position.x += (camTarget.x - camera.position.x) * 0.06;
+        camera.position.y += (camTarget.y - camera.position.y) * 0.06;
+        camera.lookAt(0, 0, 0);
+
+        // Hover detection via raycasting
+        raycaster.setFromCamera(mouse, camera);
+        var hits = raycaster.intersectObjects(allMeshes);
+        var newHov = hits.length ? hits[0].object.userData.parentGroup : null;
+        if (newHov !== hoveredGroup) {
+          if (hoveredGroup) hoveredGroup.userData.hovered = false;
+          hoveredGroup = newHov;
+          if (hoveredGroup) hoveredGroup.userData.hovered = true;
+        }
+
         objects.forEach(function(o) {
           var d = o.userData;
+          // Self-rotation always active
           o.rotation.x += d.rx;
           o.rotation.y += d.ry;
           o.rotation.z += d.rz;
-          o.position.x += d.dx;
-          o.position.y += d.dy;
-          if (o.position.x >  W / 2 + 2) o.position.x = -W / 2 - 2;
-          if (o.position.x < -W / 2 - 2) o.position.x =  W / 2 + 2;
-          if (o.position.y >  H / 2 + 2) o.position.y = -H / 2 - 2;
-          if (o.position.y < -H / 2 - 2) o.position.y =  H / 2 + 2;
+          // Drift pauses while dragging so the spin feels clean
+          if (!drag.active) {
+            o.position.x += d.dx;
+            o.position.y += d.dy;
+            if (o.position.x >  W / 2 + 2) o.position.x = -W / 2 - 2;
+            if (o.position.x < -W / 2 - 2) o.position.x =  W / 2 + 2;
+            if (o.position.y >  H / 2 + 2) o.position.y = -H / 2 - 2;
+            if (o.position.y < -H / 2 - 2) o.position.y =  H / 2 + 2;
+          }
+          // Hover: scale up + boost emissive glow
+          var ts = d.hovered ? d.baseScale * 1.35 : d.baseScale;
+          o.scale.setScalar(o.scale.x + (ts - o.scale.x) * 0.12);
+          var targetEI = d.hovered ? 0.3 : 0.04;
+          d.materials.forEach(function(m) {
+            m.emissiveIntensity += (targetEI - m.emissiveIntensity) * 0.12;
+          });
         });
+
         renderer.render(scene, camera);
       }
       animate();
