@@ -10,6 +10,66 @@ var PROJECTS = {
   /* ── Games ──────────────────────────────────────────────────── */
   games: [
     {
+      slug: 'card-flip-3d',
+      title: 'Card Flip 3D',
+      genre: 'Hyper-Casual',
+      studio: 'Trifecta Studios',
+      desc: 'Flip cards, dodge obstacles, and build legendary landmarks — card by card.',
+      thumbnail: 'assets/images/card-flip-3d.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.card.flip3D',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'break-factory',
+      title: 'Break Factory',
+      genre: 'Puzzle',
+      studio: 'Trifecta Studios',
+      desc: 'Smash shells and match the loot in a satisfying physics-driven puzzle game.',
+      thumbnail: 'assets/images/break-factory.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.tsf.BreakFactory',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'topple-loop',
+      title: 'Topple Loop',
+      genre: 'Hyper-Casual',
+      studio: 'Trifecta Studios',
+      desc: 'Bring the tower down, then handle the avalanche. One tap, zero second chances.',
+      thumbnail: 'assets/images/topple-loop.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.tsl.toppleLoop',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'dr-pet',
+      title: 'Dr. Pet — My Pet Clinic',
+      genre: 'Simulation',
+      studio: 'Trifecta Studios',
+      desc: 'Run your own pet clinic — hire staff, grow the business, and help every animal.',
+      thumbnail: 'assets/images/dr-pet.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.tsl.mypetclinic',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'desert-fury',
+      title: 'Desert Fury',
+      genre: 'Idle / Simulation',
+      studio: 'Trifecta Studios',
+      desc: 'Drill, mine and dominate the desert. Build and grow your own mining empire.',
+      thumbnail: 'assets/images/desert-fury.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.tsl.desertfury',
+      primaryLabel: 'Play Store'
+    },
+    {
+      slug: 'slinky-run',
+      title: 'Slinky Run',
+      genre: 'Runner',
+      studio: 'Trifecta Studios',
+      desc: 'Endless runner where you play as a Slinky toy, stretching and coiling through obstacle courses.',
+      thumbnail: 'assets/images/slinky-run.png',
+      primaryUrl: 'https://play.google.com/store/apps/details?id=com.trifectastudios.slinkyrun',
+      primaryLabel: 'Play Store'
+    },
+    {
       slug: 'idle-basketball',
       title: 'Idle Basketball Tycoon',
       genre: 'Tycoon',
